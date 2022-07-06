@@ -46,7 +46,7 @@ class FilmRepository
 
     public function show($id)
     {
-        return $this->query()->find($id);
+        return $this->query()->with(['genres', 'comments'])->find($id);
     }
 
     public function update(FilmUpdateRequest $request, $id)

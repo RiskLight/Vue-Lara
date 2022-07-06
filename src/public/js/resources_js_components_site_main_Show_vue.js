@@ -36,10 +36,9 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/films/rate/".concat(this.$route.params.id)).then(function (res) {
         _this2.rate = res.data;
-        var rate = _this2.rate;
-        var roundRate = Math.round(rate);
-        var element = document.querySelector('.star[data-item-value="' + roundRate + '"]');
-        element.setAttribute('checked', true);
+        var rate = _this2.rate; // let roundRate = Math.round(rate)
+        // let element = document.querySelector('.star[data-item-value="'+roundRate+'"]');
+        // element.setAttribute('checked', true);
       });
     }
   }
@@ -66,7 +65,13 @@ var render = function render() {
     staticClass: "text-6xl text-blue-700 text-center mt-12 font-bold"
   }, [_vm._v("\n            " + _vm._s(_vm.film.name) + "\n        ")]), _vm._v(" "), _c("div", {
     staticClass: "text-3xl mt-4 text-blue-500-600 text-center"
-  }, [_vm._v("\n            Дата выхода: " + _vm._s(_vm.film.year) + "\n        ")]), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n            Дата выхода: " + _vm._s(_vm.film.year) + "\n        ")]), _vm._v(" "), _c("div", {
+    staticClass: "text-2xl text-blue-500-600 text-center"
+  }, [_vm._v("\n            Жанры: "), _vm._l(_vm.film.genres, function (genre, index) {
+    return _c("span", {
+      staticClass: "lowercase"
+    }, [_vm._v(_vm._s(genre.name) + " ")]);
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "flex justify-around mt-12 mb-12"
   }, [_c("iframe", {
     staticClass: "w-3/4",
@@ -78,7 +83,174 @@ var render = function render() {
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "w-3/4 mx-auto flex"
-  }, [_vm._m(1), _vm._v(" "), _c("div", {
+  }, [_c("div", {
+    staticClass: "stars mr-2"
+  }, [_c("form", {
+    staticClass: "class",
+    attrs: {
+      action: ""
+    }
+  }, [_c("input", {
+    staticClass: "star star-10",
+    attrs: {
+      id: "star-10",
+      type: "radio",
+      "data-item-value": "10",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 10
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-10",
+    attrs: {
+      "for": "star-10"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-9",
+    attrs: {
+      id: "star-9",
+      type: "radio",
+      "data-item-value": "9",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 9
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-9",
+    attrs: {
+      "for": "star-9"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-8",
+    attrs: {
+      id: "star-8",
+      type: "radio",
+      "data-item-value": "8",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 8
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-8",
+    attrs: {
+      "for": "star-8"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-7",
+    attrs: {
+      id: "star-7",
+      type: "radio",
+      "data-item-value": "7",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 7
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-7",
+    attrs: {
+      "for": "star-7"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-6",
+    attrs: {
+      id: "star-6",
+      type: "radio",
+      "data-item-value": "6",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 6
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-6",
+    attrs: {
+      "for": "star-6"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-5",
+    attrs: {
+      id: "star-5",
+      type: "radio",
+      "data-item-value": "5",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 5
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-5",
+    attrs: {
+      "for": "star-5"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-4",
+    attrs: {
+      id: "star-4",
+      type: "radio",
+      "data-item-value": "4",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 4
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-4",
+    attrs: {
+      "for": "star-4"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-3",
+    attrs: {
+      id: "star-3",
+      type: "radio",
+      "data-item-value": "3",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 3
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-3",
+    attrs: {
+      "for": "star-3"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-2",
+    attrs: {
+      id: "star-2",
+      type: "radio",
+      "data-item-value": "2",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 2
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-2",
+    attrs: {
+      "for": "star-2"
+    }
+  }), _vm._v(" "), _c("input", {
+    staticClass: "star star-1",
+    attrs: {
+      id: "star-1",
+      type: "radio",
+      "data-item-value": "1",
+      name: "star"
+    },
+    domProps: {
+      checked: Math.round(_vm.rate) === 1
+    }
+  }), _vm._v(" "), _c("label", {
+    staticClass: "star star-1",
+    attrs: {
+      "for": "star-1"
+    }
+  })])]), _vm._v(" "), _c("div", {
     staticClass: "mx-8"
   }, [_vm._v("\n                Оценка:\n                "), _c("span", {
     staticClass: "mt-2 text-3xl",
@@ -95,178 +267,7 @@ var render = function render() {
   }, [_c("div", [_vm._v(_vm._s(_vm.film.description))])])]);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "text-2xl text-blue-500-600 text-center"
-  }, [_vm._v("\n            Жанры:\n            "), _c("span", {
-    staticClass: "lowercase"
-  })]);
-}, function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "stars mr-2"
-  }, [_c("form", {
-    staticClass: "class",
-    attrs: {
-      action: ""
-    }
-  }, [_c("input", {
-    attrs: {
-      type: "hidden",
-      name: "get-rate",
-      content: ""
-    }
-  }), _vm._v(" "), _c("input", {
-    attrs: {
-      type: "hidden",
-      name: "csrf-token",
-      content: ""
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "hide",
-    attrs: {
-      type: "hidden",
-      name: "film_id",
-      id: "",
-      "data-set-value": ""
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-10",
-    attrs: {
-      id: "star-10",
-      type: "radio",
-      "data-item-value": "10",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-10",
-    attrs: {
-      "for": "star-10"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-9",
-    attrs: {
-      id: "star-9",
-      type: "radio",
-      "data-item-value": "9",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-9",
-    attrs: {
-      "for": "star-9"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-8",
-    attrs: {
-      id: "star-8",
-      type: "radio",
-      "data-item-value": "8",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-8",
-    attrs: {
-      "for": "star-8"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-7",
-    attrs: {
-      id: "star-7",
-      type: "radio",
-      "data-item-value": "7",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-7",
-    attrs: {
-      "for": "star-7"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-6",
-    attrs: {
-      id: "star-6",
-      type: "radio",
-      "data-item-value": "6",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-6",
-    attrs: {
-      "for": "star-6"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-5",
-    attrs: {
-      id: "star-5",
-      type: "radio",
-      "data-item-value": "5",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-5",
-    attrs: {
-      "for": "star-5"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-4",
-    attrs: {
-      id: "star-4",
-      type: "radio",
-      "data-item-value": "4",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-4",
-    attrs: {
-      "for": "star-4"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-3",
-    attrs: {
-      id: "star-3",
-      type: "radio",
-      "data-item-value": "3",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-3",
-    attrs: {
-      "for": "star-3"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-2",
-    attrs: {
-      id: "star-2",
-      type: "radio",
-      "data-item-value": "2",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-2",
-    attrs: {
-      "for": "star-2"
-    }
-  }), _vm._v(" "), _c("input", {
-    staticClass: "star star-1",
-    attrs: {
-      id: "star-1",
-      type: "radio",
-      "data-item-value": "1",
-      name: "star"
-    }
-  }), _vm._v(" "), _c("label", {
-    staticClass: "star star-1",
-    attrs: {
-      "for": "star-1"
-    }
-  })])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 

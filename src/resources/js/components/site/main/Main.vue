@@ -21,7 +21,7 @@ export default {
     name: "Main",
     data() {
         return {
-            films: []
+            films: [],
         }
     },
 
