@@ -19,14 +19,15 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   mounted: function mounted() {
-    this.getSerials();
+    this.getFilms();
   },
   methods: {
-    getSerials: function getSerials() {
+    getFilms: function getFilms() {
       var _this = this;
 
-      axios.get("/api/films/content/all/".concat(this.$route.params.genreId)).then(function (res) {
+      axios.get("/api/films/content/all/".concat(this.$route.params.id)).then(function (res) {
         _this.films = res.data;
+        console.log(_this.$route.params.id);
       });
     }
   }
@@ -49,7 +50,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", {
+  return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
     staticClass: "grid xl:grid-cols-6 gap-12 m-12"
   }, _vm._l(_vm.films, function (film) {
     return _c("div", {
@@ -76,7 +77,7 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
-  }), 0);
+  }), 0)], 1);
 };
 
 var staticRenderFns = [];

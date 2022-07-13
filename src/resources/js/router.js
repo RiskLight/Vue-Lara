@@ -28,14 +28,65 @@ export default new VueRouter({
         },
 
         {
-            path: '/genre-films', component: () => import('./components/site/main/FilmsGenres'),
+            path: '/favorite', component: () => import('./components/site/main/Favorite'),
+            name: 'films.favorite'
+        },
+
+
+        {
+            path: '/genre-films/:id', component: () => import('./components/site/main/GenreFilms'),
             name: 'genre.films'
         },
+
 
         {
             path: '/show/:id', component: () => import('./components/site/main/Show'),
             name: 'film.show'
         },
 
+        {
+            path: '/user-login', component: () => import('./components/auth/Login'),
+            name: 'user.login',
+        },
+
+        {
+            path: '/user-register', component: () => import('./components/auth/Register'),
+            name: 'user.register',
+        },
+
+        {
+            path: '/admin', component: () => import('./components/admin/work/Admin'),
+            name: 'admin.panel'
+        },
+
+        {
+            path: '/admin-films', component: () => import('./components/admin/work/AdminFilms'),
+            name: 'admin.films'
+        },
+
+        {
+            path: '/admin-add', component: () => import('./components/admin/work/Add'),
+            name: 'admin.add'
+        },
+
+        {
+            path: '/admin-users', component: () => import('./components/admin/work/Users'),
+            name: 'admin.users'
+        },
+
+        {
+            path: '/films-edit/:id', component: () => import('./components/admin/work/Edit'),
+            name: 'films.edit'
+        },
+
+        {
+            path: '/add-user', component: () => import('./components/admin/work/AddUser'),
+            name: 'user.add'
+        },
+
+        {
+            path: '/user-edit/:id', component: () => import('./components/admin/work/EditUser'),
+            name: 'user.edit'
+        },
     ]
 })

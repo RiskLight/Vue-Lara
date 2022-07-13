@@ -25,7 +25,7 @@ __webpack_require__.r(__webpack_exports__);
     getSerials: function getSerials() {
       var _this = this;
 
-      axios.get("/api/films/content/".concat(this.$route.params.standartId)).then(function (res) {
+      axios.get("/api/films/content/1").then(function (res) {
         _this.films = res.data;
       });
     }
@@ -49,7 +49,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", {
+  return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
     staticClass: "grid xl:grid-cols-6 gap-12 m-12"
   }, _vm._l(_vm.films, function (film) {
     return _c("div", {
@@ -76,7 +76,7 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
-  }), 0);
+  }), 0)], 1);
 };
 
 var staticRenderFns = [];

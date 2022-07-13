@@ -13,23 +13,28 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Genre",
-  data: function data() {
-    return {
-      genres: []
-    };
+  // data() {
+  //     return {
+  //         genres: [],
+  //     }
+  // },
+  //
+  computed: {
+    genres: function genres() {
+      return this.$store.getters.genres;
+    }
   },
   mounted: function mounted() {
-    this.getGenres();
+    // this.getGenres()
+    this.$store.dispatch('getGenres');
   },
-  methods: {
-    getGenres: function getGenres() {
-      var _this = this;
-
-      axios.get('/api/genres/').then(function (res) {
-        _this.genres = res.data.data;
-        console.log(res.data.data);
-      });
-    }
+  methods: {// getGenres() {
+    //     axios.get('/api/genres/')
+    //         .then(res => {
+    //             this.genres = res.data.data
+    //             console.log(res.data.data)
+    //         })
+    // }
   }
 });
 
@@ -50,7 +55,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("div", {
+  return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
     staticClass: "grid grid-cols-3 gap-12 m-12"
   }, _vm._l(_vm.genres, function (genre) {
     return _c("div", {
@@ -62,7 +67,7 @@ var render = function render() {
         to: {
           name: "genre.films",
           params: {
-            genreId: genre.id
+            id: genre.id
           }
         }
       }
@@ -77,7 +82,7 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-xl font-medium mb-2"
     }, [_vm._v(_vm._s(genre.name))])])], 1)]);
-  }), 0)]);
+  }), 0)], 1);
 };
 
 var staticRenderFns = [];

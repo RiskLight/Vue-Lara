@@ -1,9 +1,13 @@
 <template>
     <div>
+        <navbar></navbar>
         <div class="grid grid-cols-3 gap-12 m-12">
             <div class="flex justify-center" v-for="genre in genres">
                 <div class="rounded-lg shadow-lg bg-white max-w-sm">
-                    <router-link :to="{name: 'genre.films', params: {genreId: genre.id}}">
+<!--                    <router-link :to="{name: 'genre.films', params: {id: genre.id}}">-->
+<!--                        <img class="rounded-t-lg" :src="genre.img_path" :alt="genre.name"/>-->
+<!--                    </router-link>-->
+                    <router-link :to="{name: 'genre.films', params: {id: genre.id}}">
                         <img class="rounded-t-lg" :src="genre.img_path" :alt="genre.name"/>
                     </router-link>
                     <div class="p-6">
@@ -18,24 +22,32 @@
 <script>
 export default {
     name: "Genre",
-    data() {
-        return {
-            genres: [],
-        }
+    // data() {
+    //     return {
+    //         genres: [],
+    //     }
+    // },
+    //
+    computed: {
+        genres() {
+            return this.$store.getters.genres
+
+        },
     },
 
     mounted() {
-        this.getGenres()
+        // this.getGenres()
+        this.$store.dispatch('getGenres')
     },
 
     methods: {
-        getGenres() {
-            axios.get('/api/genres/')
-                .then(res => {
-                    this.genres = res.data.data
-                    console.log(res.data.data)
-                })
-        }
+        // getGenres() {
+        //     axios.get('/api/genres/')
+        //         .then(res => {
+        //             this.genres = res.data.data
+        //             console.log(res.data.data)
+        //         })
+        // }
     }
 }
 </script>

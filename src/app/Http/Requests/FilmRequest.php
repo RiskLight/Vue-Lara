@@ -26,11 +26,12 @@ class FilmRequest extends FormRequest
         return [
             'name' => 'required|string',
             'film_path' => 'required|string',
-            'img_path' => 'required|image',
+            'img_path' => 'image',
             'year' => 'required|date_format:Y-m-d|',
-            'description' => 'required|string|min:150|max:400',
+            'description' => 'required|string|min:10|max:100',
             'genre' => 'required',
-            'genre.*' => 'numeric'
+            'genre.*' => 'numeric',
+
         ];
     }
 }

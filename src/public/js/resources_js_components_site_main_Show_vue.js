@@ -15,30 +15,24 @@ __webpack_require__.r(__webpack_exports__);
   name: "Show",
   data: function data() {
     return {
-      film: [],
       rate: null
     };
   },
+  computed: {
+    film: function film() {
+      return this.$store.getters.film;
+    }
+  },
   mounted: function mounted() {
-    this.getFilm();
+    this.$store.dispatch('getFilm', this.$route.params.id);
     this.getRate();
   },
   methods: {
-    getFilm: function getFilm() {
+    getRate: function getRate() {
       var _this = this;
 
-      axios.get("/api/films/show/".concat(this.$route.params.id)).then(function (res) {
-        _this.film = res.data;
-      });
-    },
-    getRate: function getRate() {
-      var _this2 = this;
-
       axios.get("/api/films/rate/".concat(this.$route.params.id)).then(function (res) {
-        _this2.rate = res.data;
-        var rate = _this2.rate; // let roundRate = Math.round(rate)
-        // let element = document.querySelector('.star[data-item-value="'+roundRate+'"]');
-        // element.setAttribute('checked', true);
+        _this.rate = res.data;
       });
     }
   }
@@ -61,7 +55,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("div", {
+  return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
     staticClass: "text-6xl text-blue-700 text-center mt-12 font-bold"
   }, [_vm._v("\n            " + _vm._s(_vm.film.name) + "\n        ")]), _vm._v(" "), _c("div", {
     staticClass: "text-3xl mt-4 text-blue-500-600 text-center"
@@ -85,11 +79,8 @@ var render = function render() {
     staticClass: "w-3/4 mx-auto flex"
   }, [_c("div", {
     staticClass: "stars mr-2"
-  }, [_c("form", {
-    staticClass: "class",
-    attrs: {
-      action: ""
-    }
+  }, [_c("div", {
+    staticClass: "class"
   }, [_c("input", {
     staticClass: "star star-10",
     attrs: {
@@ -264,7 +255,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "text-2xl w-3/4 mx-auto mt-20 flex justify-around"
-  }, [_c("div", [_vm._v(_vm._s(_vm.film.description))])])]);
+  }, [_c("div", [_vm._v(_vm._s(_vm.film.description))])])], 1);
 };
 
 var staticRenderFns = [];

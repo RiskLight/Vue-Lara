@@ -82,27 +82,15 @@ class FilmsController extends Controller
      * Store a newly created resource in storage.
      *
      * @param FilmRequest $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function store(FilmRequest $request)
     {
         $this->service->store($request);
+        return response()->json();
 
-        return redirect()->route('admin.films.create')->with('message', 'Фильм успешно добавлен в базу!');
     }
 
-//    /**
-//     * Display the specified resource.
-//     *
-//     * @param int $id
-//     * @return Application|Factory|View
-//     */
-//    public function show($id)
-//    {
-//        $film = $this->service->show($id);
-//
-//        return view('site.film_page', ['film' => $film]);
-//    }
 
     public function show($id)
     {
@@ -145,14 +133,21 @@ class FilmsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function destroy($id)
     {
         $this->service->destroy($id);
 
-        return redirect()->route('admin.films.index');
+        return response()->json();
+
     }
+
+//    public function destroy(Film $film)
+//    {
+//        $film->delete();
+//        return response([]);
+//    }
 
     /**
      * @param Request $request

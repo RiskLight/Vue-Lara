@@ -1,5 +1,6 @@
 <template>
     <div>
+        <navbar></navbar>
         <div class="text-6xl text-blue-700 text-center mt-12 font-bold">
             {{ film.name }}
         </div>
@@ -15,11 +16,7 @@
         </div>
         <div class="w-3/4 mx-auto flex">
             <div class="stars mr-2">
-                <form action="" class="class">
-
-<!--                    <input type="hidden" name="get-rate" content="">-->
-<!--                    <input type="hidden" name="csrf-token" content="">-->
-<!--                    <input type="hidden" class="hide" name="film_id" id="" data-set-value="">-->
+                <div class="class">
                     <input class="star star-10" id="star-10" type="radio" :checked="Math.round(rate) === 10"
                            data-item-value="10" name="star"/>
                     <label class="star star-10" for="star-10"></label>
@@ -50,7 +47,7 @@
                     <input class="star star-1" id="star-1" type="radio" :checked="Math.round(rate) === 1"
                            data-item-value="1" name="star"/>
                     <label class="star star-1" for="star-1"></label>
-                </form>
+                </div>
             </div>
             <div class="mx-8">
                 Оценка:
@@ -71,35 +68,31 @@ export default {
 
     data() {
         return {
-            film: [],
             rate: null
         }
     },
 
+    computed: {
+        film() {
+            return this.$store.getters.film
+        }
+    },
+
     mounted() {
-        this.getFilm();
+        this.$store.dispatch('getFilm', this.$route.params.id)
         this.getRate()
     },
 
     methods: {
-        getFilm() {
-            axios.get(`/api/films/show/${this.$route.params.id}`)
-                .then(res => {
-                    this.film = res.data
-                })
-        },
-
         getRate() {
             axios.get(`/api/films/rate/${this.$route.params.id}`)
                 .then(res => {
                     this.rate = res.data
-                    let rate = this.rate
-                    // let roundRate = Math.round(rate)
-                    // let element = document.querySelector('.star[data-item-value="'+roundRate+'"]');
-                    // element.setAttribute('checked', true);
                 })
-        }
-    }
+        },
+    },
+
+
 }
 </script>
 

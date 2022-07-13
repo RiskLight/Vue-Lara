@@ -10,6 +10,7 @@ use App\Models\User;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -27,13 +28,13 @@ class UsersController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function index()
     {
         $users = $this->service->index();
 
-        return view('admin_panel.users', ['users' => $users]);
+        return response()->json($users);
     }
 
     /**
@@ -52,20 +53,20 @@ class UsersController extends Controller
      * Store a newly created resource in storage.
      *
      * @param UserRequest $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function store(UserRequest $request)
     {
         $this->service->store($request);
 
-        return redirect()->route('admin.users.index');
+        return response()->json();
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  int  $id
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function edit($id)
     {
@@ -73,7 +74,9 @@ class UsersController extends Controller
 
         $roles = $this->service->getRole();
 
-        return view('admin_panel.edit_user', ['user' => $user, 'roles' => $roles]);
+        return response()->json($user);
+
+//        return view('admin_panel.edit_user', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -94,12 +97,12 @@ class UsersController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function destroy($id)
     {
         $this->service->destroy($id);
 
-        return redirect()->route('admin.users.index');
+        return response()->json();
     }
 }

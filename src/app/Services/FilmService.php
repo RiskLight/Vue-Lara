@@ -40,13 +40,12 @@ class FilmService implements FilmServiceContract
     public function store(FilmRequest $request): void
     {
         // TODO: Implement store() method.
-        $film = $this->repository->store($request);
-
-        $userInfo = [
-            'email' => auth()->user()->email,
-            'name' => auth()->user()->name
-        ];
-        SendFilmInfoJob::dispatch($film, $userInfo);
+         $this->repository->store($request);
+//        $userInfo = [
+//            'email' => auth()->user()->email,
+//            'name' => auth()->user()->name
+//        ];
+//        SendFilmInfoJob::dispatch($film, $userInfo);
     }
 
     public function adminIndex(): object

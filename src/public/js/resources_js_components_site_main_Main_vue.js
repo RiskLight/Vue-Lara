@@ -11,25 +11,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/pagination.mixin.js */ "./resources/js/mixins/pagination.mixin.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Main",
-  data: function data() {
-    return {
-      films: []
-    };
+  mixins: [_mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_0__["default"]],
+  computed: {
+    films: function films() {
+      // return this.setupPagination(this.$store.getters.films)
+      return this.$store.getters.films;
+    }
   },
   mounted: function mounted() {
-    this.getFilms();
+    // this.getFilms();
+    this.$store.dispatch('getFilms');
   },
   methods: {
-    getFilms: function getFilms() {
-      var _this = this;
-
-      axios.get('/api/films/content/').then(function (res) {
-        _this.films = res.data;
-        console.log(res.data);
-      });
-    }
+    // getFilms() {
+    //     axios.get('/api/films/content/')
+    //         .then(res => {
+    //             this.films = res.data
+    //             console.log(res.data)
+    //         })
+    // }
+    pageChangeHandler: function pageChangeHandler() {}
   }
 });
 
@@ -50,7 +55,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", {
+  return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
     staticClass: "grid xl:grid-cols-6 gap-12 m-12"
   }, _vm._l(_vm.films, function (film) {
     return _c("div", {
@@ -77,12 +82,46 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
-  }), 0);
+  }), 0)], 1);
 };
 
 var staticRenderFns = [];
 render._withStripped = true;
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/pagination.mixin.js":
+/*!*************************************************!*\
+  !*** ./resources/js/mixins/pagination.mixin.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      page: 1,
+      pageSize: 5,
+      pageCount: 0,
+      allItems: [],
+      items: []
+    };
+  },
+  methods: {
+    setupPagination: function setupPagination(allItems) {
+      this.allItems = lodash__WEBPACK_IMPORTED_MODULE_0___default().chunk(allItems, this.pageSize);
+      this.pageCount = lodash__WEBPACK_IMPORTED_MODULE_0___default().size(this.allItems);
+      this.items = this.allItems[this.page - 1] || this.allItems[0];
+    }
+  }
+});
 
 /***/ }),
 

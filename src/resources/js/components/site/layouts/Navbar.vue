@@ -13,23 +13,62 @@
                               d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
                     </svg>
                 </button>
-                <div class="collapse navbar-collapse items-center" id="navbarSupportedContent1">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/d/db/Zeronet_logo.png" alt="logo" width="32"
-                         height="32">
+                <div class="collapse navbar-collapse flex-grow justify-between items-center"
+                     id="navbarSupportedContent1">
                     <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
                         <li class="nav-item p-2">
-                            <router-link :to="{name: 'films.films'}" class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">Все фильмы</router-link>
+                            <router-link :to="{name: 'films.films'}"
+                                         class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">Все
+                                фильмы
+                            </router-link>
                         </li>
                         <li class="nav-item p-2">
-                            <router-link :to="{name: 'only.films', params: {standartId: 2}}" class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">Фильмы</router-link>
+                            <router-link :to="{name: 'only.films', params: {standartId: 2}}"
+                                         class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">
+                                Фильмы
+                            </router-link>
                         </li>
                         <li class="nav-item p-2">
-                            <router-link :to="{name: 'serials.serials', params: {standartId: 1}}" class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">Сериалы</router-link>
+                            <router-link :to="{name: 'serials.serials', params: {standartId: 1}}"
+                                         class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">
+                                Сериалы
+                            </router-link>
                         </li>
                         <li class="nav-item p-2">
-                            <router-link :to="{name: 'genre.genre' }" class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">Жанры</router-link>
+                            <router-link :to="{name: 'genre.genre' }"
+                                         class="nav-link text-white hover:text-blue-700 focus:text-gray-600 p-0">
+                                Жанры
+                            </router-link>
                         </li>
                     </ul>
+                    <div class="collapse navbar-collapse items-center" id="navbarSupportedContent1">
+                        <ul class="navbar-nav flex flex-col pl-0 list-style-none mr-auto">
+                            <li class="nav-item p-2">
+                                <router-link
+                                    class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
+                                    :to="{ name: 'user.login' }" v-if="!token">Вход
+                                </router-link>
+                            </li>
+                            <li class="nav-item p-2">
+                                <router-link
+                                    class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
+                                    :to="{ name: 'user.register' }" v-if="!token">
+                                    Регистрация
+                                </router-link>
+
+                            </li>
+                            <li class="nav-item p-2">
+                                <router-link :to="{name: 'films.favorite'}"
+                                   class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
+                                   v-if="token">Избранное</router-link>
+                            </li>
+                            <li class="nav-item p-2">
+                                <a @click.prevent="logout"
+                                   class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
+                                   v-if="token">Выход</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>
@@ -38,7 +77,34 @@
 
 <script>
 export default {
-    name: "Navbar"
+    name: "Navbar",
+    data() {
+        return {
+            token: []
+        }
+    },
+
+    updated() {
+        this.getToken()
+    },
+
+    mounted() {
+        this.getToken()
+    },
+
+    methods: {
+        getToken() {
+            this.token = localStorage.getItem('x_xsrf_token')
+        },
+
+        logout() {
+            axios.post('/logout')
+                .then(res => {
+                    localStorage.removeItem('x_xsrf_token')
+                    this.$router.push({name: 'user.login'})
+                })
+        }
+    }
 }
 </script>
 

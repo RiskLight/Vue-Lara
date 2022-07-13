@@ -17,20 +17,19 @@ class UserRepository
     public function index()
     {
         // TODO: Implement index() method.
-        return $this->query()->paginate(10);
+        return $this->query()->with('role')->get();
     }
 
     public function store(UserRequest $request)
     {
         $data = $request->except('_token');
         $data['password'] = Hash::make($request->password);
-        $data['active'] = '1';
         $this->query()->create($data);
     }
 
     public function edit($id)
     {
-        return $this->query()->find($id);
+        return $this->query()->with('role')->find($id);
     }
 
     public function update(UserUpdateRequest $request, $id)

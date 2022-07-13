@@ -73,8 +73,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => Role::where('role', 'user')->first()->id,
-            'active' => false,
-            'activation_token' => Str::random(255)
+//            'active' => false,
+//            'activation_token' => Str::random(255)
         ]);
 
     }
@@ -86,14 +86,14 @@ class RegisterController extends Controller
      * @param  mixed  $user
      * @return mixed
      */
-    protected function registered(Request $request, $user)
-    {
-
-        event(new UserActivationEmail($user));
-
-        $this->guard()->logout();
-
-        return redirect()->route('login')
-            ->withSuccess('Проверьте email и активируйте аккаунт');
-    }
+//    protected function registered(Request $request, $user)
+//    {
+//
+//        event(new UserActivationEmail($user));
+//
+//        $this->guard()->logout();
+//
+//        return redirect()->route('login')
+//            ->withSuccess('Проверьте email и активируйте аккаунт');
+//    }
 }

@@ -43,18 +43,18 @@ use Illuminate\Support\Facades\Route;
 //        Route::delete('/destroy/{film}', [FilmsController::class, 'destroy'])->name('destroy');
 //    });
 //
-//    Route::group([
-//        'as' => 'users.',
-//        'prefix' => 'users'
-//    ], function () {
-//        Route::get('/', [UsersController::class, 'index'])->name('index');
-//        Route::get('/create', [UsersController::class, 'create'])->name('create');
-//        Route::post('/', [UsersController::class, 'store'])->name('store');
+    Route::group([
+        'as' => 'users.',
+        'prefix' => 'users'
+    ], function () {
+        Route::get('/', [UsersController::class, 'index'])->name('index');
+        Route::get('/create', [UsersController::class, 'create'])->name('create');
+        Route::post('/', [UsersController::class, 'store'])->name('store');
 //        Route::get('/{user}', [UsersController::class, 'show'])->name('show');
-//        Route::get('/change/{user}/edit', [UsersController::class, 'edit'])->name('edit');
-//        Route::put('/{user}', [UsersController::class, 'update'])->name('update');
-//        Route::delete('/destroy/user/{user}', [UsersController::class, 'destroy'])->name('destroy');
-//    });
+        Route::get('/change/{user}/edit', [UsersController::class, 'edit'])->name('edit');
+        Route::put('/{user}', [UsersController::class, 'update'])->name('update');
+        Route::delete('/destroy/user/{user}', [UsersController::class, 'destroy'])->name('destroy');
+    });
 //
 //    Route::group([
 //        'as' => 'comments.',
