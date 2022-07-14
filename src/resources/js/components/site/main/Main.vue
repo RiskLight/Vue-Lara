@@ -2,17 +2,20 @@
     <div>
         <navbar></navbar>
         <div class="grid xl:grid-cols-6 gap-12 m-12">
-            <div class="flex justify-center" v-for="film in films">
-                <div class="rounded-lg  shadow-lg bg-white  max-w-sm mb-2">
+            <template v-if="items">
+                <div class="flex justify-center" v-for="film in films">
+                    <div class="rounded-lg  shadow-lg bg-white  max-w-sm mb-2">
 
-                    <router-link :to="{name: 'film.show', params:{id: film.id}}">
-                        <img class="rounded-t-lg" :src="`storage/${film.img_path}`" :alt="film.name"/>
-                    </router-link>
-                    <div class="p-6">
-                        <p class="text-gray-900 text-lg md:text-sm font-medium mb-2">{{film.name}}</p>
+                        <router-link :to="{name: 'film.show', params:{id: film.id}}">
+                            <img class="rounded-t-lg" :src="`storage/${film.img_path}`" :alt="film.name"/>
+                        </router-link>
+                        <div class="p-6">
+                            <p class="text-gray-900 text-lg md:text-sm font-medium mb-2">{{film.name}}</p>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </template>
+
 
         </div>
 <!--        <Paginate-->
@@ -40,13 +43,16 @@ export default {
     name: "Main",
     mixins:[PaginationMixin],
     computed: {
-        films() {
-            // return this.setupPagination(this.$store.getters.films)
+         films() {
+           // return this.setupPagination(this.$store.getters.films)
+           //  let films = await this.setupPagination(this.$store.getters.films)
             return this.$store.getters.films
+            // return films;
+
         },
     },
 
-     mounted() {
+      mounted() {
         // this.getFilms();
         this.$store.dispatch('getFilms')
     },

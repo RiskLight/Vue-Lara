@@ -80,16 +80,20 @@ export default {
     name: "Navbar",
     data() {
         return {
-            token: []
+            token: [],
+            // user: [],
+            role_id: null
         }
     },
 
     updated() {
         this.getToken()
+        this.getUser()
     },
 
     mounted() {
         this.getToken()
+        this.getUser()
     },
 
     methods: {
@@ -97,10 +101,22 @@ export default {
             this.token = localStorage.getItem('x_xsrf_token')
         },
 
+        getUser() {
+            // this.user = localStorage.getItem('setUserData')
+            // this.user = JSON.parse(localStorage.getItem('setUserData'))
+            // let userRole = JSON.parse(localStorage.getItem('setUserData'))
+            // this.user = userRole
+            // let roles = userRole.map(x => x.role_id)
+            // this.role_id = roles[0]
+            this.role_id = JSON.parse(localStorage.getItem('role_id'))
+
+        },
+
         logout() {
             axios.post('/logout')
                 .then(res => {
                     localStorage.removeItem('x_xsrf_token')
+                    localStorage.removeItem('role_id')
                     this.$router.push({name: 'user.login'})
                 })
         }

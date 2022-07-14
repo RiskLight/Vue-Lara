@@ -19,7 +19,8 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     films: function films() {
       // return this.setupPagination(this.$store.getters.films)
-      return this.$store.getters.films;
+      //  let films = await this.setupPagination(this.$store.getters.films)
+      return this.$store.getters.films; // return films;
     }
   },
   mounted: function mounted() {
@@ -57,7 +58,7 @@ var render = function render() {
 
   return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
     staticClass: "grid xl:grid-cols-6 gap-12 m-12"
-  }, _vm._l(_vm.films, function (film) {
+  }, [_vm.items ? _vm._l(_vm.films, function (film) {
     return _c("div", {
       staticClass: "flex justify-center"
     }, [_c("div", {
@@ -82,7 +83,7 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
-  }), 0)], 1);
+  }) : _vm._e()], 2)], 1);
 };
 
 var staticRenderFns = [];
