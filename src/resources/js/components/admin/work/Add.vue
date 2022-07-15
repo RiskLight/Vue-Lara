@@ -5,48 +5,50 @@
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-6">
                     <input v-model="name"
-                        type="text" name="name" list="film"
-                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300  rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                        id="name" placeholder="Название фильма">
+                           type="text" name="name" list="film"
+                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300  rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                           id="name" placeholder="Название фильма">
+                    <p>{{ answer }}</p>
                     <datalist id="film">
+                        <option v-for="film in films">{{ film.title }}</option>
+
                     </datalist>
                 </div>
                 <div class="form-group mb-6">
-                    <input v-model="film_path"
-                        type="text" name="film_path"
-                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300  rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                    <input v-model="film_path" :disabled="true"
+                           type="text" name="film_path"
+                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400  rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="film_path" placeholder="Ссылка на фильм">
 
                 </div>
                 <div class="form-group mb-6">
-                    <input
-                           @change="addFile"
-                        type="file" name="img_path"
+                    <input @change="addFile"
+                           type="file" name="img_path"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="img_path" placeholder="Путь к картинке">
 
                 </div>
                 <div class="form-group mb-6">
                     <input v-model="year"
-                        type="text" name="year"
+                           type="text" name="year"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="year" placeholder="Год выхода">
 
                 </div>
                 <div class="form-group mb-6">
                 <textarea v-model="description"
-                    name="description"
+                          name="description"
                           class="form-control block w-full px-3 py-1.5 ext-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="description" rows="3" placeholder="Описание фильма"></textarea>
 
                 </div>
-                <div class="form-group mb-6" >
+                <div class="form-group mb-6">
                     <select v-model="standart_id"
-                        name="standart_id"
+                            name="standart_id"
                             class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                            id="standart_id" >
+                            id="standart_id">
                         <option selected disabled value="0">Выберите формат</option>
-                        <option  v-for="standard in standards" :value="standard.id">{{ standard.name }}</option>
+                        <option v-for="standard in standards" :value="standard.id">{{ standard.name }}</option>
                     </select>
                 </div>
                 <div class="">
@@ -57,7 +59,8 @@
                 </div>
                 <div
                     class="modal fade fixed top-0 left-0 hidden w-full h-full outline-none overflow-x-hidden overflow-y-auto"
-                    id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" aria-modal="true" role="dialog">
+                    id="exampleModalXl" tabindex="-1" aria-labelledby="exampleModalXlLabel" aria-modal="true"
+                    role="dialog">
                     <div class="modal-dialog modal-xl relative w-auto pointer-events-none">
                         <div
                             class="modal-content border-none shadow-lg relative flex flex-col w-full pointer-events-auto bg-white bg-clip-padding rounded-md outline-none text-current">
@@ -70,15 +73,15 @@
                                         class="btn-close box-content w-4 h-4 p-1 text-black border-none rounded-none opacity-50 focus:shadow-none focus:outline-none focus:opacity-100 hover:text-black hover:opacity-75 hover:no-underline"
                                         data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                            <div class="modal-body relative p-4">
-                                <div class="grid grid-cols-3">
+                            <div class="modal-body  relative p-4">
+                                <div class="grid grid-cols-3 ">
                                     <div class="form-check" v-for="item in genres">
                                         <input v-model="genre"
-                                            class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                            type="checkbox" :value="item.id" :id="item.name">
+                                               class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                               type="checkbox" :value="item.id" :id="item.name">
                                         <label class="form-check-label inline-block text-gray-800"
                                                :for="item.name">
-                                            {{item.name}}
+                                            {{ item.name }}
                                         </label>
                                     </div>
                                 </div>
@@ -96,6 +99,8 @@
 </template>
 
 <script>
+import _ from 'lodash'
+
 export default {
     name: "Add",
 
@@ -104,13 +109,15 @@ export default {
             // genres: [],
             standards: [],
             name: null,
-            year:null,
+            year: null,
             film_path: null,
             standart_id: 0,
-            description:null,
+            description: null,
             img_path: null,
             genre: [],
-
+            answer: '',
+            films: [],
+            film: ''
 
         }
     },
@@ -121,6 +128,18 @@ export default {
         }
     },
 
+    watch: {
+        name: function (oldName, newName) {
+            this.answer = 'Завершите ввод'
+            this.debouncedGetFilms()
+        }
+    },
+
+    created: function () {
+        this.debouncedGetFilms = _.debounce(this.getFilms, 1000)
+    },
+
+
     mounted() {
         // this.getGenres()
         this.$store.dispatch('getGenres')
@@ -128,6 +147,36 @@ export default {
     },
 
     methods: {
+
+        getFilms() {
+            if (this.name.length <= 3) {
+                this.answer = 'Слишком мало символов'
+                return
+            }
+            this.answer = 'Ищу...'
+            let vm = this
+            axios.get(`https://videocdn.tv/api/short?api_token=O0NZvxemcwkiq30bsgQoFKEQX6EqiVl7&title=${this.name}`)
+                .then(function (response) {
+                    vm.answer = 'Нашел'
+                    vm.films = response.data.data
+                    vm.films.forEach(film => {
+                        vm.film_path = film.iframe_src
+                        vm.year = film.year
+                        console.log(film)
+                        if (film.type === 'movie') {
+                            vm.standart_id = '2'
+                        }
+                        if (film.type === 'serial') {
+                            vm.standart_id = '1'
+                        }
+                    })
+                })
+                .catch(function (error) {
+                    vm.answer = 'Что-то пошло не так, повторите ввод'
+                })
+
+        },
+
         // getGenres() {
         //     axios.get('/api/genres/')
         //         .then(res => {
@@ -169,6 +218,7 @@ export default {
         },
     }
 }
+
 </script>
 
 <style scoped>

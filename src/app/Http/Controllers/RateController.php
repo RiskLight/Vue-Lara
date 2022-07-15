@@ -23,11 +23,12 @@ class RateController extends Controller
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return void
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
         $this->service->store($request);
+        return response()->json();
     }
 
     /**

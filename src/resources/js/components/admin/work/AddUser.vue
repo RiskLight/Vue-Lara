@@ -29,6 +29,7 @@
                         name="role_id"
                             class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             id="role">
+                        <option selected disabled value="0">Выберите роль</option>
                         <option v-for="item in roles" :value="item.id">{{item.role}}</option>
                     </select>
                 </div>
@@ -52,7 +53,7 @@ export default {
             name: null,
             email: null,
             password: null,
-            role_id: null
+            role_id: 0
         }
     },
 

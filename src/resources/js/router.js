@@ -54,9 +54,14 @@ export default new VueRouter({
             name: 'user.register',
         },
 
+
         {
             path: '/admin', component: () => import('./components/admin/work/Admin'),
-            name: 'admin.panel'
+            name: 'admin.panel',
+            // beforeEnter: (to, from, next) => {
+            //     enterAdmin(to, from, next)
+            // }
+
         },
 
         {
@@ -90,3 +95,12 @@ export default new VueRouter({
         },
     ]
 })
+
+// function enterAdmin(to, from, next) {
+//     let role = localStorage.getItem('role_id');
+//     if (+role === 1) {
+//         next()
+//     } else {
+//         next('/')
+//     }
+// }

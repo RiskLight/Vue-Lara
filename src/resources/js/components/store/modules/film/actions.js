@@ -6,8 +6,8 @@ export default {
             })
     },
 
-    getFilms({commit}) {
-        axios.get('/api/films/content/')
+     getFilms({commit}) {
+         axios.get('/api/films/content/')
             .then(res => {
                 commit('setFilms', res.data)
             })

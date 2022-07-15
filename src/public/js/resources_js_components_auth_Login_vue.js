@@ -50,8 +50,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)("Auth", ["user", "apiToken"])),
-  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("Auth", ["sendLoginRequest"])), {}, {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)("Auth", ["user", "x_xsrf_token"])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("Auth", ["sendLoginRequest", "getUserData"])), {}, {
     // login() {
     //     axios.get('/sanctum/csrf-cookie')
     //         .then(res => {

@@ -11,11 +11,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Add",
@@ -29,7 +32,10 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       standart_id: 0,
       description: null,
       img_path: null,
-      genre: []
+      genre: [],
+      answer: '',
+      films: [],
+      film: ''
     };
   },
   computed: {
@@ -37,12 +43,49 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       return this.$store.getters.genres;
     }
   },
+  watch: {
+    name: function name(oldName, newName) {
+      this.answer = 'Завершите ввод';
+      this.debouncedGetFilms();
+    }
+  },
+  created: function created() {
+    this.debouncedGetFilms = lodash__WEBPACK_IMPORTED_MODULE_0___default().debounce(this.getFilms, 1000);
+  },
   mounted: function mounted() {
     // this.getGenres()
     this.$store.dispatch('getGenres');
     this.getStandards();
   },
   methods: {
+    getFilms: function getFilms() {
+      if (this.name.length <= 3) {
+        this.answer = 'Слишком мало символов';
+        return;
+      }
+
+      this.answer = 'Ищу...';
+      var vm = this;
+      axios.get("https://videocdn.tv/api/short?api_token=O0NZvxemcwkiq30bsgQoFKEQX6EqiVl7&title=".concat(this.name)).then(function (response) {
+        vm.answer = 'Нашел';
+        vm.films = response.data.data;
+        vm.films.forEach(function (film) {
+          vm.film_path = film.iframe_src;
+          vm.year = film.year;
+          console.log(film);
+
+          if (film.type === 'movie') {
+            vm.standart_id = '2';
+          }
+
+          if (film.type === 'serial') {
+            vm.standart_id = '1';
+          }
+        });
+      })["catch"](function (error) {
+        vm.answer = 'Что-то пошло не так, повторите ввод';
+      });
+    },
     // getGenres() {
     //     axios.get('/api/genres/')
     //         .then(res => {
@@ -144,11 +187,13 @@ var render = function render() {
         _vm.name = $event.target.value;
       }
     }
-  }), _vm._v(" "), _c("datalist", {
+  }), _vm._v(" "), _c("p", [_vm._v(_vm._s(_vm.answer))]), _vm._v(" "), _c("datalist", {
     attrs: {
       id: "film"
     }
-  })]), _vm._v(" "), _c("div", {
+  }, _vm._l(_vm.films, function (film) {
+    return _c("option", [_vm._v(_vm._s(film.title))]);
+  }), 0)]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("input", {
     directives: [{
@@ -157,8 +202,9 @@ var render = function render() {
       value: _vm.film_path,
       expression: "film_path"
     }],
-    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
+    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
+      disabled: true,
       type: "text",
       name: "film_path",
       id: "film_path",

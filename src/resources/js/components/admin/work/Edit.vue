@@ -33,11 +33,13 @@
                 </div>
                 <div class="form-group mb-6">
                     <select v-model="standard_id"
-                        name="standart"
+                            name="standart"
                             class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                             id="standart">
-                        <option v-for="standard in standards"
-                                :value="standard.id">{{ standard.name }}
+                        <option
+                            v-for="standard in standards"
+                            :value="standard.id">
+                            {{ standard.name }}
                         </option>
                     </select>
                 </div>
@@ -66,9 +68,9 @@
                             <div class="modal-body relative p-4">
                                 <div class="grid grid-cols-3">
                                     <div class="form-check" v-for="genre in genres">
-                                        <input
-                                            class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
-                                            type="checkbox" value="" name="genre[]" :id="genre.id">
+                                        <input :checked="isSelected(genre.id)"
+                                               class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
+                                               type="checkbox" value="" name="genre[]" :id="genre.id">
                                         <label class="form-check-label inline-block text-gray-800"
                                                :for="genre.name">
                                             {{ genre.name }}
@@ -93,41 +95,51 @@
 
 export default {
     name: "Edit",
-
     data() {
         return {
+            film: {},
             // genres: [],
             standard_id: null,
             standards: [],
-            filmGenres: []
+            // genres: []
+            // filmGenres: []
         }
     },
-
+    //
     computed: {
-        film() {
-            return this.$store.getters.film
-        },
+        // film() {
+        //     return this.$store.getters.film
+        // },
 
         genres() {
             return this.$store.getters.genres
         }
     },
 
-    mounted() {
-        this.$store.dispatch('getFilm', this.$route.params.id)
-        // this.getGenres();
-        this.$store.dispatch('getGenres')
+     mounted() {
+
+         this.getFilm(this.$route.params.id)
+         this.$store.dispatch('getGenres')
+
         this.getStandards()
     },
 
     methods: {
-        //
-        // getGenres() {
-        //     axios.get('/api/genres/')
-        //         .then(res => {
-        //             this.genres = res.data.data
-        //         })
-        // },
+
+        getGenres() {
+            axios.get('/api/genres/')
+                .then(res => {
+                    this.genres = res.data.data
+                })
+        },
+
+        async getFilm(id) {
+          await axios.get(`/api/films/show/${id}`)
+                .then(res => {
+                    this.film = res.data
+                    this.standard_id = res.data.standart_id
+                })
+        },
 
         getStandards() {
             axios.get('/api/standard/')
@@ -135,6 +147,20 @@ export default {
                     this.standards = res.data
                 })
         },
+
+        isSelected(genreId) {
+            if (this.film.genres !== undefined) {
+                for (let genre of this.film.genres) {
+                    if (genre.id === genreId) {
+                        return true
+                    }
+                }
+            }
+
+
+            return false
+        },
+
     },
 }
 </script>

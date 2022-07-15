@@ -20,7 +20,7 @@ __webpack_require__.r(__webpack_exports__);
       name: null,
       email: null,
       password: null,
-      role_id: null
+      role_id: 0
     };
   },
   mounted: function mounted() {
@@ -165,13 +165,19 @@ var render = function render() {
         _vm.role_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
       }
     }
-  }, _vm._l(_vm.roles, function (item) {
+  }, [_c("option", {
+    attrs: {
+      selected: "",
+      disabled: "",
+      value: "0"
+    }
+  }, [_vm._v("Выберите роль")]), _vm._v(" "), _vm._l(_vm.roles, function (item) {
     return _c("option", {
       domProps: {
         value: item.id
       }
     }, [_vm._v(_vm._s(item.role))]);
-  }), 0)]), _vm._v(" "), _c("button", {
+  })], 2)]), _vm._v(" "), _c("button", {
     staticClass: "w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
     on: {
       click: function click($event) {

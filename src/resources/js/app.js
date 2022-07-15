@@ -10,6 +10,7 @@ require('./bootstrap');
 Vue.component('navbar', require('./components/site/layouts/Navbar.vue').default);
 Vue.component('foot', require('./components/site/layouts/Footer.vue').default);
 Vue.component('admin-nav', require('./components/admin/layouts/AdminNav').default);
+Vue.component('admin-foo', require('./components/admin/layouts/AdminFooter').default);
 Vue.component('Paginate', Paginate)
 
 

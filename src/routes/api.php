@@ -49,8 +49,14 @@ Route::group([
         'as' => 'rate.',
         'prefix' => 'rate'
     ], function () {
-//        Route::post('/', [RateController::class, 'store'])->name('store');
         Route::get('/{film}', [RateController::class, 'show']);
+    });
+
+    Route::group([
+        'as' => 'post-rate.',
+        'prefix' => 'post-rate'
+    ], function () {
+        Route::post('/', [RateController::class, 'store']);
     });
 
 });

@@ -88,6 +88,7 @@ export default {
         async sendCredentials() {
             await this.sendLoginRequest(this.details);
         },
+
     }
 }
 </script>
