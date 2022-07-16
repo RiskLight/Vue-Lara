@@ -59,6 +59,22 @@ Route::group([
         Route::post('/', [RateController::class, 'store']);
     });
 
+    Route::group([
+        'as' => 'add-comment.',
+        'prefix' => 'add-comment',
+
+    ], function () {
+        Route::post('/', [CommentsController::class, 'store']);
+    });
+
+    Route::group([
+        'as' => 'get-comments.',
+        'prefix' => 'get-comments',
+
+    ], function () {
+        Route::get('/{comment}', [CommentsController::class, 'show']);
+    });
+
 });
 
 Route::group([

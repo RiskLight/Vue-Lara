@@ -5970,6 +5970,9 @@ __webpack_require__.r(__webpack_exports__);
       commit('setUserData', res.data);
       localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN']);
       console.log(res.data);
+    })["catch"](function (error) {
+      commit("loginErrors", error.response.data.errors);
+      console.log(error.response.data.errors);
     });
   },
   sendLoginRequest: function sendLoginRequest(_ref2, data) {
@@ -5984,8 +5987,9 @@ __webpack_require__.r(__webpack_exports__);
       _router__WEBPACK_IMPORTED_MODULE_0__["default"].push({
         name: 'films.films'
       });
-    })["catch"](function (err) {
-      console.log(err);
+    })["catch"](function (error) {
+      commit("loginErrors", error.response.data.errors);
+      console.log(error.response.data.errors);
     });
   }
 });
@@ -6015,7 +6019,8 @@ __webpack_require__.r(__webpack_exports__);
   state: function state() {
     return {
       userData: null,
-      x_xsrf_token: ''
+      x_xsrf_token: '',
+      loginErrors: ''
     };
   },
   getters: _getters__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -6042,6 +6047,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   x_xsrf_token: function x_xsrf_token(state) {
     return state.token;
+  },
+  loginErrors: function loginErrors(state) {
+    return state.loginErrors;
   }
 });
 
@@ -6064,6 +6072,9 @@ __webpack_require__.r(__webpack_exports__);
   },
   x_xsrf_token: function x_xsrf_token(state, token) {
     return state.x_xsrf_token = token;
+  },
+  loginErrors: function loginErrors(state, _loginErrors) {
+    return state.loginErrors = _loginErrors;
   }
 });
 

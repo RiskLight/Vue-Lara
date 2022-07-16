@@ -19,10 +19,11 @@
 
         </div>
         <Paginate
+            v-model="page"
             :page-count="pageCount"
             :click-handler="pageChangeHandler"
-            :prev-text="'Prev'"
-            :next-text="'Next'"
+            :prev-text="'Назад'"
+            :next-text="'Вперед'"
             :container-class="'flex justify-center'"
             :page-class="'page-item'"
             :page-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
@@ -75,9 +76,7 @@ export default {
             // await this.$store.dispatch('getFilms');
 
         },
-        pageChangeHandler() {
 
-        }
     }
 }
 </script>

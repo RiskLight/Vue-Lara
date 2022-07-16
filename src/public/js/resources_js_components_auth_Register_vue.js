@@ -33,6 +33,8 @@ __webpack_require__.r(__webpack_exports__);
           password_confirmation: _this.password_confirmation
         }).then(function (res) {
           localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN']);
+          localStorage.setItem('role_id', res.data.role_id);
+          localStorage.setItem('user_id', res.data.id);
 
           _this.$router.push({
             name: 'films.films'

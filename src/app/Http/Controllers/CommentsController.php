@@ -9,6 +9,7 @@ use App\Models\Film;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -34,18 +35,23 @@ class CommentsController extends Controller
         return view('admin_panel.comments', ['comments' => $comments]);
     }
 
+    public function show($id) {
+        $comments = Comment::where('film_id', $id)->with('user')->get();
+        return response()->json($comments);
+    }
+
     /**
      * Store a newly created resource in storage.
      *
      * @param CommentRequest $request
      * @param Film $film
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function store(CommentRequest $request, Film $film)
     {
 
         $this->service->store($request, $film);
-        return redirect()->route('films.content.show', $film->id);
+        return response()->json();
     }
 
     /**

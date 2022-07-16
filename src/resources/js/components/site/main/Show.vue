@@ -16,8 +16,9 @@
         </div>
         <Rate></Rate>
         <div id="message" class="hidden xl:w-96 text-xs text-center"></div>
-        <div class="text-2xl w-3/4 mx-auto mt-20 flex justify-around">
-            <div>{{ film.description }}</div>
+        <div class="text-2xl w-3/4 mx-auto mt-20 flex flex-col justify-around">
+            <div>{{ film.description }} </div>
+            <Comments></Comments>
         </div>
     </div>
 
@@ -25,9 +26,12 @@
 
 <script>
 import Rate from "./Rate";
+import CommentForm from "./Comments";
+import Comments from "./Comments";
+
 export default {
     name: "Show",
-    components: {Rate},
+    components: {Comments, Rate},
     // data() {
     //     return {
     //         rate: null

@@ -1186,9 +1186,6 @@ video {
 .lowercase {
   text-transform: lowercase;
 }
-.capitalize {
-  text-transform: capitalize;
-}
 .leading-tight {
   line-height: 1.25;
 }

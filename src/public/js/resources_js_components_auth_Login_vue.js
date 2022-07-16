@@ -50,7 +50,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       }
     };
   },
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)("Auth", ["user", "x_xsrf_token"])),
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)("Auth", ["user", "x_xsrf_token", "loginErrors"])),
   methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("Auth", ["sendLoginRequest", "getUserData"])), {}, {
     // login() {
     //     axios.get('/sanctum/csrf-cookie')
@@ -154,7 +154,11 @@ var render = function render() {
         _vm.$set(_vm.details, "email", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _vm._l(_vm.loginErrors.email, function (item) {
+    return [_c("span", {
+      staticClass: "bg-red-100"
+    }, [_vm._v(_vm._s(item))])];
+  }), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("label", {
     staticClass: "form-label inline-block mb-2 text-gray-700",
@@ -185,7 +189,7 @@ var render = function render() {
         _vm.$set(_vm.details, "password", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _vm._m(0)])])])])], 1);
+  })]), _vm._v(" "), _vm._m(0)], 2)])])])], 1);
 };
 
 var staticRenderFns = [function () {

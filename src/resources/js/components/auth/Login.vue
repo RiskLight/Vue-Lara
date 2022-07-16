@@ -19,7 +19,9 @@
                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                    v-model="details.email" name="email" value="" autocomplete="email" autofocus>
                         </div>
-
+                        <template v-for="item in loginErrors.email">
+                            <span class="bg-red-100">{{item}}</span>
+                        </template>
                         <div class="form-group mb-6">
                             <label for="password"
                                    class="form-label inline-block mb-2 text-gray-700">Пароль</label>
@@ -61,12 +63,12 @@ export default {
             details: {
                 email: null,
                 password: null
-            }
+            },
         }
     },
 
     computed: {
-        ...mapGetters("Auth", ["user", "x_xsrf_token"]),
+        ...mapGetters("Auth", ["user", "x_xsrf_token", "loginErrors"]),
     },
 
     methods: {

@@ -7,6 +7,7 @@ export default {
     state: () => ({
         userData: null,
         x_xsrf_token: '',
+        loginErrors: ''
     }),
     getters,
     mutations,

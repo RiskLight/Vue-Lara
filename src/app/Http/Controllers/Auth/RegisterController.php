@@ -86,14 +86,14 @@ class RegisterController extends Controller
 //     * @param  mixed  $user
 //     * @return mixed
 //     */
-//    protected function registered(Request $request, $user)
-//    {
-//
+    protected function registered(Request $request, $user)
+    {
+
 //        event(new UserActivationEmail($user));
-//
 //        $this->guard()->logout();
-//
 //        return redirect()->route('login')
 //            ->withSuccess('Проверьте email и активируйте аккаунт');
-//    }
+        $userData = auth()->user();
+        return response()->json($userData);
+    }
 }

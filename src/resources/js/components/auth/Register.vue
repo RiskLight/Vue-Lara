@@ -88,6 +88,9 @@ export default {
                         })
                         .then(res => {
                             localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN'])
+                            localStorage.setItem('role_id', res.data.role_id)
+                            localStorage.setItem('user_id', res.data.id)
+
                             this.$router.push({ name: 'films.films' })
                         })
                 })

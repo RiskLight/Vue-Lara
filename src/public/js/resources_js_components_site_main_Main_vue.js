@@ -77,8 +77,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
-    },
-    pageChangeHandler: function pageChangeHandler() {}
+    }
   }
 });
 
@@ -131,8 +130,8 @@ var render = function render() {
     attrs: {
       "page-count": _vm.pageCount,
       "click-handler": _vm.pageChangeHandler,
-      "prev-text": "Prev",
-      "next-text": "Next",
+      "prev-text": "Назад",
+      "next-text": "Вперед",
       "container-class": "flex justify-center",
       "page-class": "page-item",
       "page-link-class": "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none",
@@ -141,6 +140,13 @@ var render = function render() {
       "next-class": "page-item",
       "next-link-class": "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none",
       "active-class": "bg-purple-600"
+    },
+    model: {
+      value: _vm.page,
+      callback: function callback($$v) {
+        _vm.page = $$v;
+      },
+      expression: "page"
     }
   })], 1);
 };
@@ -168,8 +174,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      page: 1,
-      pageSize: 5,
+      page: +this.$route.query.page || 1,
+      pageSize: 2,
       pageCount: 0,
       allItems: [],
       items: []
@@ -180,6 +186,10 @@ __webpack_require__.r(__webpack_exports__);
       this.allItems = lodash__WEBPACK_IMPORTED_MODULE_0___default().chunk(allItems, this.pageSize);
       this.pageCount = lodash__WEBPACK_IMPORTED_MODULE_0___default().size(this.allItems);
       this.items = this.allItems[this.page - 1] || this.allItems[0];
+    },
+    pageChangeHandler: function pageChangeHandler(page) {
+      this.$router.push("".concat(this.$route.path, "?page=").concat(page));
+      this.items = this.allItems[page - 1] || this.allItems[0];
     }
   }
 });

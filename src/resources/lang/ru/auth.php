@@ -14,6 +14,7 @@ return [
     */
 
     'failed' => 'Неверные учетные данные.',
+    'password' => 'The provided password is incorrect.',
     'throttle' => 'Слишком много попыток входа. Пожалуйста, попробуйте еще раз через :seconds секунд.',
 
 ];
