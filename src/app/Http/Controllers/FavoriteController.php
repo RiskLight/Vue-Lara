@@ -10,6 +10,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -37,29 +38,38 @@ class FavoriteController extends Controller
        return view('site.favorite', ['films' => $films]);
     }
 
+
+    public function show($id)
+    {
+        $films = Film::whereHas('users', function (Builder $query) use ($id) {
+            $query->where('user_id', $id);
+        })->get();
+
+        return response()->json($films);
+    }
     /**
      * Store a newly created resource in storage.
      *
      * @param Request $request
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function store(Request $request)
     {
         $this->service->store($request);
 
-        return redirect()->route('films.favorite.index');
+        return response()->json();
     }
 
     /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function destroy($id)
     {
         $this->service->destroy($id);
 
-        return redirect()->route('films.favorite.index');
+        return response()->json();
     }
 }

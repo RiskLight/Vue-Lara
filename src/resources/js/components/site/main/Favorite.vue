@@ -3,32 +3,85 @@
         <navbar></navbar>
         <div class="h-full">
             <div class="grid xl:grid-cols-6 gap-12 m-12">
-                <div class="flex justify-center">
-                    <div class="rounded-lg shadow-lg bg-white max-w-sm">
-                        <a href="">
-                            <img class="rounded-t-md"
-                                 src="" alt=""/>
-                        </a>
+                <div class="flex justify-center" v-for="film in items">
+                    <div class="rounded-lg shadow-lg bg-white max-w-sm mb-2">
+                        <router-link :to="{name: 'film.show', params:{id: film.id}}" class="flex justify-around">
+                            <img class="rounded-t-lg"
+                                 :src="`../../../storage/${film.img_path}`" :alt="film.name"/>
+                        </router-link>
                         <div class="p-6">
-                            <p class="text-gray-900 text-sm  font-medium mb-2"></p>
+                            <p class="text-gray-900 text-sm  font-medium mb-2">{{ film.name }}</p>
                         </div>
-                        <form action="" method="POST" class="flex justify-center mb-2">
-                            <input type="hidden" name="film_id" value="">
-                            <button type="submit"
+                        <div class="flex justify-center mb-2">
+                            <button @click="deleteFavoriteFilm(film.id)"
                                     class="px-6 text-sm py-2.5 bg-blue-600 text-white leading-tight rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                 Удалить
                             </button>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+        <template v-if="items ">
+            <Paginate
+                v-model="page"
+                :page-count="pageCount"
+                :click-handler="pageChangeHandler"
+                :prev-text="'Назад'"
+                :next-text="'Вперед'"
+                :container-class="'flex justify-center'"
+                :page-class="'page-item'"
+                :page-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
+                :prev-class="'page-item'"
+                :prev-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
+                :next-class="'page-item'"
+                :next-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
+                :active-class="'bg-purple-600'"
+            />
+        </template>
     </div>
 </template>
 
 <script>
+import PaginationMixin from "../../../mixins/pagination.mixin";
+
 export default {
-    name: "Favorite"
+    name: "Favorite",
+    mixins: [PaginationMixin],
+    data() {
+        return {
+            films: [],
+            user: null
+        }
+    },
+
+    mounted() {
+        this.getUser()
+        this.getFilmsUser()
+    },
+
+    methods: {
+        getFilmsUser() {
+            axios.get(`/api/films/favorite/${this.user}`)
+                .then(res => {
+                    this.films = res.data
+                    this.setupPagination(this.films)
+                })
+        },
+
+        getUser() {
+            this.user = localStorage.getItem('user_id')
+
+        },
+
+        deleteFavoriteFilm(id) {
+            axios.delete(`/api/films/delete-favorite/${id}`)
+                .then(res => {
+                    this.getFilmsUser()
+                })
+        }
+    }
+
 }
 </script>
 

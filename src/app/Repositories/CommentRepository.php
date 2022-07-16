@@ -16,7 +16,7 @@ class CommentRepository
 
     public function index()
     {
-        return $this->query()->paginate(15);
+        return $this->query()->with(['user', 'film'])->get();
 
     }
 

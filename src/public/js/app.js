@@ -5540,8 +5540,13 @@ var render = function render() {
         name: "admin.users"
       }
     }
-  }, [_vm._v("\n                        Пользователи\n                    ")]), _vm._v(" "), _c("a", {
-    staticClass: "cursor-pointer rounded-r px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out"
+  }, [_vm._v("\n                        Пользователи\n                    ")]), _vm._v(" "), _c("router-link", {
+    staticClass: "cursor-pointer rounded-r px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out",
+    attrs: {
+      to: {
+        name: "admin.comments"
+      }
+    }
   }, [_vm._v("\n                        Комментарии\n                    ")])], 1)])])]);
 };
 
@@ -6418,7 +6423,17 @@ vue__WEBPACK_IMPORTED_MODULE_0__["default"].use(vue_router__WEBPACK_IMPORTED_MOD
       return __webpack_require__.e(/*! import() */ "resources_js_components_admin_work_EditUser_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/work/EditUser */ "./resources/js/components/admin/work/EditUser.vue"));
     },
     name: 'user.edit'
-  }]
+  }, {
+    path: '/admin-comments/',
+    component: function component() {
+      return __webpack_require__.e(/*! import() */ "resources_js_components_admin_work_AdminComments_vue").then(__webpack_require__.bind(__webpack_require__, /*! ./components/admin/work/AdminComments */ "./resources/js/components/admin/work/AdminComments.vue"));
+    },
+    name: 'admin.comments'
+  } // {
+  //     path: '/edit-comment/:id', component: () => import('./components/admin/work/EditUser'),
+  //     name: 'comment.edit'
+  // },
+  ]
 })); // function enterAdmin(to, from, next) {
 //     let role = localStorage.getItem('role_id');
 //     if (+role === 1) {
@@ -45632,7 +45647,7 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		// This function allow to reference async chunks
 /******/ 		__webpack_require__.u = (chunkId) => {
 /******/ 			// return url for filenames not based on template
-/******/ 			if ({"resources_js_components_site_main_Main_vue":1,"resources_js_components_site_main_Genre_vue":1,"resources_js_components_site_main_Serials_vue":1,"resources_js_components_site_main_Films_vue":1,"resources_js_components_site_main_Favorite_vue":1,"resources_js_components_site_main_GenreFilms_vue":1,"resources_js_components_site_main_Show_vue":1,"resources_js_components_auth_Login_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_admin_work_Admin_vue":1,"resources_js_components_admin_work_AdminFilms_vue":1,"resources_js_components_admin_work_Add_vue":1,"resources_js_components_admin_work_Users_vue":1,"resources_js_components_admin_work_Edit_vue":1,"resources_js_components_admin_work_AddUser_vue":1,"resources_js_components_admin_work_EditUser_vue":1}[chunkId]) return "js/" + chunkId + ".js";
+/******/ 			if ({"resources_js_components_site_main_Main_vue":1,"resources_js_components_site_main_Genre_vue":1,"resources_js_components_site_main_Serials_vue":1,"resources_js_components_site_main_Films_vue":1,"resources_js_components_site_main_Favorite_vue":1,"resources_js_components_site_main_GenreFilms_vue":1,"resources_js_components_site_main_Show_vue":1,"resources_js_components_auth_Login_vue":1,"resources_js_components_auth_Register_vue":1,"resources_js_components_admin_work_Admin_vue":1,"resources_js_components_admin_work_AdminFilms_vue":1,"resources_js_components_admin_work_Add_vue":1,"resources_js_components_admin_work_Users_vue":1,"resources_js_components_admin_work_Edit_vue":1,"resources_js_components_admin_work_AddUser_vue":1,"resources_js_components_admin_work_EditUser_vue":1,"resources_js_components_admin_work_AdminComments_vue":1}[chunkId]) return "js/" + chunkId + ".js";
 /******/ 			// return url for filenames based on template
 /******/ 			return undefined;
 /******/ 		};
@@ -45824,6 +45839,11 @@ module.exports = JSON.parse('{"name":"axios","version":"0.21.4","description":"P
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/nonce */
+/******/ 	(() => {
+/******/ 		__webpack_require__.nc = undefined;
 /******/ 	})();
 /******/ 	
 /************************************************************************/

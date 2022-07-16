@@ -29,9 +29,10 @@
                                  class="cursor-pointer px-6 py-2 border-t-2 border-b-2 border-l border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                         Пользователи
                     </router-link>
-                    <a class="cursor-pointer rounded-r px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
+                    <router-link :to="{name: 'admin.comments'}"
+                        class="cursor-pointer rounded-r px-6 py-2 border-2 border-blue-600 text-blue-600 font-medium text-xs leading-tight uppercase hover:bg-black hover:bg-opacity-5 focus:outline-none focus:ring-0 transition duration-150 ease-in-out">
                         Комментарии
-                    </a>
+                    </router-link>
                 </div>
             </div>
         </div>

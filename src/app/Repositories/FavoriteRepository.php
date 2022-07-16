@@ -31,7 +31,8 @@ class FavoriteRepository
     public function store(Request $request)
     {
         $data = $request->except('_token');
-        $data['user_id'] = auth()->user()->id;
+        $data['user_id'] = $request->user_id;
+        $data['film_id'] = $request->film_id;
         return $this->query()->create($data);
 
     }

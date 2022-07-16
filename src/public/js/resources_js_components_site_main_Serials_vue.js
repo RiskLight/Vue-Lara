@@ -57,6 +57,7 @@ var render = function render() {
     }, [_c("div", {
       staticClass: "rounded-lg shadow-lg bg-white max-w-sm mb-2"
     }, [_c("router-link", {
+      staticClass: "flex justify-around",
       attrs: {
         to: {
           name: "film.show",

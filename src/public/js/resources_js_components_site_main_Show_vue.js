@@ -19,11 +19,13 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       description: null,
-      comments: null
+      comments: null,
+      user: null
     };
   },
   mounted: function mounted() {
     this.getComments();
+    this.getUser();
   },
   methods: {
     addComment: function addComment() {
@@ -49,6 +51,9 @@ __webpack_require__.r(__webpack_exports__);
 
         _this2.setupPagination(_this2.comments);
       });
+    },
+    getUser: function getUser() {
+      this.user = localStorage.getItem('user_id');
     }
   }
 });
@@ -129,27 +134,31 @@ __webpack_require__.r(__webpack_exports__);
     Comments: _Comments__WEBPACK_IMPORTED_MODULE_1__["default"],
     Rate: _Rate__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  // data() {
-  //     return {
-  //         rate: null
-  //     }
-  // },
+  data: function data() {
+    return {
+      user: null
+    };
+  },
   computed: {
     film: function film() {
       return this.$store.getters.film;
     }
   },
   mounted: function mounted() {
-    this.$store.dispatch('getFilm', this.$route.params.id); // this.getRate()
-  } // methods: {
-  //     getRate() {
-  //         axios.get(`/api/films/rate/${this.$route.params.id}`)
-  //             .then(res => {
-  //                 this.rate = res.data
-  //             })
-  // //     },
-  // },
-
+    this.$store.dispatch('getFilm', this.$route.params.id);
+    this.getUser();
+  },
+  methods: {
+    addFilmToFavorite: function addFilmToFavorite() {
+      axios.post("/api/films/add-favorite", {
+        film_id: this.$route.params.id,
+        user_id: this.user
+      });
+    },
+    getUser: function getUser() {
+      this.user = localStorage.getItem('user_id');
+    }
+  }
 });
 
 /***/ }),
@@ -173,7 +182,7 @@ var render = function render() {
     staticClass: "mt-12"
   }, [_c("div", {
     staticClass: "flex mx-auto w-full items-center justify-center shadow-lg mb-4"
-  }, [_c("div", {
+  }, [_vm.user ? [_c("div", {
     staticClass: "w-full bg-white rounded-lg px-4 pt-2"
   }, [_c("div", {
     staticClass: "flex flex-wrap -mx-3 mb-6"
@@ -228,7 +237,7 @@ var render = function render() {
     on: {
       click: _vm.addComment
     }
-  }, [_vm._v("\n                                Добавьте комментарий\n                            ")])])])])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                    Добавьте комментарий\n                                ")])])])])])] : _vm._e(), _vm._v(" "), !_vm.user ? [_c("div", [_vm._v("\n                    Оставлять комментарии могут только зарегистрированные пользователи\n                ")])] : _vm._e()], 2), _vm._v(" "), _c("div", {
     staticClass: "w-full mx-auto"
   }, [_vm._l(_vm.items, function (comment) {
     return [_c("div", {
@@ -246,7 +255,7 @@ var render = function render() {
     })]), _vm._v(" "), _c("div"), _vm._v(" "), _c("div", {
       staticClass: "justify-end"
     })])];
-  }), _vm._v(" "), _c("Paginate", {
+  }), _vm._v(" "), _vm.items ? [_c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,
       "click-handler": _vm.pageChangeHandler,
@@ -268,7 +277,7 @@ var render = function render() {
       },
       expression: "page"
     }
-  })], 2)]);
+  })] : _vm._e()], 2)]);
 };
 
 var staticRenderFns = [];
@@ -293,7 +302,7 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", {
-    staticClass: "w-3/4 mx-auto flex"
+    staticClass: "w-3/4 mx-auto flex items-center"
   }, [_c("div", {
     staticClass: "stars mr-2"
   }, [_c("div", {
@@ -509,9 +518,11 @@ var render = function render() {
       "for": "star-1"
     }
   })])]), _vm._v(" "), _c("div", {
-    staticClass: "mx-8"
-  }, [_vm._v("\n            Оценка:\n            "), _c("span", {
-    staticClass: "mt-2 text-3xl",
+    staticClass: "flex align-baseline"
+  }, [_c("span", {
+    staticClass: "text-2xl mx-4"
+  }, [_vm._v("Оценка:")]), _vm._v(" "), _c("span", {
+    staticClass: "text-3xl font-bold",
     attrs: {
       id: "exact-rating"
     }
@@ -559,14 +570,29 @@ var render = function render() {
       frameborder: "0",
       allowfullscreen: ""
     }
-  })]), _vm._v(" "), _c("Rate"), _vm._v(" "), _c("div", {
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "flex flex-wrap w-3/4 mx-auto justify-between"
+  }, [_c("div", [_c("Rate")], 1), _vm._v(" "), _c("div", [_vm.user ? [_c("div", {
+    staticClass: "w-full bg-white rounded-lg px-4 pt-2"
+  }, [_c("div", {}, [_c("input", {
+    attrs: {
+      type: "hidden",
+      name: "film_id",
+      value: ""
+    }
+  }), _vm._v(" "), _c("button", {
+    staticClass: "bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100",
+    on: {
+      click: _vm.addFilmToFavorite
+    }
+  }, [_vm._v("\n                                Добавить в избранное\n                            ")])])])] : _vm._e()], 2)]), _vm._v(" "), _c("div", {
     staticClass: "hidden xl:w-96 text-xs text-center",
     attrs: {
       id: "message"
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "text-2xl w-3/4 mx-auto mt-20 flex flex-col justify-around"
-  }, [_c("div", [_vm._v(_vm._s(_vm.film.description) + " ")]), _vm._v(" "), _c("Comments")], 1)], 1);
+  }, [_c("div", [_vm._v(_vm._s(_vm.film.description))]), _vm._v(" "), _c("Comments")], 1)], 1);
 };
 
 var staticRenderFns = [];

@@ -14,10 +14,29 @@
             <iframe :src="film.film_path" class="w-3/4" height="600"
                     frameborder="0" allowfullscreen></iframe>
         </div>
-        <Rate></Rate>
+        <div class="flex flex-wrap w-3/4 mx-auto justify-between">
+            <div>
+                <Rate></Rate>
+            </div>
+            <div>
+                <template v-if="user">
+                    <div class="w-full bg-white rounded-lg px-4 pt-2">
+                        <div class="">
+                            <input type="hidden" name="film_id" value="">
+                            <button @click="addFilmToFavorite"
+                                    class="bg-white text-gray-700 font-medium py-1 px-4 border border-gray-400 rounded-lg tracking-wide mr-1 hover:bg-gray-100">
+                                Добавить в избранное
+                            </button>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+
+
         <div id="message" class="hidden xl:w-96 text-xs text-center"></div>
         <div class="text-2xl w-3/4 mx-auto mt-20 flex flex-col justify-around">
-            <div>{{ film.description }} </div>
+            <div>{{ film.description }}</div>
             <Comments></Comments>
         </div>
     </div>
@@ -32,11 +51,11 @@ import Comments from "./Comments";
 export default {
     name: "Show",
     components: {Comments, Rate},
-    // data() {
-    //     return {
-    //         rate: null
-    //     }
-    // },
+    data() {
+        return {
+            user: null
+        }
+    },
 
     computed: {
         film() {
@@ -46,17 +65,21 @@ export default {
 
     mounted() {
         this.$store.dispatch('getFilm', this.$route.params.id)
-        // this.getRate()
+        this.getUser()
     },
 
-    // methods: {
-    //     getRate() {
-    //         axios.get(`/api/films/rate/${this.$route.params.id}`)
-    //             .then(res => {
-    //                 this.rate = res.data
-    //             })
-    // //     },
-    // },
+    methods: {
+        addFilmToFavorite() {
+            axios.post(`/api/films/add-favorite`, {
+                film_id: this.$route.params.id,
+                user_id: this.user
+            })
+        },
+
+        getUser() {
+            this.user = localStorage.getItem('user_id')
+        }
+    },
 
 
 }

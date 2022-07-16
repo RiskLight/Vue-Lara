@@ -1,5 +1,5 @@
 <template>
-    <div class="w-3/4 mx-auto flex">
+    <div class="w-3/4 mx-auto flex items-center">
         <div class="stars mr-2">
             <div class="class">
                 <input
@@ -64,9 +64,9 @@
                 <label class="star star-1" for="star-1"></label>
             </div>
         </div>
-        <div class="mx-8">
-            Оценка:
-            <span id="exact-rating" class="mt-2 text-3xl">{{ rate }}</span>
+        <div class="flex align-baseline">
+            <span class="text-2xl mx-4">Оценка:</span>
+            <span id="exact-rating" class="text-3xl font-bold">{{ rate }}</span>
         </div>
     </div>
 </template>

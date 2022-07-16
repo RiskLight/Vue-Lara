@@ -93,6 +93,16 @@ export default new VueRouter({
             path: '/user-edit/:id', component: () => import('./components/admin/work/EditUser'),
             name: 'user.edit'
         },
+
+        {
+            path: '/admin-comments/', component: () => import('./components/admin/work/AdminComments'),
+            name: 'admin.comments'
+        },
+
+        // {
+        //     path: '/edit-comment/:id', component: () => import('./components/admin/work/EditUser'),
+        //     name: 'comment.edit'
+        // },
     ]
 })
 

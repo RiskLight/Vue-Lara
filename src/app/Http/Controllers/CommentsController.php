@@ -27,12 +27,12 @@ class CommentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function index()
     {
         $comments = $this->service->index();
-        return view('admin_panel.comments', ['comments' => $comments]);
+        return response()->json($comments);
     }
 
     public function show($id) {

@@ -75,6 +75,27 @@ Route::group([
         Route::get('/{comment}', [CommentsController::class, 'show']);
     });
 
+        Route::group([
+        'as' => 'favorite.',
+        'prefix' => 'favorite',
+    ], function () {
+        Route::get('/{id}', [FavoriteController::class, 'show']);
+    });
+
+    Route::group([
+        'as' => 'delete-favorite.',
+        'prefix' => 'delete-favorite',
+    ], function () {
+        Route::delete('/{id}', [FavoriteController::class, 'destroy']);
+    });
+
+    Route::group([
+        'as' => 'add-favorite.',
+        'prefix' => 'add-favorite',
+    ], function () {
+        Route::post('/', [FavoriteController::class, 'store']);
+    });
+
 });
 
 Route::group([
@@ -152,6 +173,14 @@ Route::group([
     ], function () {
         Route::get('/', [GenresController::class, 'getRoles']);
 
+    });
+
+        Route::group([
+        'as' => 'comments.',
+        'prefix' => 'comments',
+
+    ], function () {
+        Route::get('/', [CommentsController::class, 'index']);
     });
 });
 
