@@ -11,7 +11,7 @@ interface CommentServiceContract
 
     public function store(CommentRequest $request, Film $film): void;
 
-    public function update(CommentRequest $request, $film, $id): void;
+    public function update(CommentRequest $request, $id): void;
 
     public function destroy($id): void;
 

@@ -27,7 +27,7 @@ class CommentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return JsonResponse
+     * @return Application|Factory|View
      */
     public function index()
     {
@@ -60,15 +60,15 @@ class CommentsController extends Controller
      * @param CommentRequest $request
      * @param $film
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
-    public function update(CommentRequest $request, $film, $id)
+    public function update(CommentRequest $request, $id)
     {
-        $this->service->update($request, $film, $id);
-        if (auth()->user()->role_id === 1) {
-            return redirect()->route('admin.comments.index');
-        }
-        return redirect()->route('films.content.show', $film);
+        $this->service->update($request, $id);
+//        if (auth()->user()->role_id === 1) {
+//            return redirect()->route('admin.comments.index');
+//        }
+        return response()->json();
     }
 
     /**

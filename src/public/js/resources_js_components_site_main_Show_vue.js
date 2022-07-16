@@ -14,13 +14,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/pagination.mixin */ "./resources/js/mixins/pagination.mixin.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: "CommentForm",
+  name: "Comments",
   mixins: [_mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
       description: null,
       comments: null,
-      user: null
+      user: null,
+      editCommentId: null,
+      commentDescription: ''
     };
   },
   mounted: function mounted() {
@@ -54,6 +56,29 @@ __webpack_require__.r(__webpack_exports__);
     },
     getUser: function getUser() {
       this.user = localStorage.getItem('user_id');
+    },
+    changeEditCommentId: function changeEditCommentId(id, comment) {
+      this.editCommentId = id;
+      this.commentDescription = comment;
+    },
+    isEdit: function isEdit(id) {
+      return this.editCommentId === id;
+    },
+    closeEditComment: function closeEditComment() {
+      this.editCommentId = null;
+    },
+    updateComment: function updateComment(id) {
+      var _this3 = this;
+
+      axios.patch("/api/films/update-comment/".concat(id), {
+        user_id: this.user,
+        description: this.commentDescription,
+        film_id: this.$route.params.id
+      }).then(function (res) {
+        _this3.closeEditComment();
+
+        _this3.getComments();
+      });
     }
   }
 });
@@ -200,8 +225,7 @@ var render = function render() {
     staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
     attrs: {
       name: "description",
-      placeholder: "Бредовый текст",
-      required: ""
+      placeholder: "Бредовый текст"
     },
     domProps: {
       value: _vm.description
@@ -250,11 +274,55 @@ var render = function render() {
       staticClass: "break-words"
     }, [_c("p", {
       staticClass: "text-gray-700 text-base text-lg max-w-full mb-4"
-    }, [_vm._v("\n                                " + _vm._s(comment.description) + "\n                            ")])]), _vm._v(" "), _c("p", {
+    }, [_vm._v("\n                                " + _vm._s(comment.description) + "\n                            ")]), _vm._v(" "), _c("div", {
+      "class": _vm.isEdit(comment.id) ? "" : "hidden"
+    }, [_c("textarea", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.commentDescription,
+        expression: "commentDescription"
+      }],
+      staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
+      attrs: {
+        name: "description",
+        placeholder: "Бредовый текст",
+        required: ""
+      },
+      domProps: {
+        value: _vm.commentDescription
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.commentDescription = $event.target.value;
+        }
+      }
+    }), _vm._v(" "), _c("button", {
+      staticClass: "cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0 transition duration-150 ease-in-out outline-none",
+      on: {
+        click: function click($event) {
+          return _vm.updateComment(comment.id);
+        }
+      }
+    }, [_vm._v("\n                                    Обновить\n                                ")]), _vm._v(" "), _c("button", {
+      staticClass: "cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0 transition duration-150 ease-in-out outline-none",
+      on: {
+        click: _vm.closeEditComment
+      }
+    }, [_vm._v("\n                                    Закрыть\n                                ")])])]), _vm._v(" "), _c("p", {
       staticClass: "text-gray-600 text-sm"
-    })]), _vm._v(" "), _c("div"), _vm._v(" "), _c("div", {
-      staticClass: "justify-end"
-    })])];
+    })]), _vm._v(" "), _c("div"), _vm._v(" "), +_vm.user === comment.user.id ? [_c("div", {
+      staticClass: "justify-end",
+      "class": _vm.isEdit(comment.id) ? "hidden" : ""
+    }, [_c("button", {
+      staticClass: "cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0 transition duration-150 ease-in-out outline-none",
+      on: {
+        click: function click($event) {
+          return _vm.changeEditCommentId(comment.id, comment.description);
+        }
+      }
+    }, [_vm._v("\n                                Редактировать\n                            ")])])] : _vm._e()], 2)];
   }), _vm._v(" "), _vm.items ? [_c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,

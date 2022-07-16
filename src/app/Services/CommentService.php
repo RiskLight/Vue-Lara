@@ -28,11 +28,11 @@ class CommentService implements CommentServiceContract
         $this->repository->store($request, $film);
     }
 
-    public function update(CommentRequest $request, $film, $id): void
+    public function update(CommentRequest $request, $id): void
     {
         // TODO: Implement update() method.
 
-        $this->repository->update($request, $film, $id);
+        $this->repository->update($request, $id);
     }
 
     public function destroy($id): void

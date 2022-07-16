@@ -75,6 +75,14 @@ Route::group([
         Route::get('/{comment}', [CommentsController::class, 'show']);
     });
 
+    Route::group([
+        'as' => 'update-comment.',
+        'prefix' => 'update-comment',
+
+    ], function () {
+        Route::patch('/{comment}', [CommentsController::class, 'update']);
+    });
+
         Route::group([
         'as' => 'favorite.',
         'prefix' => 'favorite',
@@ -182,6 +190,9 @@ Route::group([
     ], function () {
         Route::get('/', [CommentsController::class, 'index']);
     });
+
+
+
 });
 
 

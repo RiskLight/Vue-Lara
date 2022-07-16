@@ -9,7 +9,7 @@
                 <textarea
                     v-model="description"
                     class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                    name="description" placeholder="Бредовый текст" required></textarea>
+                    name="description" placeholder="Бредовый текст"></textarea>
                         </div>
                         <div class="w-full md:w-full flex items-start md:w-full px-3">
                             <div class="flex items-start w-1/2 text-gray-700 px-2 mr-auto">
@@ -44,16 +44,33 @@
                             <p class="text-gray-700 text-base text-lg max-w-full mb-4">
                                 {{comment.description}}
                             </p>
+                            <div :class="isEdit(comment.id) ? '' : 'hidden'">
+                                <textarea v-model="commentDescription"
+                                    class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+                                    name="description" placeholder="Бредовый текст" required></textarea>
+                                <button @click="updateComment(comment.id)"
+                                    class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
+                                    Обновить
+                                </button>
+                                <button @click="closeEditComment"
+                                    class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
+                                    Закрыть
+                                </button>
+                            </div>
                         </div>
                         <p class="text-gray-600 text-sm"></p>
                     </div>
                     <div></div>
+                    <template v-if="+user === comment.user.id">
+                        <div :class="isEdit(comment.id) ? 'hidden' : ''"
+                            class="justify-end">
+                            <button @click="changeEditCommentId(comment.id, comment.description)"
+                                    class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
+                                Редактировать
+                            </button>
+                        </div>
+                    </template>
 
-                    <div class="justify-end">
-                        <!--                <a class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">-->
-                        <!--                    Редактировать-->
-                        <!--                </a>-->
-                    </div>
                 </div>
             </template>
             <template v-if="items ">
@@ -81,14 +98,15 @@
 <script>
 import PaginationMixin from "../../../mixins/pagination.mixin";
 export default {
-    name: "CommentForm",
+    name: "Comments",
     mixins:[PaginationMixin],
     data() {
         return {
             description: null,
             comments: null,
-            user: null
-
+            user: null,
+            editCommentId: null,
+            commentDescription: ''
         }
     },
 
@@ -124,6 +142,32 @@ export default {
             this.user = localStorage.getItem('user_id')
 
         },
+
+        changeEditCommentId(id, comment) {
+            this.editCommentId = id
+            this.commentDescription = comment
+        },
+
+        isEdit(id) {
+            return this.editCommentId === id
+
+        },
+
+        closeEditComment() {
+            this.editCommentId = null
+        },
+
+        updateComment(id) {
+            axios.patch(`/api/films/update-comment/${id}`, {
+                user_id: this.user,
+                description: this.commentDescription,
+                film_id: this.$route.params.id
+            })
+                .then(res => {
+                    this.closeEditComment()
+                    this.getComments()
+                })
+        }
     }
 }
 </script>

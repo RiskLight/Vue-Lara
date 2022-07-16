@@ -28,7 +28,7 @@ class CommentRepository
         return $this->query()->create($data);
     }
 
-    public function update(CommentRequest $request, $film, $id)
+    public function update(CommentRequest $request, $id)
     {
         $data = $request->except('_token', '_method');
 
