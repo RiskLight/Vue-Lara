@@ -29,13 +29,13 @@ class FavoriteController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function index()
     {
         $films = $this->service->index();
 
-       return view('site.favorite', ['films' => $films]);
+       return \response()->json();
     }
 
 

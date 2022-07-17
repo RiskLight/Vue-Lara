@@ -26,10 +26,10 @@ class FilmUpdateRequest extends FormRequest
         return [
             'name' => 'required|string',
             'film_path' => 'required|string',
-            'img_path' => 'image',
+            'img_path' => 'sometimes|mimes:jpg,bmp,png,jpeg',
             'year' => 'required|date_format:Y-m-d|',
-            'description' => 'required|string|min:150|max:400',
-            'genre' => 'required',
+            'description' => 'required|string|min:80|max:250',
+            'genre' => 'required|array',
             'genre.*' => 'numeric'
         ];
     }

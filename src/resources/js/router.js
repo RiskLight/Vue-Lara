@@ -29,7 +29,10 @@ export default new VueRouter({
 
         {
             path: '/favorite', component: () => import('./components/site/main/Favorite'),
-            name: 'films.favorite'
+            name: 'films.favorite',
+            beforeEnter: (to, from, next) => {
+                enterUser(to, from, next)
+            }
         },
 
 
@@ -58,59 +61,85 @@ export default new VueRouter({
         {
             path: '/admin', component: () => import('./components/admin/work/Admin'),
             name: 'admin.panel',
-            // beforeEnter: (to, from, next) => {
-            //     enterAdmin(to, from, next)
-            // }
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
 
         },
 
         {
             path: '/admin-films', component: () => import('./components/admin/work/AdminFilms'),
-            name: 'admin.films'
+            name: 'admin.films',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
 
         {
             path: '/admin-add', component: () => import('./components/admin/work/Add'),
-            name: 'admin.add'
+            name: 'admin.add',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
 
         {
             path: '/admin-users', component: () => import('./components/admin/work/Users'),
-            name: 'admin.users'
+            name: 'admin.users',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
 
         {
             path: '/films-edit/:id', component: () => import('./components/admin/work/Edit'),
-            name: 'films.edit'
+            name: 'films.edit',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
 
         {
             path: '/add-user', component: () => import('./components/admin/work/AddUser'),
-            name: 'user.add'
+            name: 'user.add',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
 
         {
             path: '/user-edit/:id', component: () => import('./components/admin/work/EditUser'),
-            name: 'user.edit'
+            name: 'user.edit',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
 
         {
-            path: '/admin-comments/', component: () => import('./components/admin/work/AdminComments'),
-            name: 'admin.comments'
+            path: '/admin-comments', component: () => import('./components/admin/work/AdminComments'),
+            name: 'admin.comments',
+            beforeEnter: (to, from, next) => {
+                enterAdmin(to, from, next)
+            }
         },
-
-        // {
-        //     path: '/edit-comment/:id', component: () => import('./components/admin/work/EditUser'),
-        //     name: 'comment.edit'
-        // },
+        { path: "*", component: () => import('./components/site/main/PageNotFound') }
     ]
 })
 
-// function enterAdmin(to, from, next) {
-//     let role = localStorage.getItem('role_id');
-//     if (+role === 1) {
-//         next()
-//     } else {
-//         next('/')
-//     }
-// }
+function enterAdmin(to, from, next) {
+    let role = localStorage.getItem('role_id');
+    if (+role === 1) {
+        next()
+    } else {
+        next('/')
+    }
+}
+
+function enterUser(to, from, next) {
+    let user = localStorage.getItem('user_id');
+    if (user !== null) {
+        next()
+    } else {
+        next('/')
+    }
+}

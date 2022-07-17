@@ -37,21 +37,35 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   mixins: [_mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_1__["default"]],
   data: function data() {
     return {
-      films: []
+      films: [],
+      search: '',
+      genre: 0,
+      sorted: [],
+      years: [],
+      year: 0,
+      date: 0
     };
   },
-  // computed: {
-  //      films() {
-  //        return this.setupPagination(this.$store.getters.films)
-  //        //  let films = await this.setupPagination(this.$store.getters.films)
-  //        //  return this.$store.getters.films
-  //         // return films;
-  //
-  //     },
-  // },
+  computed: {
+    genres: function genres() {
+      return this.$store.getters.genres;
+    }
+  },
   mounted: function mounted() {
-    this.getFilms(); // this.$store.dispatch('getFilms');
-    // this.setupPagination(this.$store.getters.films)
+    this.getFilms();
+    this.$store.dispatch('getGenres');
+    this.getYears();
+  },
+  watch: {
+    search: function search(val, old) {
+      if (val.length >= 4 || old.length >= 4) {
+        this.getResults();
+      }
+
+      if (+val.length === 0 || +old.length === 0) {
+        this.getFilms();
+      }
+    }
   },
   methods: {
     getFilms: function getFilms() {
@@ -62,21 +76,144 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                axios.get('/api/films/content/').then(function (res) {
+                _context.next = 2;
+                return axios.get('/api/films/content/').then(function (res) {
                   _this.films = res.data;
 
                   _this.setupPagination(_this.films);
 
                   console.log(res.data);
-                }); // await this.$store.dispatch('getFilms');
+                });
 
-              case 1:
+              case 2:
               case "end":
                 return _context.stop();
             }
           }
         }, _callee);
       }))();
+    },
+    getYears: function getYears() {
+      var _this2 = this;
+
+      axios.get("/api/films/years").then(function (res) {
+        _this2.years = res.data;
+      });
+    },
+    getResults: function getResults() {
+      var _this3 = this;
+
+      axios.get("/api/films/search?q=".concat(this.search)).then(function (res) {
+        _this3.films = res.data;
+
+        _this3.setupPagination(_this3.films);
+      });
+    },
+    filterFilms: function filterFilms(genre) {
+      var _this4 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var vm, genres;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this4.getFilms();
+
+              case 2:
+                _this4.sorted = [];
+                _this4.year = 0;
+                vm = _this4;
+                genres = _this4.items.map(function (film) {
+                  film.genres.map(function (elem) {
+                    console.log(elem.id);
+
+                    if (elem.id === genre) {
+                      vm.sorted.push(film);
+                    }
+                  });
+                });
+                _context2.next = 8;
+                return _this4.setupPagination(_this4.sorted);
+
+              case 8:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }))();
+    },
+    filterYears: function filterYears(year) {
+      var _this5 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee3() {
+        var vm;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _this5.sorted = [];
+                vm = _this5;
+
+                _this5.items.map(function (film) {
+                  if (film.year.substring(0, 4) === year) {
+                    vm.sorted.push(film);
+                  }
+                });
+
+                _context3.next = 5;
+                return _this5.setupPagination(_this5.sorted);
+
+              case 5:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }))();
+    },
+    filterDate: function filterDate(date) {
+      var _this6 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee4() {
+        var newItems;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                newItems = _this6.items;
+
+                if (date === 1) {
+                  newItems.sort(function (a, b) {
+                    return a.created_at > b.created_at ? -1 : 1;
+                  });
+                }
+
+                if (date === 2) {
+                  newItems.sort(function (a, b) {
+                    return a.created_at > b.created_at ? 1 : -1;
+                  });
+                }
+
+                _context4.next = 5;
+                return _this6.setupPagination(newItems);
+
+              case 5:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4);
+      }))();
+    },
+    clearSort: function clearSort() {
+      this.sorted = [];
+      this.year = 0;
+      this.genre = 0;
+      this.date = 0;
+      this.getFilms();
     }
   }
 });
@@ -100,6 +237,163 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", [_c("navbar"), _vm._v(" "), _c("div", {
+    staticClass: "w-3/4 mx-auto"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.search,
+      expression: "search"
+    }],
+    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
+    attrs: {
+      type: "search",
+      id: "exampleSearch",
+      name: "search",
+      placeholder: "Искать фильмы или сериалы"
+    },
+    domProps: {
+      value: _vm.search
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.search = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
+    staticClass: "w-3/4 mx-auto flex flex-wrap justify-around mt-12"
+  }, [_c("div", {
+    staticClass: "w-72"
+  }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.genre,
+      expression: "genre"
+    }],
+    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
+    attrs: {
+      name: "genre",
+      id: "genre"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.genre = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, function ($event) {
+        return _vm.filterFilms(_vm.genre);
+      }]
+    }
+  }, [_c("option", {
+    attrs: {
+      selected: "",
+      disabled: "",
+      value: "0"
+    }
+  }, [_vm._v("Выберите жанр")]), _vm._v(" "), _vm._l(_vm.genres, function (genre) {
+    return _c("option", {
+      domProps: {
+        value: genre.id
+      }
+    }, [_vm._v(_vm._s(genre.name))]);
+  })], 2)]), _vm._v(" "), _c("div", {
+    staticClass: "w-72"
+  }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.year,
+      expression: "year"
+    }],
+    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
+    attrs: {
+      name: "genre",
+      id: "genre"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.year = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, function ($event) {
+        return _vm.filterYears(_vm.year);
+      }]
+    }
+  }, [_c("option", {
+    attrs: {
+      selected: "",
+      disabled: "",
+      value: "0"
+    }
+  }, [_vm._v("Выберите год")]), _vm._v(" "), _vm._l(_vm.years, function (year) {
+    return _c("option", {
+      domProps: {
+        value: year
+      }
+    }, [_vm._v(_vm._s(year))]);
+  })], 2)]), _vm._v(" "), _c("div", {
+    staticClass: "w-72"
+  }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.date,
+      expression: "date"
+    }],
+    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
+    attrs: {
+      name: "genre",
+      id: "genre"
+    },
+    on: {
+      change: [function ($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.date = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }, function ($event) {
+        return _vm.filterDate(_vm.date);
+      }]
+    }
+  }, [_c("option", {
+    attrs: {
+      disabled: ""
+    },
+    domProps: {
+      value: 0
+    }
+  }, [_vm._v("По дате добавления")]), _vm._v(" "), _c("option", {
+    domProps: {
+      value: 1
+    }
+  }, [_vm._v("Самые новые")]), _vm._v(" "), _c("option", {
+    domProps: {
+      value: 2
+    }
+  }, [_vm._v("Самые старые")])])]), _vm._v(" "), _c("div", {
+    staticClass: "w-20"
+  }, [_c("button", {
+    staticClass: "cursor-pointer inline-block mb-5 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.clearSort.apply(null, arguments);
+      }
+    }
+  }, [_vm._v("\n                    Сбросить\n                ")])])]), _vm._v(" "), _c("div", {
     staticClass: "grid xl:grid-cols-6 gap-12 m-12"
   }, [_vm.items ? _vm._l(_vm.items, function (film) {
     return _c("div", {
@@ -127,7 +421,9 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
-  }) : _vm._e()], 2), _vm._v(" "), _c("Paginate", {
+  }) : _vm._e()], 2), _vm._v(" "), !_vm.items ? [_c("div", {
+    staticClass: "w-3/4 mx-auto h-screen text-6xl text-red-700"
+  }, [_vm._v("\n                Ничего не найдено, попробуйте снова\n            ")])] : _vm._e(), _vm._v(" "), _c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,
       "click-handler": _vm.pageChangeHandler,
@@ -149,7 +445,7 @@ var render = function render() {
       },
       expression: "page"
     }
-  })], 1);
+  }), _vm._v(" "), _c("foot")], 2);
 };
 
 var staticRenderFns = [];
@@ -176,7 +472,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       page: +this.$route.query.page || 1,
-      pageSize: 2,
+      pageSize: 18,
       pageCount: 0,
       allItems: [],
       items: []

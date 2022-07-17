@@ -2,7 +2,7 @@
     <div>
         <admin-nav></admin-nav>
         <div class="max-w-full h-full">
-            <div class="grid lg:grid-cols-6 m-12" v-for="user in users">
+            <div class="grid lg:grid-cols-6 m-12" v-for="user in items">
                 <div class="border-2 p-6">
                     <p  class="rounded-t-lg">ID = {{user.id}} </p>
                 </div>
@@ -40,15 +40,33 @@
                     Добавить пользователя
                 </router-link>
             </div>
-
+            <Paginate
+                v-model="page"
+                :page-count="pageCount"
+                :click-handler="pageChangeHandler"
+                :prev-text="'Назад'"
+                :next-text="'Вперед'"
+                :container-class="'flex justify-center'"
+                :page-class="'page-item'"
+                :page-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
+                :prev-class="'page-item'"
+                :prev-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
+                :next-class="'page-item'"
+                :next-link-class="'page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none'"
+                :active-class="'bg-purple-600'"
+            />
         </div>
+        <admin-foo></admin-foo>
     </div>
 
 </template>
 
 <script>
+import PaginationMixin from "../../../mixins/pagination.mixin.js";
+
 export default {
     name: "Users",
+    mixins:[PaginationMixin],
 
     data() {
         return {
@@ -62,11 +80,12 @@ export default {
     },
 
     methods: {
-        getUsers() {
-            axios.get('/api/users/')
+       async getUsers() {
+           await axios.get('/api/users/')
                 .then(res => {
                     this.users = res.data
-                    console.log(res.data)
+                    this.setupPagination(this.users)
+
                 })
         },
 

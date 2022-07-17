@@ -39,14 +39,15 @@
             <div>{{ film.description }}</div>
             <Comments></Comments>
         </div>
+        <foot></foot>
     </div>
 
 </template>
 
 <script>
 import Rate from "./Rate";
-import CommentForm from "./Comments";
 import Comments from "./Comments";
+import router from "../../../router";
 
 export default {
     name: "Show",
@@ -74,6 +75,10 @@ export default {
                 film_id: this.$route.params.id,
                 user_id: this.user
             })
+                .then(res => {
+                    this.$router.push({name: 'films.favorite'})
+
+                })
         },
 
         getUser() {

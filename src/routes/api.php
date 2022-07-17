@@ -86,7 +86,9 @@ Route::group([
         Route::group([
         'as' => 'favorite.',
         'prefix' => 'favorite',
-    ], function () {
+            'middleware' => 'auth:sanctum'
+
+        ], function () {
         Route::get('/{id}', [FavoriteController::class, 'show']);
     });
 
@@ -102,6 +104,20 @@ Route::group([
         'prefix' => 'add-favorite',
     ], function () {
         Route::post('/', [FavoriteController::class, 'store']);
+    });
+
+    Route::group([
+        'as' => 'search.',
+        'prefix' => 'search',
+    ], function () {
+        Route::get('/', [FilmsController::class, 'search']);
+    });
+
+    Route::group([
+        'as' => 'years.',
+        'prefix' => 'years',
+    ], function () {
+        Route::get('/', [FilmsController::class, 'years']);
     });
 
 });
@@ -161,10 +177,25 @@ Route::group([
     });
 
     Route::group([
+        'as' => 'update-film.',
+        'prefix' => 'update-film',
+
+    ], function () {
+        Route::patch('/{film}', [FilmsController::class, 'update']);
+    });
+
+    Route::group([
         'as' => 'delete-user.',
         'prefix' => 'delete-user'
     ], function () {
         Route::delete('/{user}', [UsersController::class, 'destroy']);
+    });
+
+    Route::group([
+        'as' => 'update-user.',
+        'prefix' => 'update-user'
+    ], function () {
+        Route::patch('/{user}', [UsersController::class, 'update']);
     });
 
     Route::group([
@@ -191,8 +222,15 @@ Route::group([
         Route::get('/', [CommentsController::class, 'index']);
     });
 
+    Route::group([
+        'as' => 'delete-comment.',
+        'prefix' => 'delete-comment',
 
+    ], function () {
+        Route::delete('/{comment}', [CommentsController::class, 'destroy']);
+    });
 
 });
+
 
 

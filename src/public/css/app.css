@@ -384,41 +384,41 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  /*--tw-pan-x:  ;*/
-  /*--tw-pan-y:  ;*/
-  /*--tw-pinch-zoom:  ;*/
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  /*--tw-ordinal:  ;*/
-  /*--tw-slashed-zero:  ;*/
-  /*--tw-numeric-figure:  ;*/
-  /*--tw-numeric-spacing:  ;*/
-  /*--tw-numeric-fraction:  ;*/
-  /*--tw-ring-inset:  ;*/
-  /*--tw-ring-offset-width: 0px;*/
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
+  --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
   --tw-ring-offset-shadow: 0 0 #0000;
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  /*--tw-blur:  ;*/
-  /*--tw-brightness:  ;*/
-  /*--tw-contrast:  ;*/
-  /*--tw-grayscale:  ;*/
-  /*--tw-hue-rotate:  ;*/
-  /*--tw-invert:  ;*/
-  /*--tw-saturate:  ;*/
-  /*--tw-sepia:  ;*/
-  /*--tw-drop-shadow:  ;*/
-  /*--tw-backdrop-blur:  ;*/
-  /*--tw-backdrop-brightness:  ;*/
-  /*--tw-backdrop-contrast:  ;*/
-  /*--tw-backdrop-grayscale:  ;*/
-  /*--tw-backdrop-hue-rotate:  ;*/
-  /*--tw-backdrop-invert:  ;*/
-  /*--tw-backdrop-opacity:  ;*/
-  /*--tw-backdrop-saturate:  ;*/
-  /*--tw-backdrop-sepia:  ;*/
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
 }
 
 ::-webkit-backdrop {
@@ -431,16 +431,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  /*--tw-pan-x:  ;*/
-  /*--tw-pan-y:  ;*/
-  /*--tw-pinch-zoom:  ;*/
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  /*--tw-ordinal:  ;*/
-  /*--tw-slashed-zero:  ;*/
-  /*--tw-numeric-figure:  ;*/
-  /*--tw-numeric-spacing:  ;*/
-  /*--tw-numeric-fraction:  ;*/
-  /*--tw-ring-inset:  ;*/
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -448,24 +448,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  /*--tw-blur:  ;*/
-  /*--tw-brightness:  ;*/
-  /*--tw-contrast:  ;*/
-  /*--tw-grayscale:  ;*/
-  /*--tw-hue-rotate:  ;*/
-  /*--tw-invert:  ;*/
-  /*--tw-saturate:  ;*/
-  /*--tw-sepia:  ;*/
-  /*--tw-drop-shadow:  ;*/
-  /*--tw-backdrop-blur:  ;*/
-  /*--tw-backdrop-brightness:  ;*/
-  /*--tw-backdrop-contrast:  ;*/
-  /*--tw-backdrop-grayscale:  ;*/
-  /*--tw-backdrop-hue-rotate:  ;*/
-  /*--tw-backdrop-invert:  ;*/
-  /*--tw-backdrop-opacity:  ;*/
-  /*--tw-backdrop-saturate:  ;*/
-  /*--tw-backdrop-sepia:  ;*/
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
 }
 
 ::backdrop {
@@ -478,16 +478,16 @@ video {
   --tw-skew-y: 0;
   --tw-scale-x: 1;
   --tw-scale-y: 1;
-  /*--tw-pan-x:  ;*/
-  /*--tw-pan-y:  ;*/
-  /*--tw-pinch-zoom:  ;*/
+  --tw-pan-x:  ;
+  --tw-pan-y:  ;
+  --tw-pinch-zoom:  ;
   --tw-scroll-snap-strictness: proximity;
-  /*--tw-ordinal:  ;*/
-  /*--tw-slashed-zero:  ;*/
-  /*--tw-numeric-figure:  ;*/
-  /*--tw-numeric-spacing:  ;*/
-  /*--tw-numeric-fraction:  ;*/
-  /*--tw-ring-inset:  ;*/
+  --tw-ordinal:  ;
+  --tw-slashed-zero:  ;
+  --tw-numeric-figure:  ;
+  --tw-numeric-spacing:  ;
+  --tw-numeric-fraction:  ;
+  --tw-ring-inset:  ;
   --tw-ring-offset-width: 0px;
   --tw-ring-offset-color: #fff;
   --tw-ring-color: rgb(59 130 246 / 0.5);
@@ -495,24 +495,24 @@ video {
   --tw-ring-shadow: 0 0 #0000;
   --tw-shadow: 0 0 #0000;
   --tw-shadow-colored: 0 0 #0000;
-  /*--tw-blur:  ;*/
-  /*--tw-brightness:  ;*/
-  /*--tw-contrast:  ;*/
-  /*--tw-grayscale:  ;*/
-  /*--tw-hue-rotate:  ;*/
-  /*--tw-invert:  ;*/
-  /*--tw-saturate:  ;*/
-  /*--tw-sepia:  ;*/
-  /*--tw-drop-shadow:  ;*/
-  /*--tw-backdrop-blur:  ;*/
-  /*--tw-backdrop-brightness:  ;*/
-  /*--tw-backdrop-contrast:  ;*/
-  /*--tw-backdrop-grayscale:  ;*/
-  /*--tw-backdrop-hue-rotate:  ;*/
-  /*--tw-backdrop-invert:  ;*/
-  /*--tw-backdrop-opacity:  ;*/
-  /*--tw-backdrop-saturate:  ;*/
-  /*--tw-backdrop-sepia:  ;*/
+  --tw-blur:  ;
+  --tw-brightness:  ;
+  --tw-contrast:  ;
+  --tw-grayscale:  ;
+  --tw-hue-rotate:  ;
+  --tw-invert:  ;
+  --tw-saturate:  ;
+  --tw-sepia:  ;
+  --tw-drop-shadow:  ;
+  --tw-backdrop-blur:  ;
+  --tw-backdrop-brightness:  ;
+  --tw-backdrop-contrast:  ;
+  --tw-backdrop-grayscale:  ;
+  --tw-backdrop-hue-rotate:  ;
+  --tw-backdrop-invert:  ;
+  --tw-backdrop-opacity:  ;
+  --tw-backdrop-saturate:  ;
+  --tw-backdrop-sepia:  ;
 }
 .container {
   width: 100%;
@@ -766,6 +766,12 @@ video {
 }
 .w-3 {
   width: 0.75rem;
+}
+.w-72 {
+  width: 18rem;
+}
+.w-20 {
+  width: 5rem;
 }
 .max-w-full {
   max-width: 100%;
@@ -1021,10 +1027,6 @@ video {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
 }
-.bg-red-900 {
-  --tw-bg-opacity: 1;
-  background-color: rgb(127 29 29 / var(--tw-bg-opacity));
-}
 .bg-green-700 {
   --tw-bg-opacity: 1;
   background-color: rgb(21 128 61 / var(--tw-bg-opacity));
@@ -1268,10 +1270,6 @@ video {
 .text-purple-500 {
   --tw-text-opacity: 1;
   color: rgb(168 85 247 / var(--tw-text-opacity));
-}
-.text-cyan-400 {
-  --tw-text-opacity: 1;
-  color: rgb(34 211 238 / var(--tw-text-opacity));
 }
 .text-red-900 {
   --tw-text-opacity: 1;

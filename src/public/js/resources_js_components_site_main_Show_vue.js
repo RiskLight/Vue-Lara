@@ -35,14 +35,18 @@ __webpack_require__.r(__webpack_exports__);
 
       var user_id = localStorage.getItem('user_id');
       var film_id = this.$route.params.id;
-      axios.post("/api/films/add-comment", {
-        description: this.description,
-        film_id: film_id,
-        user_id: user_id
-      }).then(function (res) {
-        _this.description = '';
+      this.$validator.validateAll().then(function (result) {
+        if (result) {
+          axios.post("/api/films/add-comment", {
+            description: _this.description,
+            film_id: film_id,
+            user_id: user_id
+          }).then(function (res) {
+            _this.description = '';
 
-        _this.getComments();
+            _this.getComments();
+          });
+        }
       });
     },
     getComments: function getComments() {
@@ -70,14 +74,17 @@ __webpack_require__.r(__webpack_exports__);
     updateComment: function updateComment(id) {
       var _this3 = this;
 
-      axios.patch("/api/films/update-comment/".concat(id), {
-        user_id: this.user,
-        description: this.commentDescription,
-        film_id: this.$route.params.id
-      }).then(function (res) {
-        _this3.closeEditComment();
+      this.$validator.validateAll().then(function (result) {
+        if (result) {
+          axios.patch("/api/films/update-comment/".concat(id), {
+            description: _this3.commentDescription,
+            film_id: _this3.$route.params.id
+          }).then(function (res) {
+            _this3.closeEditComment();
 
-        _this3.getComments();
+            _this3.getComments();
+          });
+        }
       });
     }
   }
@@ -150,6 +157,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Rate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Rate */ "./resources/js/components/site/main/Rate.vue");
 /* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Comments */ "./resources/js/components/site/main/Comments.vue");
+/* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../router */ "./resources/js/router.js");
 
 
 
@@ -175,9 +183,15 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     addFilmToFavorite: function addFilmToFavorite() {
+      var _this = this;
+
       axios.post("/api/films/add-favorite", {
         film_id: this.$route.params.id,
         user_id: this.user
+      }).then(function (res) {
+        _this.$router.push({
+          name: 'films.favorite'
+        });
       });
     },
     getUser: function getUser() {
@@ -217,6 +231,11 @@ var render = function render() {
     staticClass: "w-full md:w-full px-3 mb-2 mt-2"
   }, [_c("textarea", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|min:10|max:150",
+      expression: "'required|min:10|max:150'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.description,
@@ -224,8 +243,8 @@ var render = function render() {
     }],
     staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
     attrs: {
-      name: "description",
-      placeholder: "Бредовый текст"
+      name: "Описание",
+      placeholder: "Комментарий"
     },
     domProps: {
       value: _vm.description
@@ -236,7 +255,15 @@ var render = function render() {
         _vm.description = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("Комментарий"),
+      expression: "errors.has('Комментарий')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("Комментарий")) + "\n                            ")])]), _vm._v(" "), _c("div", {
     staticClass: "w-full md:w-full flex items-start md:w-full px-3"
   }, [_c("div", {
     staticClass: "flex items-start w-1/2 text-gray-700 px-2 mr-auto"
@@ -282,11 +309,15 @@ var render = function render() {
         rawName: "v-model",
         value: _vm.commentDescription,
         expression: "commentDescription"
+      }, {
+        name: "validate",
+        rawName: "v-validate",
+        value: "required|min:10|max:150",
+        expression: "'required|min:10|max:150'"
       }],
       staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
       attrs: {
-        name: "description",
-        placeholder: "Бредовый текст",
+        name: "Коммент",
         required: ""
       },
       domProps: {
@@ -298,7 +329,15 @@ var render = function render() {
           _vm.commentDescription = $event.target.value;
         }
       }
-    }), _vm._v(" "), _c("button", {
+    }), _vm._v(" "), _c("div", {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: _vm.errors.has("Коммент"),
+        expression: "errors.has('Коммент')"
+      }],
+      staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+    }, [_vm._v(_vm._s(_vm.errors.first("Коммент")) + "\n                                ")]), _vm._v(" "), _c("button", {
       staticClass: "cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0 transition duration-150 ease-in-out outline-none",
       on: {
         click: function click($event) {
@@ -660,7 +699,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c("div", {
     staticClass: "text-2xl w-3/4 mx-auto mt-20 flex flex-col justify-around"
-  }, [_c("div", [_vm._v(_vm._s(_vm.film.description))]), _vm._v(" "), _c("Comments")], 1)], 1);
+  }, [_c("div", [_vm._v(_vm._s(_vm.film.description))]), _vm._v(" "), _c("Comments")], 1), _vm._v(" "), _c("foot")], 1);
 };
 
 var staticRenderFns = [];
@@ -686,7 +725,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       page: +this.$route.query.page || 1,
-      pageSize: 2,
+      pageSize: 18,
       pageCount: 0,
       allItems: [],
       items: []

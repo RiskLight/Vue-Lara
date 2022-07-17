@@ -6,10 +6,13 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">Добавьте свой бред</h2>
                         <div class="w-full md:w-full px-3 mb-2 mt-2">
-                <textarea
-                    v-model="description"
-                    class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                    name="description" placeholder="Бредовый текст"></textarea>
+                <textarea v-validate="'required|min:10|max:150'"
+                          v-model="description"
+                          class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+                          name="Описание" placeholder="Комментарий"></textarea>
+                            <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                                 v-show="errors.has('Комментарий')">{{ errors.first('Комментарий') }}
+                            </div>
                         </div>
                         <div class="w-full md:w-full flex items-start md:w-full px-3">
                             <div class="flex items-start w-1/2 text-gray-700 px-2 mr-auto">
@@ -39,21 +42,24 @@
             <template v-for="comment in items">
                 <div class="flex-col mt-6 mx-auto items-center justify-start shadow-lg mt-56 mb-1 w-full">
                     <div class="p-6 flex flex-col justify-start">
-                        <span class="text-gray-900 text-xl font-medium mb-2">{{comment.user.name}}</span>
+                        <span class="text-gray-900 text-xl font-medium mb-2">{{ comment.user.name }}</span>
                         <div class="break-words">
                             <p class="text-gray-700 text-base text-lg max-w-full mb-4">
-                                {{comment.description}}
+                                {{ comment.description }}
                             </p>
                             <div :class="isEdit(comment.id) ? '' : 'hidden'">
-                                <textarea v-model="commentDescription"
-                                    class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                                    name="description" placeholder="Бредовый текст" required></textarea>
+                                <textarea v-model="commentDescription" v-validate="'required|min:10|max:150'"
+                                          class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
+                                          name="Коммент" required></textarea>
+                                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                                     v-show="errors.has('Коммент')">{{ errors.first('Коммент') }}
+                                </div>
                                 <button @click="updateComment(comment.id)"
-                                    class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
+                                        class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
                                     Обновить
                                 </button>
                                 <button @click="closeEditComment"
-                                    class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
+                                        class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
                                     Закрыть
                                 </button>
                             </div>
@@ -63,7 +69,7 @@
                     <div></div>
                     <template v-if="+user === comment.user.id">
                         <div :class="isEdit(comment.id) ? 'hidden' : ''"
-                            class="justify-end">
+                             class="justify-end">
                             <button @click="changeEditCommentId(comment.id, comment.description)"
                                     class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
                                 Редактировать
@@ -97,9 +103,10 @@
 
 <script>
 import PaginationMixin from "../../../mixins/pagination.mixin";
+
 export default {
     name: "Comments",
-    mixins:[PaginationMixin],
+    mixins: [PaginationMixin],
     data() {
         return {
             description: null,
@@ -119,15 +126,20 @@ export default {
         addComment() {
             let user_id = localStorage.getItem('user_id')
             let film_id = this.$route.params.id
-            axios.post(`/api/films/add-comment`, {
-                description: this.description,
-                film_id: film_id,
-                user_id: user_id,
-            })
-                .then(res => {
-                    this.description = ''
-                    this.getComments()
-            })
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    axios.post(`/api/films/add-comment`, {
+                        description: this.description,
+                        film_id: film_id,
+                        user_id: user_id,
+                    })
+                        .then(res => {
+                            this.description = ''
+                            this.getComments()
+                        })
+                }
+            });
+
 
         },
 
@@ -158,15 +170,19 @@ export default {
         },
 
         updateComment(id) {
-            axios.patch(`/api/films/update-comment/${id}`, {
-                user_id: this.user,
-                description: this.commentDescription,
-                film_id: this.$route.params.id
-            })
-                .then(res => {
-                    this.closeEditComment()
-                    this.getComments()
-                })
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    axios.patch(`/api/films/update-comment/${id}`, {
+                        description: this.commentDescription,
+                        film_id: this.$route.params.id
+                    })
+                        .then(res => {
+                            this.closeEditComment()
+                            this.getComments()
+                        })
+                }
+            });
+
         }
     }
 }

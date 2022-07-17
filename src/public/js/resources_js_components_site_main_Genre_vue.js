@@ -13,28 +13,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Genre",
-  // data() {
-  //     return {
-  //         genres: [],
-  //     }
-  // },
-  //
   computed: {
     genres: function genres() {
       return this.$store.getters.genres;
     }
   },
   mounted: function mounted() {
-    // this.getGenres()
     this.$store.dispatch('getGenres');
-  },
-  methods: {// getGenres() {
-    //     axios.get('/api/genres/')
-    //         .then(res => {
-    //             this.genres = res.data.data
-    //             console.log(res.data.data)
-    //         })
-    // }
   }
 });
 
@@ -82,7 +67,7 @@ var render = function render() {
     }, [_c("p", {
       staticClass: "text-gray-900 text-xl font-medium mb-2"
     }, [_vm._v(_vm._s(genre.name))])])], 1)]);
-  }), 0)], 1);
+  }), 0), _vm._v(" "), _c("foot")], 1);
 };
 
 var staticRenderFns = [];

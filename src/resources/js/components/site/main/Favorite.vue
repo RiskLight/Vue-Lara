@@ -3,7 +3,7 @@
         <navbar></navbar>
         <div class="h-full">
             <div class="grid xl:grid-cols-6 gap-12 m-12">
-                <div class="flex justify-center" v-for="film in items">
+                <div class="flex flex-col justify-around" v-for="film in items">
                     <div class="rounded-lg shadow-lg bg-white max-w-sm mb-2">
                         <router-link :to="{name: 'film.show', params:{id: film.id}}" class="flex justify-around">
                             <img class="rounded-t-lg"
@@ -22,6 +22,11 @@
                 </div>
             </div>
         </div>
+        <template v-if="!items">
+            <div class="w-3/4 text-center mx-auto h-screen text-6xl text-red-700">
+                У Вас еще нет избранных фильмов
+            </div>
+        </template>
         <template v-if="items ">
             <Paginate
                 v-model="page"
@@ -39,6 +44,7 @@
                 :active-class="'bg-purple-600'"
             />
         </template>
+        <foot></foot>
     </div>
 </template>
 

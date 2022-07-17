@@ -1,13 +1,16 @@
 <template>
     <div>
         <admin-nav></admin-nav>
-        <div class="block p-6 rounded-lg shadow-lg bg-white max-w-full h-full">
+        <div class="block mx-auto p-6 rounded-lg shadow-lg bg-white w-3/4 h-screen">
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-6">
-                    <input v-model="name"
+                    <input v-model="name" v-validate="'required'"
                            type="text" name="name" list="film"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300  rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="name" placeholder="Название фильма">
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                         v-show="errors.has('name')">{{ errors.first('name') }}
+                    </div>
                     <p>{{ answer }}</p>
                     <datalist id="film">
                         <option v-for="film in films">{{ film.title }}</option>
@@ -15,31 +18,47 @@
                     </datalist>
                 </div>
                 <div class="form-group mb-6">
-                    <input v-model="film_path" :disabled="true"
+                    <input v-model="film_path" :disabled="true" v-validate="'required'"
                            type="text" name="film_path"
-                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-red-400  rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
+                           class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="film_path" placeholder="Ссылка на фильм">
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                         v-show="errors.has('film_path')">{{ errors.first('film_path') }}
+                    </div>
 
                 </div>
                 <div class="form-group mb-6">
                     <input @change="addFile"
+                           v-validate="'required|image'"
+                           ref="fileUpload"
                            type="file" name="img_path"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="img_path" placeholder="Путь к картинке">
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                         v-show="errors.has('img_path')">{{ errors.first('img_path') }}
+                    </div>
 
                 </div>
                 <div class="form-group mb-6">
-                    <input v-model="year"
+                    <input v-model="year" v-validate="'required|date_format:yyyy-MM-dd'"
                            type="text" name="year"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="year" placeholder="Год выхода">
 
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                         v-show="errors.has('year')">{{ errors.first('year') }}
+                    </div>
+
                 </div>
                 <div class="form-group mb-6">
-                <textarea v-model="description"
+                <textarea v-model="description" v-validate="'required|min:80|max:250'"
                           name="description"
                           class="form-control block w-full px-3 py-1.5 ext-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                           id="description" rows="3" placeholder="Описание фильма"></textarea>
+                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                         v-show="errors.has('description')">{{ errors.first('description') }}
+                    </div>
+
 
                 </div>
                 <div class="form-group mb-6">
@@ -76,7 +95,7 @@
                             <div class="modal-body  relative p-4">
                                 <div class="grid grid-cols-3 ">
                                     <div class="form-check" v-for="item in genres">
-                                        <input v-model="genre"
+                                        <input v-model="genre" v-validate="'required:true'" name="genre"
                                                class="form-check-input appearance-none h-4 w-4 border border-gray-300 rounded-sm bg-white checked:bg-blue-600 checked:border-blue-600 focus:outline-none transition duration-200 mt-1 align-top bg-no-repeat bg-center bg-contain float-left mr-2 cursor-pointer"
                                                type="checkbox" :value="item.id" :id="item.name">
                                         <label class="form-check-label inline-block text-gray-800"
@@ -89,12 +108,16 @@
                         </div>
                     </div>
                 </div>
-                <button @click.prevent="addFilm"
+                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                     v-show="errors.has('genre')">{{ errors.first('genre') }}
+                </div>
+                <button :disabled="!isDisabled" @click.prevent="addFilm"
                         class="w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                     Добавить фильм
                 </button>
             </form>
         </div>
+        <admin-foo></admin-foo>
     </div>
 </template>
 
@@ -125,6 +148,9 @@ export default {
     computed: {
         genres() {
             return this.$store.getters.genres
+        },
+        isDisabled() {
+            return this.name && this.standart_id && this.description && this.img_path && this.genre && this.name
         }
     },
 
@@ -177,14 +203,6 @@ export default {
 
         },
 
-        // getGenres() {
-        //     axios.get('/api/genres/')
-        //         .then(res => {
-        //             this.genres = res.data.data
-        //             console.log(res.data.data)
-        //         })
-        // },
-
         getStandards() {
             axios.get('/api/standard/')
                 .then(res => {
@@ -198,6 +216,7 @@ export default {
         },
 
         addFilm() {
+
             let formData = new FormData()
             let genre = this.genre
             for (let item of genre) {
@@ -209,12 +228,25 @@ export default {
             formData.append('year', this.year)
             formData.append('description', this.description)
             formData.append('standart_id', this.standart_id)
+            this.$validator.validateAll().then((result) => {
+                if (result) {
+                    axios.post('/api/admin/films', formData)
+                        .then(res => {
+                            console.log(res.data.message)
+                            this.name = ''
+                            this.year = ''
+                            this.film_path = ''
+                            this.standart_id = 0
+                            this.description = ''
+                            this.genre = []
+                            this.$refs.fileUpload.value = null;
 
-            axios.post('/api/admin/films', formData)
-                .then(res => {
-                    console.log(res.data.message)
-                })
-                .catch(error => console.log(error))
+                        })
+                        .catch(error => console.log(error))
+                }
+            });
+
+
         },
     }
 }

@@ -26,19 +26,23 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       axios.get('/sanctum/csrf-cookie').then(function (res) {
-        axios.post('/register', {
-          email: _this.email,
-          password: _this.password,
-          name: _this.name,
-          password_confirmation: _this.password_confirmation
-        }).then(function (res) {
-          localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN']);
-          localStorage.setItem('role_id', res.data.role_id);
-          localStorage.setItem('user_id', res.data.id);
+        _this.$validator.validateAll().then(function (result) {
+          if (result) {
+            axios.post('/register', {
+              email: _this.email,
+              password: _this.password,
+              name: _this.name,
+              password_confirmation: _this.password_confirmation
+            }).then(function (res) {
+              localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN']);
+              localStorage.setItem('role_id', res.data.role_id);
+              localStorage.setItem('user_id', res.data.id);
 
-          _this.$router.push({
-            name: 'films.films'
-          });
+              _this.$router.push({
+                name: 'films.films'
+              });
+            });
+          }
         });
       });
     }
@@ -83,6 +87,11 @@ var render = function render() {
     }
   }, [_vm._v("Имя")]), _vm._v(" "), _c("input", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|min:2|max:15",
+      expression: "'required|min:2|max:15'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.name,
@@ -95,6 +104,7 @@ var render = function render() {
       name: "name",
       value: "",
       autocomplete: "name",
+      placeholder: "Введите имя",
       autofocus: ""
     },
     domProps: {
@@ -106,7 +116,15 @@ var render = function render() {
         _vm.name = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("name"),
+      expression: "errors.has('name')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("name")))])]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("label", {
     staticClass: "form-label inline-block mb-2 text-gray-700",
@@ -115,6 +133,11 @@ var render = function render() {
     }
   }, [_vm._v("Email")]), _vm._v(" "), _c("input", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|email",
+      expression: "'required|email'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.email,
@@ -126,6 +149,7 @@ var render = function render() {
       type: "email",
       name: "email",
       value: "",
+      placeholder: "Введите email",
       autocomplete: "email"
     },
     domProps: {
@@ -137,7 +161,15 @@ var render = function render() {
         _vm.email = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("email"),
+      expression: "errors.has('email')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("email")))])]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("label", {
     staticClass: "form-label inline-block mb-2 text-gray-700",
@@ -146,6 +178,11 @@ var render = function render() {
     }
   }, [_vm._v("Пароль")]), _vm._v(" "), _c("input", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|min:8|max:16",
+      expression: "'required|min:8|max:16'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.password,
@@ -153,9 +190,10 @@ var render = function render() {
     }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
-      id: "password",
+      id: "пароль",
       type: "password",
-      name: "password",
+      name: "пароль",
+      placeholder: "Введите пароль",
       autocomplete: "new-password"
     },
     domProps: {
@@ -167,7 +205,15 @@ var render = function render() {
         _vm.password = $event.target.value;
       }
     }
-  })]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("пароль"),
+      expression: "errors.has('пароль')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("пароль")))])]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("label", {
     staticClass: "form-label inline-block mb-2 text-gray-700",
@@ -178,6 +224,11 @@ var render = function render() {
     staticClass: "form-group mb-6"
   }, [_c("input", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|confirmed:password",
+      expression: "'required|confirmed:password'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.password_confirmation,
@@ -187,7 +238,8 @@ var render = function render() {
     attrs: {
       id: "password-confirm",
       type: "password",
-      name: "password_confirmation",
+      placeholder: "Введите пароль",
+      name: "Подтверждение пароля",
       autocomplete: "new-password"
     },
     domProps: {
@@ -199,7 +251,15 @@ var render = function render() {
         _vm.password_confirmation = $event.target.value;
       }
     }
-  })])]), _vm._v(" "), _c("div", {
+  }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("Подтверждение пароля"),
+      expression: "errors.has('Подтверждение пароля')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("Подтверждение пароля")))])])]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("button", {
     staticClass: "mb-12 w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",

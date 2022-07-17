@@ -16,7 +16,7 @@ class RateRepository
     public function store(Request $request)
     {
         return $this->query()->updateOrCreate(
-            ['user_id' => auth()->user()->id, 'film_id' => $request->get('film_id')],
+            ['user_id' => $request->user_id, 'film_id' => $request->get('film_id')],
             ['points' => $request->get('points')]
         );
     }

@@ -28,7 +28,7 @@ class FilmRequest extends FormRequest
             'film_path' => 'required|string',
             'img_path' => 'image',
             'year' => 'required|date_format:Y-m-d|',
-            'description' => 'required|string|min:10|max:100',
+            'description' => 'required|string|min:80|max:250',
             'genre' => 'required',
             'genre.*' => 'numeric',
 

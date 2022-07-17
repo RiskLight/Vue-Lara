@@ -16,18 +16,13 @@
                 </div>
             </div>
         </div>
+        <foot></foot>
     </div>
 </template>
 
 <script>
 export default {
     name: "Genre",
-    // data() {
-    //     return {
-    //         genres: [],
-    //     }
-    // },
-    //
     computed: {
         genres() {
             return this.$store.getters.genres
@@ -36,19 +31,9 @@ export default {
     },
 
     mounted() {
-        // this.getGenres()
         this.$store.dispatch('getGenres')
     },
 
-    methods: {
-        // getGenres() {
-        //     axios.get('/api/genres/')
-        //         .then(res => {
-        //             this.genres = res.data.data
-        //             console.log(res.data.data)
-        //         })
-        // }
-    }
 }
 </script>
 

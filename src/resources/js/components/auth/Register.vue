@@ -15,27 +15,33 @@
                                 <label for="name"
                                        class="form-label inline-block mb-2 text-gray-700">Имя</label>
 
-                                <input id="name" type="text"
+                                <input id="name" type="text" v-validate="'required|min:2|max:15'"
                                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                       v-model="name" name="name" value="" autocomplete="name" autofocus>
+                                       v-model="name" name="name" value="" autocomplete="name" placeholder="Введите имя" autofocus>
+                                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700" v-show="errors.has('name')">{{ errors.first('name') }}</div>
+
                             </div>
 
                             <div class="form-group mb-6">
                                 <label for="email"
                                        class="form-label inline-block mb-2 text-gray-700">Email</label>
 
-                                <input id="email" type="email"
+                                <input id="email" type="email" v-validate="'required|email'"
                                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                       v-model="email" name="email" value="" autocomplete="email">
+                                       v-model="email" name="email" value="" placeholder="Введите email" autocomplete="email">
+                                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700" v-show="errors.has('email')">{{ errors.first('email') }}</div>
+
                             </div>
 
                             <div class="form-group mb-6">
                                 <label for="password"
                                        class="form-label inline-block mb-2 text-gray-700">Пароль</label>
 
-                                <input id="password" type="password"
+                                <input id="пароль" type="password" v-validate="'required|min:8|max:16'"
                                        class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                       v-model="password" name="password" autocomplete="new-password">
+                                       v-model="password" name="пароль" placeholder="Введите пароль"  autocomplete="new-password">
+                                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                                     v-show="errors.has('пароль')">{{ errors.first('пароль') }}</div>
                             </div>
 
                             <div class="form-group mb-6">
@@ -43,9 +49,11 @@
                                        class="form-label inline-block mb-2 text-gray-700">Подтверждение пароля</label>
 
                                 <div class="form-group mb-6">
-                                    <input id="password-confirm" type="password"
+                                    <input id="password-confirm" type="password" v-validate="'required|confirmed:password'"
                                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
-                                           v-model="password_confirmation" name="password_confirmation" autocomplete="new-password">
+                                           v-model="password_confirmation" placeholder="Введите пароль" name="Подтверждение пароля" autocomplete="new-password">
+                                    <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                                         v-show="errors.has('Подтверждение пароля')">{{ errors.first('Подтверждение пароля') }}</div>
                                 </div>
                             </div>
 
@@ -79,20 +87,25 @@ export default {
         registration() {
             axios.get('/sanctum/csrf-cookie')
                 .then(res => {
-                    axios.post('/register',
-                        {
-                            email: this.email,
-                            password: this.password,
-                            name: this.name,
-                            password_confirmation: this.password_confirmation,
-                        })
-                        .then(res => {
-                            localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN'])
-                            localStorage.setItem('role_id', res.data.role_id)
-                            localStorage.setItem('user_id', res.data.id)
+                    this.$validator.validateAll().then((result) => {
+                        if (result) {
+                            axios.post('/register',
+                                {
+                                    email: this.email,
+                                    password: this.password,
+                                    name: this.name,
+                                    password_confirmation: this.password_confirmation,
+                                })
+                                .then(res => {
+                                    localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN'])
+                                    localStorage.setItem('role_id', res.data.role_id)
+                                    localStorage.setItem('user_id', res.data.id)
 
-                            this.$router.push({ name: 'films.films' })
-                        })
+                                    this.$router.push({ name: 'films.films' })
+                                })
+                        }
+                    });
+
                 })
         }
     }

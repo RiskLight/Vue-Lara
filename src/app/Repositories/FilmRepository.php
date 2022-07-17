@@ -26,7 +26,7 @@ class FilmRepository
                 $query->where('genres.id', $genreId);
             });
         }
-        return $query->get();
+        return $query->with(['genres'])->get();
     }
 
     public function adminIndex()
@@ -69,12 +69,11 @@ class FilmRepository
 
     public function search(Request $request)
     {
-        $search = $request->search;
+//        $search = $request->search;
+        $key = \Request::get('q');
         $query = $this->query();
-        $films = $query->where('name', 'LIKE', "%{$search}%")
-            ->orderBy('name');
-
-        return $films->paginate(18);
+        return $query->where('name', 'LIKE', "%{$key}%")
+            ->orderBy('name')->get();
     }
 
     public function sort(Request $request)

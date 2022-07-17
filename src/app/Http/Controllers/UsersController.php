@@ -71,12 +71,9 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = $this->service->edit($id);
-
-        $roles = $this->service->getRole();
-
+        
         return response()->json($user);
 
-//        return view('admin_panel.edit_user', ['user' => $user, 'roles' => $roles]);
     }
 
     /**
@@ -84,13 +81,13 @@ class UsersController extends Controller
      *
      * @param UserUpdateRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function update(UserUpdateRequest $request, $id)
     {
         $this->service->update($request, $id);
 
-        return redirect()->route('admin.users.index');
+        return response()->json();
     }
 
     /**

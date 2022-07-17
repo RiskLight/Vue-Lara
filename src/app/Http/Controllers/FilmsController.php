@@ -37,14 +37,7 @@ class FilmsController extends Controller
     public function indexFilms($standartId = null, $genreId = null)
     {
         $films = $this->service->index($standartId, $genreId);
-//
-//        $years = $this->service->years()->map(function ($year){
-//            return substr($year->year, 0, 4);
-//        })->unique()->sort();
-//
-//        $genres = $this->service->createGenre();
 
-//        return view('site.main', ['films' => $films, 'genres' => $genres, 'years' => $years]);
         return response()->json($films);
 
     }
@@ -53,14 +46,16 @@ class FilmsController extends Controller
     {
         return view('home');
 
-
     }
 
-    public function adminIndex()
-    {
-        $films = $this->service->adminIndex();
 
-        return view('admin_panel.films', ['films' => $films]);
+    public function years()
+    {
+        $years = $this->service->years()->map(function ($year) {
+            return substr($year->year, 0, 4);
+        })->unique()->sort();
+
+        return \response()->json($years);
     }
 
 
@@ -120,13 +115,13 @@ class FilmsController extends Controller
      *
      * @param FilmUpdateRequest $request
      * @param int $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function update(FilmUpdateRequest $request, $id)
     {
         $this->service->update($request, $id);
 
-        return redirect()->route('admin.films.index');
+        return response()->json();
     }
 
     /**
@@ -143,37 +138,22 @@ class FilmsController extends Controller
 
     }
 
-//    public function destroy(Film $film)
-//    {
-//        $film->delete();
-//        return response([]);
-//    }
 
     /**
      * @param Request $request
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function search(Request $request)
     {
-        $years = $this->service->years()->map(function ($year){
-            return substr($year->year, 0, 4);
-        })->unique();
-        $films = $this->service->search($request);
-        $genres = $this->service->createGenre();
 
-        return view('site.main', ['films' => $films,'genres' => $genres, 'years' => $years ]);
+        $films = $this->service->search($request);
+            return response()->json($films);
     }
 
     /**
      * @param Request $request
      * @return Application|Factory|View
      */
-    public function adminSearch(Request $request)
-    {
-        $films = $this->service->search($request);
-
-        return view('admin_panel.films', ['films' => $films]);
-    }
 
 
     public function sort(Request $request)

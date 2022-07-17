@@ -14,21 +14,27 @@
                         <div class="form-group mb-6">
                             <label for="email"
                                    class="form-label inline-block mb-2 text-gray-700">Email</label>
-
-                            <input id="email" type="email"
+                            <input v-validate="'required|email'"
+                                id="email" type="email" placeholder="Введите email"
                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                    v-model="details.email" name="email" value="" autocomplete="email" autofocus>
+                            <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700" v-show="errors.has('email')">{{ errors.first('email') }}</div>
+                            <template v-for="item in loginErrors.email">
+                                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">{{item}}</div>
+                            </template>
                         </div>
-                        <template v-for="item in loginErrors.email">
-                            <span class="bg-red-100">{{item}}</span>
-                        </template>
+
+
                         <div class="form-group mb-6">
                             <label for="password"
                                    class="form-label inline-block mb-2 text-gray-700">Пароль</label>
 
-                            <input id="password" type="password"
+                            <input v-validate="'required|min:8'"
+                                   id="password" type="password" placeholder="Введите пароль"
                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                    v-model="details.password" name="password" autocomplete="current-password">
+                            <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+                                v-show="errors.has('password')">{{ errors.first('password') }}</div>
 
                         </div>
 
@@ -88,7 +94,12 @@ export default {
         // },
 
         async sendCredentials() {
-            await this.sendLoginRequest(this.details);
+            // await this.sendLoginRequest(this.details);
+            await this.$validator.validateAll().then((result) => {
+                if (result) {
+                    return this.sendLoginRequest(this.details);
+                }
+            });
         },
 
     }

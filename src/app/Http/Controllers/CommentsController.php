@@ -27,7 +27,7 @@ class CommentsController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function index()
     {
@@ -65,9 +65,7 @@ class CommentsController extends Controller
     public function update(CommentRequest $request, $id)
     {
         $this->service->update($request, $id);
-//        if (auth()->user()->role_id === 1) {
-//            return redirect()->route('admin.comments.index');
-//        }
+
         return response()->json();
     }
 
@@ -75,11 +73,11 @@ class CommentsController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  int  $id
-     * @return RedirectResponse
+     * @return JsonResponse
      */
     public function destroy($id)
     {
         $this->service->destroy($id);
-        return redirect()->route('admin.comments.index');
+        return response()->json();
     }
 }

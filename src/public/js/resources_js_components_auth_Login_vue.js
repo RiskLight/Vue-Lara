@@ -74,7 +74,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return _this.sendLoginRequest(_this.details);
+                return _this.$validator.validateAll().then(function (result) {
+                  if (result) {
+                    return _this.sendLoginRequest(_this.details);
+                  }
+                });
 
               case 2:
               case "end":
@@ -130,6 +134,11 @@ var render = function render() {
     }
   }, [_vm._v("Email")]), _vm._v(" "), _c("input", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|email",
+      expression: "'required|email'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.details.email,
@@ -139,6 +148,7 @@ var render = function render() {
     attrs: {
       id: "email",
       type: "email",
+      placeholder: "Введите email",
       name: "email",
       value: "",
       autocomplete: "email",
@@ -154,11 +164,19 @@ var render = function render() {
         _vm.$set(_vm.details, "email", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _vm._l(_vm.loginErrors.email, function (item) {
-    return [_c("span", {
-      staticClass: "bg-red-100"
-    }, [_vm._v(_vm._s(item))])];
   }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("email"),
+      expression: "errors.has('email')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("email")))]), _vm._v(" "), _vm._l(_vm.loginErrors.email, function (item) {
+    return [_c("div", {
+      staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+    }, [_vm._v(_vm._s(item))])];
+  })], 2), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("label", {
     staticClass: "form-label inline-block mb-2 text-gray-700",
@@ -167,6 +185,11 @@ var render = function render() {
     }
   }, [_vm._v("Пароль")]), _vm._v(" "), _c("input", {
     directives: [{
+      name: "validate",
+      rawName: "v-validate",
+      value: "required|min:8",
+      expression: "'required|min:8'"
+    }, {
       name: "model",
       rawName: "v-model",
       value: _vm.details.password,
@@ -176,6 +199,7 @@ var render = function render() {
     attrs: {
       id: "password",
       type: "password",
+      placeholder: "Введите пароль",
       name: "password",
       autocomplete: "current-password"
     },
@@ -189,7 +213,15 @@ var render = function render() {
         _vm.$set(_vm.details, "password", $event.target.value);
       }
     }
-  })]), _vm._v(" "), _vm._m(0)], 2)])])])], 1);
+  }), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.errors.has("password"),
+      expression: "errors.has('password')"
+    }],
+    staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+  }, [_vm._v(_vm._s(_vm.errors.first("password")))])]), _vm._v(" "), _vm._m(0)])])])])], 1);
 };
 
 var staticRenderFns = [function () {

@@ -3,10 +3,13 @@ import App from "./components/App.vue";
 import router from './router';
 import store from "./components/store/index.js";
 import Paginate from 'vuejs-paginate'
-
+import ru from 'vee-validate/dist/locale/ru.js';
+import VeeValidate, { Validator } from 'vee-validate';
 
 require('./bootstrap');
 
+Vue.use(VeeValidate);
+Validator.localize('ru', ru);
 Vue.component('navbar', require('./components/site/layouts/Navbar.vue').default);
 Vue.component('foot', require('./components/site/layouts/Footer.vue').default);
 Vue.component('admin-nav', require('./components/admin/layouts/AdminNav').default);

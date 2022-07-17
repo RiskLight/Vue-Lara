@@ -18,7 +18,9 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
-      comments: []
+      comments: [],
+      editCommentId: null,
+      commentDescription: ''
     };
   },
   mounted: function mounted() {
@@ -32,6 +34,39 @@ __webpack_require__.r(__webpack_exports__);
         _this.comments = res.data;
 
         _this.setupPagination(_this.comments);
+      });
+    },
+    deleteComment: function deleteComment(id) {
+      var _this2 = this;
+
+      axios["delete"]("api/admin/delete-comment/".concat(id)).then(function (res) {
+        _this2.getComments();
+      });
+    },
+    changeEditCommentId: function changeEditCommentId(id, comment) {
+      this.editCommentId = id;
+      this.commentDescription = comment;
+    },
+    isEdit: function isEdit(id) {
+      return this.editCommentId === id;
+    },
+    closeEditComment: function closeEditComment() {
+      this.editCommentId = null;
+    },
+    updateComment: function updateComment(id) {
+      var _this3 = this;
+
+      this.$validator.validateAll().then(function (result) {
+        if (result) {
+          axios.patch("/api/films/update-comment/".concat(id), {
+            description: _this3.commentDescription,
+            film_id: _this3.$route.params.id
+          }).then(function (res) {
+            _this3.closeEditComment();
+
+            _this3.getComments();
+          });
+        }
       });
     }
   }
@@ -78,7 +113,82 @@ var render = function render() {
       staticClass: "p-6 border-2 col-span-2 break-words"
     }, [_c("p", {
       staticClass: "text-gray-700 text-base mb-4"
-    }, [_vm._v("\n                        " + _vm._s(comment.description) + "\n                    ")])]), _vm._v(" "), _vm._m(0, true)]);
+    }, [_vm._v("\n                        " + _vm._s(comment.description) + "\n                    ")]), _vm._v(" "), _c("div", {
+      "class": _vm.isEdit(comment.id) ? "" : "hidden"
+    }, [_c("textarea", {
+      directives: [{
+        name: "model",
+        rawName: "v-model",
+        value: _vm.commentDescription,
+        expression: "commentDescription"
+      }, {
+        name: "validate",
+        rawName: "v-validate",
+        value: "required|min:10|max:150",
+        expression: "'required|min:10|max:150'"
+      }],
+      staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
+      attrs: {
+        name: "description",
+        placeholder: "Бредовый текст",
+        required: ""
+      },
+      domProps: {
+        value: _vm.commentDescription
+      },
+      on: {
+        input: function input($event) {
+          if ($event.target.composing) return;
+          _vm.commentDescription = $event.target.value;
+        }
+      }
+    }), _vm._v(" "), _c("div", {
+      directives: [{
+        name: "show",
+        rawName: "v-show",
+        value: _vm.errors.has("description"),
+        expression: "errors.has('description')"
+      }],
+      staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
+    }, [_vm._v(_vm._s(_vm.errors.first("description")) + "\n                        ")])])]), _vm._v(" "), _c("div", {
+      staticClass: "p-6 border-2"
+    }, [_c("div", {
+      "class": _vm.isEdit(comment.id) ? "hidden" : ""
+    }, [_c("button", {
+      staticClass: "cursor-pointer inline-block mb-5 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+      on: {
+        click: function click($event) {
+          return _vm.changeEditCommentId(comment.id, comment.description);
+        }
+      }
+    }, [_vm._v("\n                            Редактировать\n                        ")])]), _vm._v(" "), _c("div", {
+      "class": _vm.isEdit(comment.id) ? "" : "hidden"
+    }, [_c("button", {
+      staticClass: "cursor-pointer inline-block mb-5 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+      on: {
+        click: function click($event) {
+          return _vm.closeEditComment(comment.id, comment.description);
+        }
+      }
+    }, [_vm._v("\n                            Закрыть\n                        ")])]), _vm._v(" "), _c("div", [_c("div", {
+      "class": _vm.isEdit(comment.id) ? "hidden" : ""
+    }, [_c("button", {
+      staticClass: "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+      on: {
+        click: function click($event) {
+          return _vm.deleteComment(comment.id);
+        }
+      }
+    }, [_vm._v("\n                                Удалить\n                            ")])]), _vm._v(" "), _c("div", {
+      "class": _vm.isEdit(comment.id) ? "" : "hidden"
+    }, [_c("button", {
+      staticClass: "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
+      on: {
+        click: function click($event) {
+          return _vm.updateComment(comment.id);
+        }
+      }
+    }, [_vm._v("\n                                Обновить\n                            ")])])])])]);
   }), 0), _vm._v(" "), _vm.items ? [_c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,
@@ -101,24 +211,10 @@ var render = function render() {
       },
       expression: "page"
     }
-  })] : _vm._e()], 2);
+  })] : _vm._e(), _vm._v(" "), _c("admin-foo")], 2);
 };
 
-var staticRenderFns = [function () {
-  var _vm = this,
-      _c = _vm._self._c;
-
-  return _c("div", {
-    staticClass: "p-6 border-2"
-  }, [_c("a", {
-    staticClass: "cursor-pointer inline-block mb-5 px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out"
-  }, [_vm._v("\n                        Редактировать\n                    ")]), _vm._v(" "), _c("div", [_c("button", {
-    staticClass: "inline-block px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
-    attrs: {
-      type: "submit"
-    }
-  }, [_vm._v("\n                            Удалить\n                        ")])])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -141,7 +237,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       page: +this.$route.query.page || 1,
-      pageSize: 2,
+      pageSize: 18,
       pageCount: 0,
       allItems: [],
       items: []

@@ -61,12 +61,14 @@
                                 <template v-if="+role_id === 2">
                                     <router-link :to="{name: 'films.favorite'}"
                                                  class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
-                                                 v-if="token">Избранное</router-link>
+                                                 v-if="token">Избранное
+                                    </router-link>
                                 </template>
                                 <template v-if="+role_id === 1">
                                     <router-link :to="{name: 'admin.panel'}"
                                                  class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
-                                                 v-if="token">Админка</router-link>
+                                                 v-if="token">Админка
+                                    </router-link>
                                 </template>
 
                             </li>
@@ -90,7 +92,16 @@ export default {
         return {
             token: [],
             // user: [],
-            role_id: null
+            role_id: null,
+        }
+    },
+
+    watch: {
+        search(val, old) {
+            if (val.length >= 4 || old.length >= 4) {
+                this.getResults()
+
+            }
         }
     },
 
@@ -105,19 +116,13 @@ export default {
     },
 
     methods: {
+
         getToken() {
             this.token = localStorage.getItem('x_xsrf_token')
         },
 
         getRole() {
-            // this.user = localStorage.getItem('setUserData')
-            // this.user = JSON.parse(localStorage.getItem('setUserData'))
-            // let userRole = JSON.parse(localStorage.getItem('setUserData'))
-            // this.user = userRole
-            // let roles = userRole.map(x => x.role_id)
-            // this.role_id = roles[0]
             this.role_id = localStorage.getItem('role_id')
-
         },
 
         logout() {

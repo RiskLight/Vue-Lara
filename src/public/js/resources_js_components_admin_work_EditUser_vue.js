@@ -16,7 +16,10 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       user: [],
-      roles: []
+      rolesUser: [],
+      name: null,
+      role_id: null,
+      email: null
     };
   },
   mounted: function mounted() {
@@ -29,17 +32,29 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/admin/user/".concat(this.$route.params.id)).then(function (res) {
         _this.user = res.data;
-        console.log(res.data);
+        _this.name = res.data.name;
+        _this.email = res.data.email;
+        _this.role_id = res.data.role_id;
       });
     },
     getRoles: function getRoles() {
       var _this2 = this;
 
       axios.get("/api/admin/roles").then(function (res) {
-        _this2.roles = res.data;
+        _this2.rolesUser = res.data;
       });
     },
-    updateUser: function updateUser() {}
+    updateUser: function updateUser() {
+      var _this3 = this;
+
+      axios.patch("/api/admin/update-user/".concat(this.$route.params.id), {
+        name: this.name,
+        email: this.email,
+        role_id: this.role_id
+      }).then(function (res) {
+        _this3.getUser();
+      });
+    }
   }
 });
 
@@ -65,6 +80,12 @@ var render = function render() {
   }, [_c("div", [_c("div", {
     staticClass: "form-group mb-6"
   }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.name,
+      expression: "name"
+    }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
       type: "text",
@@ -72,11 +93,23 @@ var render = function render() {
       id: "name"
     },
     domProps: {
-      value: _vm.user.name
+      value: _vm.name
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.name = $event.target.value;
+      }
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.email,
+      expression: "email"
+    }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
       type: "text",
@@ -84,23 +117,53 @@ var render = function render() {
       id: "film_path"
     },
     domProps: {
-      value: _vm.user.email
+      value: _vm.email
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.email = $event.target.value;
+      }
     }
   })]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("select", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.role_id,
+      expression: "role_id"
+    }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
       name: "role_id"
+    },
+    on: {
+      change: function change($event) {
+        var $$selectedVal = Array.prototype.filter.call($event.target.options, function (o) {
+          return o.selected;
+        }).map(function (o) {
+          var val = "_value" in o ? o._value : o.value;
+          return val;
+        });
+        _vm.role_id = $event.target.multiple ? $$selectedVal : $$selectedVal[0];
+      }
     }
-  }, _vm._l(_vm.roles, function (role) {
-    return _c("option", [_vm._v(_vm._s(role.role))]);
+  }, _vm._l(_vm.rolesUser, function (item) {
+    return _c("option", {
+      domProps: {
+        value: item.id
+      }
+    }, [_vm._v(_vm._s(item.role))]);
   }), 0)]), _vm._v(" "), _c("button", {
     staticClass: "w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
-    attrs: {
-      type: "submit"
+    on: {
+      click: function click($event) {
+        $event.preventDefault();
+        return _vm.updateUser.apply(null, arguments);
+      }
     }
-  }, [_vm._v("\n                Сохранить\n            ")])])])], 1);
+  }, [_vm._v("\n                Сохранить\n            ")])])]), _vm._v(" "), _c("admin-foo")], 1);
 };
 
 var staticRenderFns = [];

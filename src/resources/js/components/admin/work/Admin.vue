@@ -4,6 +4,7 @@
       <div class="h-screen w-3/4 mx-auto">
         <p class="text-6xl text-center mt-20">Добро пожаловать</p>
       </div>
+      <admin-foo></admin-foo>
   </div>
 </template>
 

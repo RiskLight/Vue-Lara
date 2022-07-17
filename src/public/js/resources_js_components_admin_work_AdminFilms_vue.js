@@ -12,39 +12,70 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modal */ "./resources/js/components/admin/work/Modal.vue");
+/* harmony import */ var _mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/pagination.mixin.js */ "./resources/js/mixins/pagination.mixin.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AdminFilms",
   components: {
     Modal: _Modal__WEBPACK_IMPORTED_MODULE_0__["default"]
   },
-  computed: {
-    films: function films() {
-      return this.$store.getters.films;
-    }
-  },
+  mixins: [_mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_1__["default"]],
   data: function data() {
     return {
       film_id: 0,
-      showModal: false
+      showModal: false,
+      films: [],
+      search: ''
     };
   },
   mounted: function mounted() {
-    this.$store.dispatch('getFilms');
+    this.getFilms();
+  },
+  watch: {
+    search: function search(val, old) {
+      if (val.length >= 4 || old.length >= 4) {
+        this.getResults();
+      }
+
+      if (+val.length === 0 || +old.length === 0) {
+        this.getFilms();
+      }
+    }
   },
   methods: {
     deleteFilm: function deleteFilm(id) {
       var _this = this;
 
       axios["delete"]("api/admin/destroy/".concat(id)).then(function (res) {
-        _this.$store.dispatch('getFilms');
+        _this.getFilms();
 
         _this.showModal = false;
+      });
+    },
+    getFilms: function getFilms() {
+      var _this2 = this;
+
+      axios.get('/api/films/content/').then(function (res) {
+        _this2.films = res.data;
+
+        _this2.setupPagination(_this2.films);
+
+        console.log(res.data);
       });
     },
     showMyModal: function showMyModal(id) {
       this.film_id = id;
       this.showModal = true;
+    },
+    getResults: function getResults() {
+      var _this3 = this;
+
+      axios.get("/api/films/search?q=".concat(this.search)).then(function (res) {
+        _this3.films = res.data;
+
+        _this3.setupPagination(_this3.films);
+      });
     }
   }
 });
@@ -83,8 +114,33 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", [_c("admin-nav"), _vm._v(" "), _c("div", {
+    staticClass: "w-3/4 mx-auto"
+  }, [_c("input", {
+    directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.search,
+      expression: "search"
+    }],
+    staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
+    attrs: {
+      type: "search",
+      id: "exampleSearch",
+      name: "search",
+      placeholder: "Искать фильмы или сериалы"
+    },
+    domProps: {
+      value: _vm.search
+    },
+    on: {
+      input: function input($event) {
+        if ($event.target.composing) return;
+        _vm.search = $event.target.value;
+      }
+    }
+  })]), _vm._v(" "), _c("div", {
     staticClass: "max-w-full"
-  }, _vm._l(_vm.films, function (film) {
+  }, _vm._l(_vm.items, function (film) {
     return _c("div", {
       staticClass: "grid lg:grid-cols-6 m-12"
     }, [_c("div", {
@@ -126,8 +182,30 @@ var render = function render() {
           return _vm.showMyModal(film.id);
         }
       }
-    }, [_vm._v("Удалить")])])]);
-  }), 0), _vm._v(" "), _vm.showModal ? _c("modal", {
+    }, [_vm._v("Удалить\n                    ")])])]);
+  }), 0), _vm._v(" "), _c("Paginate", {
+    attrs: {
+      "page-count": _vm.pageCount,
+      "click-handler": _vm.pageChangeHandler,
+      "prev-text": "Назад",
+      "next-text": "Вперед",
+      "container-class": "flex justify-center",
+      "page-class": "page-item",
+      "page-link-class": "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none",
+      "prev-class": "page-item",
+      "prev-link-class": "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none",
+      "next-class": "page-item",
+      "next-link-class": "page-link relative block py-1.5 px-3 rounded border-0 bg-transparent outline-none transition-all duration-300 rounded text-gray-800 hover:text-gray-800 hover:bg-gray-200 focus:shadow-none",
+      "active-class": "bg-purple-600"
+    },
+    model: {
+      value: _vm.page,
+      callback: function callback($$v) {
+        _vm.page = $$v;
+      },
+      expression: "page"
+    }
+  }), _vm._v(" "), _vm.showModal ? _c("modal", {
     on: {
       close: function close($event) {
         _vm.showModal = false;
@@ -161,18 +239,18 @@ var render = function render() {
               return _vm.deleteFilm(_vm.film_id);
             }
           }
-        }, [_vm._v("Удалить")]), _vm._v(" "), _c("button", {
+        }, [_vm._v("Удалить\n                    ")]), _vm._v(" "), _c("button", {
           staticClass: "bg-green-700 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full",
           on: {
             click: function click($event) {
               _vm.showModal = false;
             }
           }
-        }, [_vm._v("Отмена")])])];
+        }, [_vm._v("Отмена\n                    ")])])];
       },
       proxy: true
-    }], null, false, 2703254157)
-  }) : _vm._e()], 1);
+    }], null, false, 3016608845)
+  }) : _vm._e(), _vm._v(" "), _c("admin-foo")], 1);
 };
 
 var staticRenderFns = [];
@@ -224,6 +302,44 @@ var render = function render() {
 var staticRenderFns = [];
 render._withStripped = true;
 
+
+/***/ }),
+
+/***/ "./resources/js/mixins/pagination.mixin.js":
+/*!*************************************************!*\
+  !*** ./resources/js/mixins/pagination.mixin.js ***!
+  \*************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
+/* harmony import */ var lodash__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(lodash__WEBPACK_IMPORTED_MODULE_0__);
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      page: +this.$route.query.page || 1,
+      pageSize: 18,
+      pageCount: 0,
+      allItems: [],
+      items: []
+    };
+  },
+  methods: {
+    setupPagination: function setupPagination(allItems) {
+      this.allItems = lodash__WEBPACK_IMPORTED_MODULE_0___default().chunk(allItems, this.pageSize);
+      this.pageCount = lodash__WEBPACK_IMPORTED_MODULE_0___default().size(this.allItems);
+      this.items = this.allItems[this.page - 1] || this.allItems[0];
+    },
+    pageChangeHandler: function pageChangeHandler(page) {
+      this.$router.push("".concat(this.$route.path, "?page=").concat(page));
+      this.items = this.allItems[page - 1] || this.allItems[0];
+    }
+  }
+});
 
 /***/ }),
 

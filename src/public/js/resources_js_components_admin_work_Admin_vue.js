@@ -32,7 +32,7 @@ var render = function render() {
   var _vm = this,
       _c = _vm._self._c;
 
-  return _c("div", [_c("admin-nav"), _vm._v(" "), _vm._m(0)], 1);
+  return _c("div", [_c("admin-nav"), _vm._v(" "), _vm._m(0), _vm._v(" "), _c("admin-foo")], 1);
 };
 
 var staticRenderFns = [function () {

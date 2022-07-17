@@ -72,7 +72,7 @@ var render = function render() {
     staticClass: "grid xl:grid-cols-6 gap-12 m-12"
   }, _vm._l(_vm.items, function (film) {
     return _c("div", {
-      staticClass: "flex justify-center"
+      staticClass: "flex flex-col justify-around"
     }, [_c("div", {
       staticClass: "rounded-lg shadow-lg bg-white max-w-sm mb-2"
     }, [_c("router-link", {
@@ -105,7 +105,9 @@ var render = function render() {
         }
       }
     }, [_vm._v("\n                                Удалить\n                            ")])])], 1)]);
-  }), 0)]), _vm._v(" "), _vm.items ? [_c("Paginate", {
+  }), 0)]), _vm._v(" "), !_vm.items ? [_c("div", {
+    staticClass: "w-3/4 text-center mx-auto h-screen text-6xl text-red-700"
+  }, [_vm._v("\n                У Вас еще нет избранных фильмов\n            ")])] : _vm._e(), _vm._v(" "), _vm.items ? [_c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,
       "click-handler": _vm.pageChangeHandler,
@@ -127,7 +129,7 @@ var render = function render() {
       },
       expression: "page"
     }
-  })] : _vm._e()], 2);
+  })] : _vm._e(), _vm._v(" "), _c("foot")], 2);
 };
 
 var staticRenderFns = [];
@@ -153,7 +155,7 @@ __webpack_require__.r(__webpack_exports__);
   data: function data() {
     return {
       page: +this.$route.query.page || 1,
-      pageSize: 2,
+      pageSize: 18,
       pageCount: 0,
       allItems: [],
       items: []

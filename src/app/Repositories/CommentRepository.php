@@ -38,7 +38,7 @@ class CommentRepository
 
     public function destroy($id)
     {
-        return $this->query($id)->delete();
+        return $this->query()->find($id)->delete();
     }
 
 }
