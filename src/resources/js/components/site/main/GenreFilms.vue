@@ -23,8 +23,8 @@
                 </div>
             </div>
             <template v-if="!items">
-                <div class="w-3/4 mx-auto h-screen text-6xl text-red-700">
-                    Ничего не найдено, попробуйте снова
+                <div class="w-3/4 text-center mx-auto h-screen text-6xl text-red-700">
+                    Ничего не найдено, попробуйте поискать еще
                 </div>
             </template>
             <Paginate
@@ -81,6 +81,7 @@ export default {
             axios.get(`/api/films/content/all/${this.$route.params.id}`)
                 .then(res => {
                     this.films = res.data
+                    this.setupPagination(this.films)
                 })
         },
 

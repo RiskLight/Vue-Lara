@@ -422,7 +422,7 @@ var render = function render() {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
   }) : _vm._e()], 2), _vm._v(" "), !_vm.items ? [_c("div", {
-    staticClass: "w-3/4 mx-auto h-screen text-6xl text-red-700"
+    staticClass: "w-3/4 mx-auto text-center h-screen text-6xl text-red-700"
   }, [_vm._v("\n                Ничего не найдено, попробуйте снова\n            ")])] : _vm._e(), _vm._v(" "), _c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,

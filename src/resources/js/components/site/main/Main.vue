@@ -63,7 +63,7 @@
             </template>
         </div>
         <template v-if="!items">
-            <div class="w-3/4 mx-auto h-screen text-6xl text-red-700">
+            <div class="w-3/4 mx-auto text-center h-screen text-6xl text-red-700">
                 Ничего не найдено, попробуйте снова
             </div>
         </template>

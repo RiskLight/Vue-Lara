@@ -71,7 +71,7 @@ class UsersController extends Controller
     public function edit($id)
     {
         $user = $this->service->edit($id);
-        
+
         return response()->json($user);
 
     }

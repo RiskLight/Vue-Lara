@@ -42,6 +42,8 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/films/content/all/".concat(this.$route.params.id)).then(function (res) {
         _this.films = res.data;
+
+        _this.setupPagination(_this.films);
       });
     },
     getResults: function getResults() {
@@ -127,8 +129,8 @@ var render = function render() {
       staticClass: "text-gray-900 text-lg md:text-sm font-medium mb-2"
     }, [_vm._v(_vm._s(film.name))])])], 1)]);
   }), 0)], 1), _vm._v(" "), !_vm.items ? [_c("div", {
-    staticClass: "w-3/4 mx-auto h-screen text-6xl text-red-700"
-  }, [_vm._v("\n                    Ничего не найдено, попробуйте снова\n                ")])] : _vm._e(), _vm._v(" "), _c("Paginate", {
+    staticClass: "w-3/4 text-center mx-auto h-screen text-6xl text-red-700"
+  }, [_vm._v("\n                    Ничего не найдено, попробуйте поискать еще\n                ")])] : _vm._e(), _vm._v(" "), _c("Paginate", {
     attrs: {
       "page-count": _vm.pageCount,
       "click-handler": _vm.pageChangeHandler,
