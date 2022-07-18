@@ -135,7 +135,11 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             headers: {
               'Content-Type': 'application/x-www-form-urlencoded'
             }
-          }).then(function (res) {});
+          }).then(function (res) {
+            _this4.$router.push({
+              name: 'admin.films'
+            });
+          });
         }
       });
     }
@@ -162,7 +166,7 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", [_c("admin-nav"), _vm._v(" "), _c("div", {
-    staticClass: "block p-6 rounded-lg shadow-lg bg-white h-screen w-3/4 mx-auto"
+    staticClass: "block p-6 rounded-lg shadow-lg bg-white h-full mb-20 w-3/4 mx-auto"
   }, [_c("form", {
     attrs: {
       action: "",
@@ -249,8 +253,8 @@ var render = function render() {
     directives: [{
       name: "validate",
       rawName: "v-validate",
-      value: "required|image",
-      expression: "'required|image'"
+      value: "image|dimensions:782,1200",
+      expression: "'image|dimensions:782,1200'"
     }],
     ref: "fileUpload",
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
@@ -267,11 +271,11 @@ var render = function render() {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.errors.has("img_path"),
-      expression: "errors.has('img_path')"
+      value: _vm.errors.has("image"),
+      expression: "errors.has('image')"
     }],
     staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
-  }, [_vm._v(_vm._s(_vm.errors.first("img_path")) + "\n                    ")])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("image")) + "\n                    ")])]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("input", {
     directives: [{

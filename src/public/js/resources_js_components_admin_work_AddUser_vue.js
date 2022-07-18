@@ -50,7 +50,9 @@ __webpack_require__.r(__webpack_exports__);
             password: _this2.password,
             role_id: _this2.role_id
           }).then(function (res) {
-            console.log(res);
+            _this2.$router.push({
+              name: 'admin.users'
+            });
           });
         }
       });

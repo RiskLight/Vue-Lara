@@ -93,7 +93,7 @@ export default {
                         role_id: this.role_id
                     })
                         .then(res => {
-                            console.log(res);
+                            this.$router.push({name: 'admin.users'})
                         })
                 }
             });

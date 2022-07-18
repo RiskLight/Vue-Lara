@@ -24,7 +24,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
   name: "Add",
   data: function data() {
     return {
-      // genres: [],
       standards: [],
       name: null,
       year: null,
@@ -35,7 +34,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       genre: [],
       answer: '',
       films: [],
-      film: ''
+      film: '',
+      savingSuccessful: null
     };
   },
   computed: {
@@ -129,14 +129,14 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
       this.$validator.validateAll().then(function (result) {
         if (result) {
           axios.post('/api/admin/films', formData).then(function (res) {
-            console.log(res.data.message);
-            _this2.name = '';
-            _this2.year = '';
-            _this2.film_path = '';
+            _this2.name = null;
+            _this2.year = null;
+            _this2.film_path = null;
             _this2.standart_id = 0;
-            _this2.description = '';
-            _this2.genre = [];
+            _this2.description = null;
+            _this2.genre = null;
             _this2.$refs.fileUpload.value = null;
+            _this2.savingSuccessful = 'Фильм успешно добавлен в базу.';
           })["catch"](function (error) {
             return console.log(error);
           });
@@ -164,8 +164,31 @@ var render = function render() {
       _c = _vm._self._c;
 
   return _c("div", [_c("admin-nav"), _vm._v(" "), _c("div", {
-    staticClass: "block mx-auto p-6 rounded-lg shadow-lg bg-white w-3/4 h-screen"
-  }, [_c("form", {
+    staticClass: "mb-20 block mx-auto p-6 rounded-lg shadow-lg bg-white w-3/4 h-full"
+  }, [_vm.savingSuccessful ? _c("div", {
+    staticClass: "flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800",
+    attrs: {
+      role: "alert"
+    }
+  }, [_c("svg", {
+    staticClass: "inline flex-shrink-0 mr-3 w-5 h-5",
+    attrs: {
+      "aria-hidden": "true",
+      fill: "currentColor",
+      viewBox: "0 0 20 20",
+      xmlns: "http://www.w3.org/2000/svg"
+    }
+  }, [_c("path", {
+    attrs: {
+      "fill-rule": "evenodd",
+      d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z",
+      "clip-rule": "evenodd"
+    }
+  })]), _vm._v(" "), _c("span", {
+    staticClass: "sr-only"
+  }, [_vm._v("Info")]), _vm._v(" "), _c("div", [_c("span", {
+    staticClass: "font-medium"
+  }, [_vm._v(_vm._s(this.savingSuccessful))]), _vm._v(" Заполните поля заново.\n                ")])]) : _vm._e(), _vm._v(" "), _c("form", {
     attrs: {
       method: "POST",
       enctype: "multipart/form-data"
@@ -260,8 +283,8 @@ var render = function render() {
     directives: [{
       name: "validate",
       rawName: "v-validate",
-      value: "required|image",
-      expression: "'required|image'"
+      value: "required|image|dimensions:782,1200",
+      expression: "'required|image|dimensions:782,1200'"
     }],
     ref: "fileUpload",
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",

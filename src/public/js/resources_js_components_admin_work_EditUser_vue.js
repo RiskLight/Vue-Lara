@@ -52,7 +52,9 @@ __webpack_require__.r(__webpack_exports__);
         email: this.email,
         role_id: this.role_id
       }).then(function (res) {
-        _this3.getUser();
+        _this3.$router.push({
+          name: 'admin.users'
+        });
       });
     }
   }

@@ -79,7 +79,8 @@ export default {
                     role_id: this.role_id
                 })
                     .then(res =>{
-                        this.getUser();
+                        this.$router.push({name: 'admin.users'})
+
                     })
         }
     }

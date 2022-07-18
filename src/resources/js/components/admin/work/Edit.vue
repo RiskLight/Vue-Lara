@@ -1,7 +1,7 @@
 <template>
     <div>
         <admin-nav></admin-nav>
-        <div class="block p-6 rounded-lg shadow-lg bg-white h-screen w-3/4 mx-auto">
+        <div class="block p-6 rounded-lg shadow-lg bg-white h-full mb-20 w-3/4 mx-auto">
             <form action="" method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-6">
                     <input v-model="newName" v-validate="'required'"
@@ -25,13 +25,13 @@
                 </div>
                 <div class="form-group mb-6">
                     <input @change="addFile"
-                           v-validate="'required|image'"
+                           v-validate="'image|dimensions:782,1200'"
                            ref="fileUpload"
                            type="file" name="image"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                            id="image" placeholder="Путь к картинке">
                     <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
-                         v-show="errors.has('img_path')">{{ errors.first('img_path') }}
+                         v-show="errors.has('image')">{{ errors.first('image') }}
                     </div>
 
                 </div>
@@ -222,6 +222,7 @@ export default {
                     axios.post(`/api/admin/update-film/${this.$route.params.id}`,  newFormDate,
                         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                         .then(res => {
+                            this.$router.push({name: 'admin.films'})
                         })
                 }
             });

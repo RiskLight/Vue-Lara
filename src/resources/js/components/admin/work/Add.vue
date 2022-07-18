@@ -1,7 +1,14 @@
 <template>
     <div>
         <admin-nav></admin-nav>
-        <div class="block mx-auto p-6 rounded-lg shadow-lg bg-white w-3/4 h-screen">
+        <div class="mb-20 block mx-auto p-6 rounded-lg shadow-lg bg-white w-3/4 h-full">
+            <div v-if="savingSuccessful" class="flex p-4 mb-4 text-sm text-green-700 bg-green-100 rounded-lg dark:bg-green-200 dark:text-green-800" role="alert">
+                <svg aria-hidden="true" class="inline flex-shrink-0 mr-3 w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"></path></svg>
+                <span class="sr-only">Info</span>
+                <div>
+                    <span class="font-medium">{{ this.savingSuccessful }}</span> Заполните поля заново.
+                </div>
+            </div>
             <form method="POST" enctype="multipart/form-data">
                 <div class="form-group mb-6">
                     <input v-model="name" v-validate="'required'"
@@ -29,7 +36,7 @@
                 </div>
                 <div class="form-group mb-6">
                     <input @change="addFile"
-                           v-validate="'required|image'"
+                           v-validate="'required|image|dimensions:782,1200'"
                            ref="fileUpload"
                            type="file" name="img_path"
                            class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -129,7 +136,6 @@ export default {
 
     data() {
         return {
-            // genres: [],
             standards: [],
             name: null,
             year: null,
@@ -140,7 +146,8 @@ export default {
             genre: [],
             answer: '',
             films: [],
-            film: ''
+            film: '',
+            savingSuccessful: null
 
         }
     },
@@ -232,15 +239,14 @@ export default {
                 if (result) {
                     axios.post('/api/admin/films', formData)
                         .then(res => {
-                            console.log(res.data.message)
-                            this.name = ''
-                            this.year = ''
-                            this.film_path = ''
+                            this.name = null
+                            this.year = null
+                            this.film_path = null
                             this.standart_id = 0
-                            this.description = ''
-                            this.genre = []
+                            this.description = null
+                            this.genre = null
                             this.$refs.fileUpload.value = null;
-
+                            this.savingSuccessful = 'Фильм успешно добавлен в базу.'
                         })
                         .catch(error => console.log(error))
                 }
