@@ -9,7 +9,7 @@
                     </router-link>
                 </div>
                 <div class="container-fluid">
-                    <a @click.prevent="logout" class="cursor-pointer text-xl text-black font-semibold hover:text-blue-700">Выход</a>
+                    <a @click.prevent="sendCredentials" class="cursor-pointer text-xl text-black font-semibold hover:text-blue-700">Выход</a>
                 </div>
             </div>
         </nav>
@@ -40,11 +40,13 @@
 </template>
 
 <script>
+import {mapActions} from "vuex";
+
 export default {
     name: "AdminNav",
     data() {
         return {
-            token: []
+            token: ''
         }
     },
 
@@ -57,17 +59,14 @@ export default {
     },
 
     methods: {
-        getToken() {
-            this.token = localStorage.getItem('x_xsrf_token')
-        },
+        ...mapActions("Auth", ["sendLogoutRequest", "getUserData"]),
+        async sendCredentials() {
+            await this.sendLogoutRequest();
 
-        logout() {
-            axios.post('/logout')
-                .then(res => {
-                    localStorage.removeItem('x_xsrf_token')
-                    this.$router.push({name: 'user.login'})
-                })
-        }
+        },
+        getToken() {
+            this.token = localStorage.getItem('authToken')
+        },
     }
 }
 </script>

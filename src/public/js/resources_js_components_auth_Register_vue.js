@@ -11,42 +11,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Register",
   data: function data() {
     return {
-      name: [],
-      email: [],
-      password: [],
-      password_confirmation: []
+      details: {
+        name: null,
+        email: null,
+        password: null,
+        password_confirmation: null
+      }
     };
   },
-  methods: {
-    registration: function registration() {
+  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)("Auth", ["user", "apiToken"])),
+  methods: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapActions)("Auth", ["sendRegisterRequest", "getUserData"])), {}, {
+    sendCredentials: function sendCredentials() {
       var _this = this;
 
-      axios.get('/sanctum/csrf-cookie').then(function (res) {
-        _this.$validator.validateAll().then(function (result) {
-          if (result) {
-            axios.post('/register', {
-              email: _this.email,
-              password: _this.password,
-              name: _this.name,
-              password_confirmation: _this.password_confirmation
-            }).then(function (res) {
-              localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN']);
-              localStorage.setItem('role_id', res.data.role_id);
-              localStorage.setItem('user_id', res.data.id);
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return _this.$validator.validateAll().then(function (result) {
+                  if (result) {
+                    _this.sendRegisterRequest(_this.details);
+                  }
+                });
 
-              _this.$router.push({
-                name: 'films.films'
-              });
-            });
+              case 2:
+              case "end":
+                return _context.stop();
+            }
           }
-        });
-      });
+        }, _callee);
+      }))();
     }
-  }
+  })
 });
 
 /***/ }),
@@ -94,8 +112,8 @@ var render = function render() {
     }, {
       name: "model",
       rawName: "v-model",
-      value: _vm.name,
-      expression: "name"
+      value: _vm.details.name,
+      expression: "details.name"
     }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
@@ -108,12 +126,13 @@ var render = function render() {
       autofocus: ""
     },
     domProps: {
-      value: _vm.name
+      value: _vm.details.name
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.name = $event.target.value;
+
+        _vm.$set(_vm.details, "name", $event.target.value);
       }
     }
   }), _vm._v(" "), _c("div", {
@@ -140,8 +159,8 @@ var render = function render() {
     }, {
       name: "model",
       rawName: "v-model",
-      value: _vm.email,
-      expression: "email"
+      value: _vm.details.email,
+      expression: "details.email"
     }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
@@ -153,12 +172,13 @@ var render = function render() {
       autocomplete: "email"
     },
     domProps: {
-      value: _vm.email
+      value: _vm.details.email
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.email = $event.target.value;
+
+        _vm.$set(_vm.details, "email", $event.target.value);
       }
     }
   }), _vm._v(" "), _c("div", {
@@ -184,45 +204,51 @@ var render = function render() {
       expression: "'required|min:8|max:16'"
     }, {
       name: "model",
-      rawName: "v-model",
-      value: _vm.password,
-      expression: "password"
+      rawName: "v-model.trim",
+      value: _vm.details.password,
+      expression: "details.password",
+      modifiers: {
+        trim: true
+      }
     }],
+    ref: "password",
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
-      id: "пароль",
       type: "password",
-      name: "пароль",
-      placeholder: "Введите пароль",
-      autocomplete: "new-password"
+      name: "password",
+      placeholder: "Введите пароль"
     },
     domProps: {
-      value: _vm.password
+      value: _vm.details.password
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.password = $event.target.value;
+
+        _vm.$set(_vm.details, "password", $event.target.value.trim());
+      },
+      blur: function blur($event) {
+        return _vm.$forceUpdate();
       }
     }
   }), _vm._v(" "), _c("div", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.errors.has("пароль"),
-      expression: "errors.has('пароль')"
+      value: _vm.errors.has("password"),
+      expression: "errors.has('password')"
     }],
     staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
-  }, [_vm._v(_vm._s(_vm.errors.first("пароль")))])]), _vm._v(" "), _c("div", {
+  }, [_vm._v(_vm._s(_vm.errors.first("password")))])]), _vm._v(" "), _c("div", {
+    staticClass: "form-group mb-6"
+  }, [_c("div", {
     staticClass: "form-group mb-6"
   }, [_c("label", {
     staticClass: "form-label inline-block mb-2 text-gray-700",
     attrs: {
-      "for": "password-confirm"
+      "for": "password"
     }
-  }, [_vm._v("Подтверждение пароля")]), _vm._v(" "), _c("div", {
-    staticClass: "form-group mb-6"
-  }, [_c("input", {
+  }, [_vm._v("Повторите пароль")]), _vm._v(" "), _c("input", {
     directives: [{
       name: "validate",
       rawName: "v-validate",
@@ -230,36 +256,42 @@ var render = function render() {
       expression: "'required|confirmed:password'"
     }, {
       name: "model",
-      rawName: "v-model",
-      value: _vm.password_confirmation,
-      expression: "password_confirmation"
+      rawName: "v-model.trim",
+      value: _vm.details.password_confirmation,
+      expression: "details.password_confirmation",
+      modifiers: {
+        trim: true
+      }
     }],
     staticClass: "form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none",
     attrs: {
-      id: "password-confirm",
       type: "password",
-      placeholder: "Введите пароль",
-      name: "Подтверждение пароля",
-      autocomplete: "new-password"
+      name: "password_confirmation",
+      placeholder: "Повторите пароль",
+      "data-vv-as": "password"
     },
     domProps: {
-      value: _vm.password_confirmation
+      value: _vm.details.password_confirmation
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.password_confirmation = $event.target.value;
+
+        _vm.$set(_vm.details, "password_confirmation", $event.target.value.trim());
+      },
+      blur: function blur($event) {
+        return _vm.$forceUpdate();
       }
     }
   }), _vm._v(" "), _c("div", {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.errors.has("Подтверждение пароля"),
-      expression: "errors.has('Подтверждение пароля')"
+      value: _vm.errors.has("password_confirmation"),
+      expression: "errors.has('password_confirmation')"
     }],
     staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
-  }, [_vm._v(_vm._s(_vm.errors.first("Подтверждение пароля")))])])]), _vm._v(" "), _c("div", {
+  }, [_vm._v("\n                                        " + _vm._s(_vm.errors.first("password_confirmation")) + "\n                                    ")])])]), _vm._v(" "), _c("div", {
     staticClass: "form-group mb-6"
   }, [_c("button", {
     staticClass: "mb-12 w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out",
@@ -267,7 +299,7 @@ var render = function render() {
       type: "submit"
     },
     on: {
-      click: _vm.registration
+      click: _vm.sendCredentials
     }
   }, [_vm._v("\n                                    Регистрация\n                                ")])])])])])])])], 1);
 };

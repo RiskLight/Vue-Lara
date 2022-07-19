@@ -10,7 +10,8 @@
         </div>
         <div class="w-3/4 mx-auto flex flex-wrap justify-around mt-12">
             <div class="w-72">
-                <select @change="filterFilms(genre)"
+                <select :disabled="this.genre !== 0"
+                    @change="filterFilms(genre)"
                         v-model="genre"
                         name="genre"
                         class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -20,7 +21,8 @@
                 </select>
             </div>
             <div class="w-72">
-                <select @change="filterYears(year)"
+                <select :disabled="this.year !== 0"
+                    @change="filterYears(year)"
                         v-model="year"
                         name="genre"
                         class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -155,44 +157,82 @@ export default {
         },
 
         async filterFilms(genre) {
-            await this.getFilms()
-            this.sorted = []
-            this.year = 0
-            let vm = this
-            let genres = this.items.map(film => {
-                film.genres.map(elem => {
-                    console.log(elem.id)
-                    if (elem.id === genre) {
-                        vm.sorted.push(film)
+            if (this.year !== 0) {
+                this.sorted = []
+                this.date = 0
+                this.items.map(film => {
+                    if (film.genres.some(elem => elem.id === genre)) {
+                        this.sorted.push(film)
                     }
                 })
-            })
+
+            } else {
+                await this.getFilms()
+                this.sorted = []
+                this.date = 0
+                this.year = 0
+                this.films.map(film => {
+                    if (film.genres.some(elem => elem.id === genre)) {
+                        this.sorted.push(film)
+                    }
+                })
+            }
+
 
             await this.setupPagination(this.sorted)
         },
 
         async filterYears(year) {
-            this.sorted = []
-            let vm = this
-            this.items.map(film => {
-                if (film.year.substring(0, 4) === year) {
-                    vm.sorted.push(film)
-                }
-            })
+            if (this.genre !== 0) {
+                this.sorted = []
+                this.date = 0
+                let vm = this
+                this.items.map(film => {
+                    if (film.year.substring(0, 4) === year) {
+                        vm.sorted.push(film)
+                    }
+                })
+                await this.setupPagination(this.sorted)
+            } else {
+                this.sorted = []
+                this.date = 0
+                let vm = this
+                this.films.map(film => {
+                    if (film.year.substring(0, 4) === year) {
+                        vm.sorted.push(film)
+                    }
+                })
+            }
+
             await this.setupPagination(this.sorted)
         },
 
         async filterDate(date) {
+            if (this.genre !== 0 || this.year !== 0) {
+                let newItems = this.items
+                if (date === 1) {
+                    newItems.sort((a, b) => a.created_at > b.created_at ? -1 : 1)
+                    await this.setupPagination(newItems)
+                }
+                if (date === 2) {
+                    newItems.sort((a, b) => a.created_at > b.created_at ? 1 : -1)
+                    await this.setupPagination(newItems)
+                }
+                // await this.setupPagination(this.allItems)
 
-            let newItems = this.items
-            if (date === 1) {
-                newItems.sort((a, b) => a.created_at > b.created_at ? -1 : 1)
-            }
-            if (date === 2) {
-                newItems.sort((a, b) => a.created_at > b.created_at ? 1 : -1)
+            } else {
+                let newItems = this.films
+                if (date === 1) {
+                    newItems.sort((a, b) => a.created_at > b.created_at ? -1 : 1)
+                }
+                if (date === 2) {
+                    newItems.sort((a, b) => a.created_at > b.created_at ? 1 : -1)
 
+                }
+                await this.setupPagination(newItems)
             }
-            await this.setupPagination(newItems)
+
+
         },
 
         clearSort() {

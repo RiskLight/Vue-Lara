@@ -56,7 +56,6 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
     this.debouncedGetFilms = lodash__WEBPACK_IMPORTED_MODULE_0___default().debounce(this.getFilms, 1000);
   },
   mounted: function mounted() {
-    // this.getGenres()
     this.$store.dispatch('getGenres');
     this.getStandards();
   },
@@ -137,6 +136,8 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
             _this2.genre = null;
             _this2.$refs.fileUpload.value = null;
             _this2.savingSuccessful = 'Фильм успешно добавлен в базу.';
+
+            _this2.$validator.reset();
           })["catch"](function (error) {
             return console.log(error);
           });

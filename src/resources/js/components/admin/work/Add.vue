@@ -174,7 +174,6 @@ export default {
 
 
     mounted() {
-        // this.getGenres()
         this.$store.dispatch('getGenres')
         this.getStandards()
     },
@@ -247,6 +246,8 @@ export default {
                             this.genre = null
                             this.$refs.fileUpload.value = null;
                             this.savingSuccessful = 'Фильм успешно добавлен в базу.'
+                            this.$validator.reset();
+
                         })
                         .catch(error => console.log(error))
                 }

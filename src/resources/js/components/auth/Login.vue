@@ -19,16 +19,11 @@
                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
                                    v-model="details.email" name="email" value="" autocomplete="email" autofocus>
                             <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700" v-show="errors.has('email')">{{ errors.first('email') }}</div>
-                            <template v-for="item in loginErrors.email">
-                                <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">{{item}}</div>
-                            </template>
                         </div>
-
 
                         <div class="form-group mb-6">
                             <label for="password"
                                    class="form-label inline-block mb-2 text-gray-700">Пароль</label>
-
                             <input v-validate="'required|min:8'"
                                    id="password" type="password" placeholder="Введите пароль"
                                    class="form-control block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-blue-600 focus:outline-none"
@@ -37,13 +32,8 @@
                                 v-show="errors.has('password')">{{ errors.first('password') }}</div>
 
                         </div>
-
                         <div class="form-group mb-6">
                             <div class="form-group form-check">
-<!--                                <button @click="login" type="submit"-->
-<!--                                        class="mb-12 w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">-->
-<!--                                    Вход-->
-<!--                                </button>-->
                                 <button  type="submit"
                                         class="mb-12 w-full px-6 py-2.5 bg-blue-600 text-white font-medium text-xs leading-tight uppercase rounded shadow-md hover:bg-blue-700 hover:shadow-lg focus:bg-blue-700 focus:shadow-lg focus:outline-none focus:ring-0 active:bg-blue-800 active:shadow-lg transition duration-150 ease-in-out">
                                     Вход
@@ -64,8 +54,6 @@ export default {
     name: "Login",
     data() {
         return {
-            // email: null,
-            // password: null,
             details: {
                 email: null,
                 password: null
@@ -74,30 +62,16 @@ export default {
     },
 
     computed: {
-        ...mapGetters("Auth", ["user", "x_xsrf_token", "loginErrors"]),
+        ...mapGetters("Auth", ["user", "apiToken"]),
     },
 
     methods: {
-        ...mapActions("Auth", ["sendLoginRequest", "getUserData"]),
-        // login() {
-        //     axios.get('/sanctum/csrf-cookie')
-        //         .then(res => {
-        //             axios.post('/login', { email: this.email, password: this.password, })
-        //                 .then(res => {
-        //                     localStorage.setItem('x_xsrf_token', res.config.headers['X-XSRF-TOKEN'])
-        //                     this.$router.push({ name: 'films.films' })
-        //                 })
-        //                 .catch(err => {
-        //
-        //                 })
-        //         })
-        // },
+        ...mapActions("Auth", ["sendLogin", "getUserData"]),
 
         async sendCredentials() {
-            // await this.sendLoginRequest(this.details);
             await this.$validator.validateAll().then((result) => {
                 if (result) {
-                    return this.sendLoginRequest(this.details);
+                     this.sendLogin(this.details);
                 }
             });
         },

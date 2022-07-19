@@ -31,6 +31,7 @@
         "materialize-css": "^1.0.0-rc.2",
         "node-static": "^0.7.11",
         "vee-validate": "^2.2.15",
+        "vue-moment": "^4.1.0",
         "vue-router": "^3.5.2",
         "vuejs-paginate": "^2.1.0",
         "vuex": "^3.6.2"

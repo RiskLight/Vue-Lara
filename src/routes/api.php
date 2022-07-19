@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\CommentsController;
 use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\FilmsController;
@@ -24,10 +26,18 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
+Route::post('/login', [LoginController::class, 'login']);
+Route::post('/register', [RegisterController::class, 'register']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('logout', [LoginController::class, 'logout']);
+    Route::get('user', [LoginController::class, 'user']);
+
+});
+
+
 Route::group([
     'as' => 'films.',
     'prefix' => 'films',
-//    'middleware' => 'auth:sanctum'
 ], function () {
 
     Route::group([
@@ -95,6 +105,8 @@ Route::group([
     Route::group([
         'as' => 'delete-favorite.',
         'prefix' => 'delete-favorite',
+        'middleware' => 'auth:sanctum'
+
     ], function () {
         Route::delete('/{id}', [FavoriteController::class, 'destroy']);
     });
@@ -102,6 +114,8 @@ Route::group([
     Route::group([
         'as' => 'add-favorite.',
         'prefix' => 'add-favorite',
+        'middleware' => 'auth:sanctum'
+
     ], function () {
         Route::post('/', [FavoriteController::class, 'store']);
     });
@@ -126,7 +140,7 @@ Route::group([
     'as' => 'genres.',
     'prefix' => 'genres'
 ], function () {
-    Route::get('/', [GenresController::class, 'indexAll'])->name('genres');
+    Route::get('/', [GenresController::class, 'indexAll']);
 });
 
 Route::group([
@@ -147,7 +161,7 @@ Route::group([
 Route::group([
     'as' => 'admin.',
     'prefix' => 'admin/',
-//    'middleware' => 'auth:sanctum'
+    'middleware' => 'auth:sanctum'
 ], function () {
     Route::group([
         'as' => 'films.',

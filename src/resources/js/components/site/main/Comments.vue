@@ -6,10 +6,10 @@
                     <div class="flex flex-wrap -mx-3 mb-6">
                         <h2 class="px-4 pt-3 pb-2 text-gray-800 text-lg">Добавьте свой бред</h2>
                         <div class="w-full md:w-full px-3 mb-2 mt-2">
-                <textarea v-validate="'required|min:10|max:150'"
-                          v-model="description"
+                <textarea
+                          v-model="comDescription" v-validate="'required|min:10|max:150'"
                           class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                          name="Описание" placeholder="Комментарий"></textarea>
+                          name="Комментарий" placeholder="Комментарий"></textarea>
                             <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
                                  v-show="errors.has('Комментарий')">{{ errors.first('Комментарий') }}
                             </div>
@@ -40,19 +40,20 @@
         </div>
         <div class="w-full mx-auto">
             <template v-for="comment in items">
-                <div class="flex-col mt-6 mx-auto items-center justify-start shadow-lg mt-56 mb-1 w-full">
+                <div class="flex-col mt-6 mx-auto items-center justify-start shadow-lg mb-1 w-full">
                     <div class="p-6 flex flex-col justify-start">
-                        <span class="text-gray-900 text-xl font-medium mb-2">{{ comment.user.name }}</span>
+                        <span class="text-gray-900 text-2xl font-medium mb-2">{{ comment.user.name }}</span>
                         <div class="break-words">
-                            <p class="text-gray-700 text-base text-lg max-w-full mb-4">
+                            <p class="text-gray-900 text-base font-semibold text-lg max-w-full mb-4">
                                 {{ comment.description }}
                             </p>
+                            <span class="text-gray-700 text-base text-sm max-w-full mb-4">{{comment.created_at | moment("from", "now")}}</span>
                             <div :class="isEdit(comment.id) ? '' : 'hidden'">
                                 <textarea v-model="commentDescription" v-validate="'required|min:10|max:150'"
                                           class="bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white"
-                                          name="Коммент" required></textarea>
+                                          name="Изменение комментария" required></textarea>
                                 <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
-                                     v-show="errors.has('Коммент')">{{ errors.first('Коммент') }}
+                                     v-show="errors.has('Изменение комментария')">{{ errors.first('Изменение комментария') }}
                                 </div>
                                 <button @click="updateComment(comment.id)"
                                         class="cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0  transition duration-150 ease-in-out outline-none">
@@ -109,7 +110,7 @@ export default {
     mixins: [PaginationMixin],
     data() {
         return {
-            description: null,
+            comDescription: '',
             comments: null,
             user: null,
             editCommentId: null,
@@ -126,20 +127,20 @@ export default {
         addComment() {
             let user_id = localStorage.getItem('user_id')
             let film_id = this.$route.params.id
-            this.$validator.validateAll().then((result) => {
-                if (result) {
+            this.$validator.validate('Комментарий').then((res) => {
+                if (res) {
                     axios.post(`/api/films/add-comment`, {
-                        description: this.description,
+                        description: this.comDescription,
                         film_id: film_id,
                         user_id: user_id,
                     })
                         .then(res => {
-                            this.description = ''
-                            this.getComments()
+                            this.getComments();
+                            this.$validator.reset();
+                            this.comDescription = '';
                         })
                 }
             });
-
 
         },
 
@@ -147,6 +148,7 @@ export default {
             axios.get(`/api/films/get-comments/${this.$route.params.id}`)
                 .then(res => {
                     this.comments = res.data
+                    this.comments.sort((a, b) => a.created_at > b.created_at ? -1 : 1)
                     this.setupPagination(this.comments)
                 })
         },
@@ -170,7 +172,7 @@ export default {
         },
 
         updateComment(id) {
-            this.$validator.validateAll().then((result) => {
+            this.$validator.validate('Изменение комментария').then((result) => {
                 if (result) {
                     axios.patch(`/api/films/update-comment/${id}`, {
                         description: this.commentDescription,

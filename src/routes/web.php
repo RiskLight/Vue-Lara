@@ -28,6 +28,6 @@ Route::get('/{any}', function () {
     return view('home');
 })->where('any', '.*');
 
-Auth::routes();
+//Auth::routes();
 
 Route::get('/{page}', [FilmsController::class, 'index'])->where('page','.*');

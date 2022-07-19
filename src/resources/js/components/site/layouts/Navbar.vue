@@ -55,7 +55,6 @@
                                     :to="{ name: 'user.register' }" v-if="!token">
                                     Регистрация
                                 </router-link>
-
                             </li>
                             <li class="nav-item p-2">
                                 <template v-if="+role_id === 2">
@@ -64,6 +63,7 @@
                                                  v-if="token">Избранное
                                     </router-link>
                                 </template>
+
                                 <template v-if="+role_id === 1">
                                     <router-link :to="{name: 'admin.panel'}"
                                                  class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
@@ -73,9 +73,10 @@
 
                             </li>
                             <li class="nav-item p-2">
-                                <a @click.prevent="logout"
-                                   class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
-                                   v-if="token">Выход</a>
+                                <button @click.prevent="sendCredentials" v-if="token"
+                                        class="dropdown-toggle flex items-center hidden-arrow hover:text-blue-700 cursor-pointer"
+                                >Выход
+                                </button>
                             </li>
                         </ul>
                     </div>
@@ -86,12 +87,14 @@
 </template>
 
 <script>
+import {mapActions, mapGetters} from "vuex";
+
 export default {
     name: "Navbar",
     data() {
         return {
-            token: [],
-            // user: [],
+            token: '',
+            user: '',
             role_id: null,
         }
     },
@@ -105,6 +108,11 @@ export default {
         }
     },
 
+    computed: {
+        ...mapGetters("Auth", ["user", "apiToken"]),
+    },
+
+
     updated() {
         this.getToken()
         this.getRole()
@@ -116,24 +124,19 @@ export default {
     },
 
     methods: {
+        ...mapActions("Auth", ["sendLogoutRequest", "getUserData"]),
+        async sendCredentials() {
+            await this.sendLogoutRequest();
+
+        },
 
         getToken() {
-            this.token = localStorage.getItem('x_xsrf_token')
+            this.token = localStorage.getItem('authToken')
         },
 
         getRole() {
             this.role_id = localStorage.getItem('role_id')
         },
-
-        logout() {
-            axios.post('/logout')
-                .then(res => {
-                    localStorage.removeItem('x_xsrf_token')
-                    localStorage.removeItem('role_id')
-                    localStorage.removeItem('user_id')
-                    this.$router.push({name: 'user.login'})
-                })
-        }
     }
 }
 </script>

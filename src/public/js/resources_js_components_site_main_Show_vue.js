@@ -18,7 +18,7 @@ __webpack_require__.r(__webpack_exports__);
   mixins: [_mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__["default"]],
   data: function data() {
     return {
-      description: null,
+      comDescription: '',
       comments: null,
       user: null,
       editCommentId: null,
@@ -35,16 +35,18 @@ __webpack_require__.r(__webpack_exports__);
 
       var user_id = localStorage.getItem('user_id');
       var film_id = this.$route.params.id;
-      this.$validator.validateAll().then(function (result) {
-        if (result) {
+      this.$validator.validate('Комментарий').then(function (res) {
+        if (res) {
           axios.post("/api/films/add-comment", {
-            description: _this.description,
+            description: _this.comDescription,
             film_id: film_id,
             user_id: user_id
           }).then(function (res) {
-            _this.description = '';
-
             _this.getComments();
+
+            _this.$validator.reset();
+
+            _this.comDescription = '';
           });
         }
       });
@@ -54,6 +56,10 @@ __webpack_require__.r(__webpack_exports__);
 
       axios.get("/api/films/get-comments/".concat(this.$route.params.id)).then(function (res) {
         _this2.comments = res.data;
+
+        _this2.comments.sort(function (a, b) {
+          return a.created_at > b.created_at ? -1 : 1;
+        });
 
         _this2.setupPagination(_this2.comments);
       });
@@ -74,7 +80,7 @@ __webpack_require__.r(__webpack_exports__);
     updateComment: function updateComment(id) {
       var _this3 = this;
 
-      this.$validator.validateAll().then(function (result) {
+      this.$validator.validate('Изменение комментария').then(function (result) {
         if (result) {
           axios.patch("/api/films/update-comment/".concat(id), {
             description: _this3.commentDescription,
@@ -231,28 +237,28 @@ var render = function render() {
     staticClass: "w-full md:w-full px-3 mb-2 mt-2"
   }, [_c("textarea", {
     directives: [{
+      name: "model",
+      rawName: "v-model",
+      value: _vm.comDescription,
+      expression: "comDescription"
+    }, {
       name: "validate",
       rawName: "v-validate",
       value: "required|min:10|max:150",
       expression: "'required|min:10|max:150'"
-    }, {
-      name: "model",
-      rawName: "v-model",
-      value: _vm.description,
-      expression: "description"
     }],
     staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
     attrs: {
-      name: "Описание",
+      name: "Комментарий",
       placeholder: "Комментарий"
     },
     domProps: {
-      value: _vm.description
+      value: _vm.comDescription
     },
     on: {
       input: function input($event) {
         if ($event.target.composing) return;
-        _vm.description = $event.target.value;
+        _vm.comDescription = $event.target.value;
       }
     }
   }), _vm._v(" "), _c("div", {
@@ -292,16 +298,18 @@ var render = function render() {
     staticClass: "w-full mx-auto"
   }, [_vm._l(_vm.items, function (comment) {
     return [_c("div", {
-      staticClass: "flex-col mt-6 mx-auto items-center justify-start shadow-lg mt-56 mb-1 w-full"
+      staticClass: "flex-col mt-6 mx-auto items-center justify-start shadow-lg mb-1 w-full"
     }, [_c("div", {
       staticClass: "p-6 flex flex-col justify-start"
     }, [_c("span", {
-      staticClass: "text-gray-900 text-xl font-medium mb-2"
+      staticClass: "text-gray-900 text-2xl font-medium mb-2"
     }, [_vm._v(_vm._s(comment.user.name))]), _vm._v(" "), _c("div", {
       staticClass: "break-words"
     }, [_c("p", {
-      staticClass: "text-gray-700 text-base text-lg max-w-full mb-4"
-    }, [_vm._v("\n                                " + _vm._s(comment.description) + "\n                            ")]), _vm._v(" "), _c("div", {
+      staticClass: "text-gray-900 text-base font-semibold text-lg max-w-full mb-4"
+    }, [_vm._v("\n                                " + _vm._s(comment.description) + "\n                            ")]), _vm._v(" "), _c("span", {
+      staticClass: "text-gray-700 text-base text-sm max-w-full mb-4"
+    }, [_vm._v(_vm._s(_vm._f("moment")(comment.created_at, "from", "now")))]), _vm._v(" "), _c("div", {
       "class": _vm.isEdit(comment.id) ? "" : "hidden"
     }, [_c("textarea", {
       directives: [{
@@ -317,7 +325,7 @@ var render = function render() {
       }],
       staticClass: "bg-gray-100 rounded border border-gray-400 leading-normal resize-none w-full h-20 py-2 px-3 font-medium placeholder-gray-700 focus:outline-none focus:bg-white",
       attrs: {
-        name: "Коммент",
+        name: "Изменение комментария",
         required: ""
       },
       domProps: {
@@ -333,11 +341,11 @@ var render = function render() {
       directives: [{
         name: "show",
         rawName: "v-show",
-        value: _vm.errors.has("Коммент"),
-        expression: "errors.has('Коммент')"
+        value: _vm.errors.has("Изменение комментария"),
+        expression: "errors.has('Изменение комментария')"
       }],
       staticClass: "border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700"
-    }, [_vm._v(_vm._s(_vm.errors.first("Коммент")) + "\n                                ")]), _vm._v(" "), _c("button", {
+    }, [_vm._v(_vm._s(_vm.errors.first("Изменение комментария")) + "\n                                ")]), _vm._v(" "), _c("button", {
       staticClass: "cursor-pointer inline-block px-6 py-2.5 bg-transparent text-gray-600 underline hover:no-underline text-sm leading-tight rounded focus:shadow-lg focus:outline-none focus:ring-0 transition duration-150 ease-in-out outline-none",
       on: {
         click: function click($event) {

@@ -7,11 +7,13 @@ use App\Http\Controllers\Controller;
 use App\Models\Role;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
+use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -42,7 +44,7 @@ class RegisterController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest');
+//        $this->middleware('guest');
     }
 
     /**
@@ -73,8 +75,7 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
             'role_id' => Role::where('role', 'user')->first()->id,
-//            'active' => false,
-//            'activation_token' => Str::random(255)
+
         ]);
 
     }
@@ -89,11 +90,28 @@ class RegisterController extends Controller
     protected function registered(Request $request, $user)
     {
 
-//        event(new UserActivationEmail($user));
-//        $this->guard()->logout();
-//        return redirect()->route('login')
-//            ->withSuccess('Проверьте email и активируйте аккаунт');
-        $userData = auth()->user();
-        return response()->json($userData);
+        $token = $request->user()->createToken('api_token');
+
+        return response()->json([
+            'token'    => $token->plainTextToken,
+            'user'     => $request->user()
+        ]);
+    }
+
+    public function register(Request $request)
+    {
+        $this->validator($request->all())->validate();
+
+        event(new Registered($user = $this->create($request->all())));
+
+        $this->guard()->login($user);
+
+        if ($response = $this->registered($request, $user)) {
+            return $response;
+        }
+
+        return $request->wantsJson()
+            ? new Response('', 201)
+            : redirect($this->redirectPath());
     }
 }
