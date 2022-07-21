@@ -104,6 +104,7 @@
 
 <script>
 import PaginationMixin from "../../../mixins/pagination.mixin";
+import {axiosInstance} from "../../../service/api";
 
 export default {
     name: "Comments",
@@ -129,7 +130,7 @@ export default {
             let film_id = this.$route.params.id
             this.$validator.validate('Комментарий').then((res) => {
                 if (res) {
-                    axios.post(`/api/films/add-comment`, {
+                    axiosInstance.post(`films/add-comment`, {
                         description: this.comDescription,
                         film_id: film_id,
                         user_id: user_id,
@@ -174,7 +175,7 @@ export default {
         updateComment(id) {
             this.$validator.validate('Изменение комментария').then((result) => {
                 if (result) {
-                    axios.patch(`/api/films/update-comment/${id}`, {
+                    axiosInstance.patch(`films/update-comment/${id}`, {
                         description: this.commentDescription,
                         film_id: this.$route.params.id
                     })

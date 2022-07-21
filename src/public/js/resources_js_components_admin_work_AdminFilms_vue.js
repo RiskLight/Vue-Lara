@@ -13,6 +13,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _Modal__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Modal */ "./resources/js/components/admin/work/Modal.vue");
 /* harmony import */ var _mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/pagination.mixin.js */ "./resources/js/mixins/pagination.mixin.js");
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -47,7 +49,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteFilm: function deleteFilm(id) {
       var _this = this;
 
-      axios["delete"]("api/admin/destroy/".concat(id)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_2__.axiosInstance["delete"]("admin/destroy/".concat(id)).then(function (res) {
         _this.getFilms();
 
         _this.showModal = false;
@@ -56,7 +58,7 @@ __webpack_require__.r(__webpack_exports__);
     getFilms: function getFilms() {
       var _this2 = this;
 
-      axios.get('/api/films/content/').then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_2__.axiosInstance.get('films/content/').then(function (res) {
         _this2.films = res.data;
 
         _this2.setupPagination(_this2.films);
@@ -71,7 +73,7 @@ __webpack_require__.r(__webpack_exports__);
     getResults: function getResults() {
       var _this3 = this;
 
-      axios.get("/api/films/search?q=".concat(this.search)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_2__.axiosInstance.get("films/search?q=".concat(this.search)).then(function (res) {
         _this3.films = res.data;
 
         _this3.setupPagination(_this3.films);

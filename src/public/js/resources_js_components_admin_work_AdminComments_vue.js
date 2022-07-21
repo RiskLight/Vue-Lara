@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/pagination.mixin */ "./resources/js/mixins/pagination.mixin.js");
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AdminComments",
@@ -30,7 +32,7 @@ __webpack_require__.r(__webpack_exports__);
     getComments: function getComments() {
       var _this = this;
 
-      axios.get("/api/admin/comments").then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance.get("admin/comments").then(function (res) {
         _this.comments = res.data;
 
         _this.setupPagination(_this.comments);
@@ -39,7 +41,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteComment: function deleteComment(id) {
       var _this2 = this;
 
-      axios["delete"]("api/admin/delete-comment/".concat(id)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance["delete"]("admin/delete-comment/".concat(id)).then(function (res) {
         _this2.getComments();
       });
     },
@@ -58,7 +60,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$validator.validateAll().then(function (result) {
         if (result) {
-          axios.patch("/api/films/update-comment/".concat(id), {
+          _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance.patch("films/update-comment/".concat(id), {
             description: _this3.commentDescription,
             film_id: _this3.$route.params.id
           }).then(function (res) {

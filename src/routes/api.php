@@ -31,7 +31,93 @@ Route::post('/register', [RegisterController::class, 'register']);
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('logout', [LoginController::class, 'logout']);
     Route::get('user', [LoginController::class, 'user']);
+    Route::group([
+        'as' => 'admin.',
+        'prefix' => 'admin/',
+        'middleware' => 'auth:sanctum'
+    ], function () {
+        Route::group([
+            'as' => 'films.',
+            'prefix' => 'films'
+        ], function () {
+            Route::post('/', [FilmsController::class, 'store']);
+        });
+        Route::group([
+            'as' => 'destroy.',
+            'prefix' => 'destroy'
+        ], function () {
+            Route::delete('/{film}', [FilmsController::class, 'destroy']);
+        });
 
+        Route::group([
+            'as' => 'user.',
+            'prefix' => 'user'
+        ], function () {
+            Route::get('/{user}', [UsersController::class, 'edit']);
+        });
+
+        Route::group([
+            'as' => 'add.',
+            'prefix' => 'add'
+        ], function () {
+            Route::post('/', [UsersController::class, 'store']);
+        });
+
+        Route::group([
+            'as' => 'update-film.',
+            'prefix' => 'update-film',
+
+        ], function () {
+            Route::patch('/{film}', [FilmsController::class, 'update']);
+        });
+
+        Route::group([
+            'as' => 'delete-user.',
+            'prefix' => 'delete-user'
+        ], function () {
+            Route::delete('/{user}', [UsersController::class, 'destroy']);
+        });
+
+        Route::group([
+            'as' => 'update-user.',
+            'prefix' => 'update-user'
+        ], function () {
+            Route::patch('/{user}', [UsersController::class, 'update']);
+        });
+
+        Route::group([
+            'as' => 'users.',
+            'prefix' => 'users'
+        ], function () {
+            Route::get('/', [UsersController::class, 'index']);
+
+        });
+
+        Route::group([
+            'as' => 'roles.',
+            'prefix' => 'roles'
+        ], function () {
+            Route::get('/', [GenresController::class, 'getRoles']);
+
+        });
+
+        Route::group([
+            'as' => 'comments.',
+            'prefix' => 'comments',
+
+        ], function () {
+            Route::get('/', [CommentsController::class, 'index']);
+        });
+
+        Route::group([
+            'as' => 'delete-comment.',
+            'prefix' => 'delete-comment',
+
+        ], function () {
+            Route::delete('/{comment}', [CommentsController::class, 'destroy']);
+        });
+
+    });
 });
 
 
@@ -72,6 +158,7 @@ Route::group([
     Route::group([
         'as' => 'add-comment.',
         'prefix' => 'add-comment',
+        'middleware' => 'auth:sanctum'
 
     ], function () {
         Route::post('/', [CommentsController::class, 'store']);
@@ -88,18 +175,10 @@ Route::group([
     Route::group([
         'as' => 'update-comment.',
         'prefix' => 'update-comment',
+        'middleware' => 'auth:sanctum'
 
     ], function () {
         Route::patch('/{comment}', [CommentsController::class, 'update']);
-    });
-
-        Route::group([
-        'as' => 'favorite.',
-        'prefix' => 'favorite',
-            'middleware' => 'auth:sanctum'
-
-        ], function () {
-        Route::get('/{id}', [FavoriteController::class, 'show']);
     });
 
     Route::group([
@@ -109,6 +188,14 @@ Route::group([
 
     ], function () {
         Route::delete('/{id}', [FavoriteController::class, 'destroy']);
+    });
+
+    Route::group([
+        'as' => 'favorite.',
+        'prefix' => 'favorite',
+        'middleware' => 'auth:sanctum'
+    ], function () {
+        Route::get('/{id}', [FavoriteController::class, 'show']);
     });
 
     Route::group([
@@ -158,93 +245,6 @@ Route::group([
 
     });
 
-Route::group([
-    'as' => 'admin.',
-    'prefix' => 'admin/',
-    'middleware' => 'auth:sanctum'
-], function () {
-    Route::group([
-        'as' => 'films.',
-        'prefix' => 'films'
-    ], function () {
-        Route::post('/', [FilmsController::class, 'store']);
-    });
-    Route::group([
-        'as' => 'destroy.',
-        'prefix' => 'destroy'
-    ], function () {
-        Route::delete('/{film}', [FilmsController::class, 'destroy']);
-    });
-
-    Route::group([
-        'as' => 'user.',
-        'prefix' => 'user'
-    ], function () {
-        Route::get('/{user}', [UsersController::class, 'edit']);
-    });
-
-    Route::group([
-        'as' => 'add.',
-        'prefix' => 'add'
-    ], function () {
-        Route::post('/', [UsersController::class, 'store']);
-    });
-
-    Route::group([
-        'as' => 'update-film.',
-        'prefix' => 'update-film',
-
-    ], function () {
-        Route::patch('/{film}', [FilmsController::class, 'update']);
-    });
-
-    Route::group([
-        'as' => 'delete-user.',
-        'prefix' => 'delete-user'
-    ], function () {
-        Route::delete('/{user}', [UsersController::class, 'destroy']);
-    });
-
-    Route::group([
-        'as' => 'update-user.',
-        'prefix' => 'update-user'
-    ], function () {
-        Route::patch('/{user}', [UsersController::class, 'update']);
-    });
-
-    Route::group([
-        'as' => 'users.',
-        'prefix' => 'users'
-    ], function () {
-        Route::get('/', [UsersController::class, 'index']);
-
-    });
-
-    Route::group([
-        'as' => 'roles.',
-        'prefix' => 'roles'
-    ], function () {
-        Route::get('/', [GenresController::class, 'getRoles']);
-
-    });
-
-        Route::group([
-        'as' => 'comments.',
-        'prefix' => 'comments',
-
-    ], function () {
-        Route::get('/', [CommentsController::class, 'index']);
-    });
-
-    Route::group([
-        'as' => 'delete-comment.',
-        'prefix' => 'delete-comment',
-
-    ], function () {
-        Route::delete('/{comment}', [CommentsController::class, 'destroy']);
-    });
-
-});
 
 
 

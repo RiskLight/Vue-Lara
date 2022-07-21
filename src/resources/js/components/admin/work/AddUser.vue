@@ -51,6 +51,8 @@
 </template>
 
 <script>
+import {axiosInstance} from "../../../service/api";
+
 export default {
     name: "AddUser",
 
@@ -77,7 +79,7 @@ export default {
 
     methods: {
         getRoles() {
-            axios.get(`/api/admin/roles`)
+            axiosInstance.get(`admin/roles`)
                 .then(res => {
                     this.roles = res.data
                 })
@@ -86,7 +88,7 @@ export default {
         addUser() {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    axios.post(`/api/admin/add/`, {
+                    axiosInstance.post(`admin/add/`, {
                         name: this.name,
                         email: this.email,
                         password: this.password,

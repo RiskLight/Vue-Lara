@@ -11,6 +11,7 @@ use App\Models\Standart;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Contracts\View\View;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 
@@ -26,12 +27,12 @@ class GenresController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return Application|Factory|View
+     * @return JsonResponse
      */
     public function index()
     {
         $genres = $this->service->index();
-        return view('site.genre', ['genres' => $genres]);
+        return response()->json($genres);
     }
 
     public function indexAll()

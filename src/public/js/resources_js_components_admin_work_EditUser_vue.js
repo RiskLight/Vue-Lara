@@ -11,6 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "EditUser",
   data: function data() {
@@ -30,7 +32,7 @@ __webpack_require__.r(__webpack_exports__);
     getUser: function getUser() {
       var _this = this;
 
-      axios.get("/api/admin/user/".concat(this.$route.params.id)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_0__.axiosInstance.get("admin/user/".concat(this.$route.params.id)).then(function (res) {
         _this.user = res.data;
         _this.name = res.data.name;
         _this.email = res.data.email;
@@ -40,14 +42,14 @@ __webpack_require__.r(__webpack_exports__);
     getRoles: function getRoles() {
       var _this2 = this;
 
-      axios.get("/api/admin/roles").then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_0__.axiosInstance.get("admin/roles").then(function (res) {
         _this2.rolesUser = res.data;
       });
     },
     updateUser: function updateUser() {
       var _this3 = this;
 
-      axios.patch("/api/admin/update-user/".concat(this.$route.params.id), {
+      _service_api__WEBPACK_IMPORTED_MODULE_0__.axiosInstance.patch("admin/update-user/".concat(this.$route.params.id), {
         name: this.name,
         email: this.email,
         role_id: this.role_id

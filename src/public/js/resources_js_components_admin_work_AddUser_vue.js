@@ -11,6 +11,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "AddUser",
   data: function data() {
@@ -35,7 +37,7 @@ __webpack_require__.r(__webpack_exports__);
     getRoles: function getRoles() {
       var _this = this;
 
-      axios.get("/api/admin/roles").then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_0__.axiosInstance.get("admin/roles").then(function (res) {
         _this.roles = res.data;
       });
     },
@@ -44,7 +46,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$validator.validateAll().then(function (result) {
         if (result) {
-          axios.post("/api/admin/add/", {
+          _service_api__WEBPACK_IMPORTED_MODULE_0__.axiosInstance.post("admin/add/", {
             name: _this2.name,
             email: _this2.email,
             password: _this2.password,

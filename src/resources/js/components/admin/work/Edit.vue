@@ -122,6 +122,8 @@
 
 <script>
 
+import {axiosInstance} from "../../../service/api";
+
 export default {
     name: "Edit",
     data() {
@@ -156,14 +158,14 @@ export default {
     methods: {
 
         getGenres() {
-            axios.get('/api/genres/')
+            axiosInstance.get('genres/')
                 .then(res => {
                     this.genres = res.data.data
                 })
         },
 
         getFilm(id) {
-            axios.get(`/api/films/show/${id}`)
+            axiosInstance.get(`films/show/${id}`)
                 .then(res => {
                     this.film = res.data
                     this.film_path = res.data.film_path
@@ -179,7 +181,7 @@ export default {
         },
 
         getStandards() {
-            axios.get('/api/standard/')
+            axiosInstance.get('standard/')
                 .then(res => {
                     this.standards = res.data
                 })
@@ -219,7 +221,7 @@ export default {
             }
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    axios.post(`/api/admin/update-film/${this.$route.params.id}`,  newFormDate,
+                    axiosInstance.post(`admin/update-film/${this.$route.params.id}`,  newFormDate,
                         { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } })
                         .then(res => {
                             this.$router.push({name: 'admin.films'})

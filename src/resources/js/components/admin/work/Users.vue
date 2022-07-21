@@ -63,6 +63,7 @@
 
 <script>
 import PaginationMixin from "../../../mixins/pagination.mixin.js";
+import {axiosInstance} from "../../../service/api";
 
 export default {
     name: "Users",
@@ -81,7 +82,7 @@ export default {
 
     methods: {
        async getUsers() {
-           await axios.get('/api/users/')
+           await axiosInstance.get('users/')
                 .then(res => {
                     this.users = res.data
                     this.setupPagination(this.users)
@@ -90,7 +91,7 @@ export default {
         },
 
         deleteUser(id) {
-            axios.delete(`api/admin/delete-user/${id}`)
+            axiosInstance.delete(`admin/delete-user/${id}`)
                 .then( res => {
                     this.getUsers()
                 })

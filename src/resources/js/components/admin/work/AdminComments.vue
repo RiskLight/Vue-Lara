@@ -84,6 +84,7 @@
 
 <script>
 import PaginationMixin from "../../../mixins/pagination.mixin";
+import {axiosInstance} from "../../../service/api";
 
 export default {
     name: "AdminComments",
@@ -103,7 +104,7 @@ export default {
 
     methods: {
         getComments() {
-            axios.get(`/api/admin/comments`)
+            axiosInstance.get(`admin/comments`)
                 .then(res => {
                     this.comments = res.data
                     this.setupPagination(this.comments)
@@ -111,7 +112,7 @@ export default {
         },
 
         deleteComment(id) {
-            axios.delete(`api/admin/delete-comment/${id}`)
+            axiosInstance.delete(`admin/delete-comment/${id}`)
                 .then(res => {
                     this.getComments()
                 })
@@ -133,7 +134,7 @@ export default {
         updateComment(id) {
             this.$validator.validateAll().then((result) => {
                 if (result) {
-                    axios.patch(`/api/films/update-comment/${id}`, {
+                    axiosInstance.patch(`films/update-comment/${id}`, {
                         description: this.commentDescription,
                         film_id: this.$route.params.id
                     })

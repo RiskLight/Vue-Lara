@@ -48,6 +48,7 @@
 import Rate from "./Rate";
 import Comments from "./Comments";
 import router from "../../../router";
+import {axiosInstance} from "../../../service/api";
 
 export default {
     name: "Show",
@@ -71,7 +72,7 @@ export default {
 
     methods: {
         addFilmToFavorite() {
-            axios.post(`/api/films/add-favorite`, {
+            axiosInstance.post(`films/add-favorite`, {
                 film_id: this.$route.params.id,
                 user_id: this.user
             })

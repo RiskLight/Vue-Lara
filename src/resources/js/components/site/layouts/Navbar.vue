@@ -94,7 +94,7 @@ export default {
     data() {
         return {
             token: '',
-            user: '',
+            isUser: '',
             role_id: null,
         }
     },

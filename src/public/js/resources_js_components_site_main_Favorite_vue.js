@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/pagination.mixin */ "./resources/js/mixins/pagination.mixin.js");
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Favorite",
@@ -30,7 +32,7 @@ __webpack_require__.r(__webpack_exports__);
     getFilmsUser: function getFilmsUser() {
       var _this = this;
 
-      axios.get("/api/films/favorite/".concat(this.user)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance.get("films/favorite/".concat(this.user)).then(function (res) {
         _this.films = res.data;
 
         _this.setupPagination(_this.films);
@@ -42,7 +44,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteFavoriteFilm: function deleteFavoriteFilm(id) {
       var _this2 = this;
 
-      axios["delete"]("/api/films/delete-favorite/".concat(id)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance["delete"]("films/delete-favorite/".concat(id)).then(function (res) {
         _this2.getFilmsUser();
       });
     }

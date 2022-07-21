@@ -50,6 +50,7 @@
 
 <script>
 import PaginationMixin from "../../../mixins/pagination.mixin";
+import {axiosInstance} from "../../../service/api";
 
 export default {
     name: "Favorite",
@@ -68,7 +69,7 @@ export default {
 
     methods: {
         getFilmsUser() {
-            axios.get(`/api/films/favorite/${this.user}`)
+            axiosInstance.get(`films/favorite/${this.user}`)
                 .then(res => {
                     this.films = res.data
                     this.setupPagination(this.films)
@@ -81,7 +82,7 @@ export default {
         },
 
         deleteFavoriteFilm(id) {
-            axios.delete(`/api/films/delete-favorite/${id}`)
+            axiosInstance.delete(`films/delete-favorite/${id}`)
                 .then(res => {
                     this.getFilmsUser()
                 })

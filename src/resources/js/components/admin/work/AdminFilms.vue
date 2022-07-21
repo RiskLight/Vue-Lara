@@ -81,6 +81,7 @@
 <script>
 import Modal from "./Modal";
 import PaginationMixin from "../../../mixins/pagination.mixin.js";
+import {axiosInstance} from "../../../service/api";
 
 export default {
     name: "AdminFilms",
@@ -115,7 +116,7 @@ export default {
 
     methods: {
         deleteFilm(id) {
-            axios.delete(`api/admin/destroy/${id}`)
+            axiosInstance.delete(`admin/destroy/${id}`)
                 .then(res => {
                     this.getFilms()
                     this.showModal = false
@@ -123,7 +124,7 @@ export default {
         },
 
         getFilms() {
-            axios.get('/api/films/content/')
+            axiosInstance.get('films/content/')
                 .then(res => {
                     this.films = res.data
                     this.setupPagination(this.films)
@@ -138,7 +139,7 @@ export default {
         },
 
         getResults() {
-            axios.get(`/api/films/search?q=${this.search}`)
+            axiosInstance.get(`films/search?q=${this.search}`)
                 .then(res => {
                     this.films = res.data
                     this.setupPagination(this.films)

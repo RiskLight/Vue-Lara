@@ -12,6 +12,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _mixins_pagination_mixin__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../../../mixins/pagination.mixin */ "./resources/js/mixins/pagination.mixin.js");
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Comments",
@@ -37,7 +39,7 @@ __webpack_require__.r(__webpack_exports__);
       var film_id = this.$route.params.id;
       this.$validator.validate('Комментарий').then(function (res) {
         if (res) {
-          axios.post("/api/films/add-comment", {
+          _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance.post("films/add-comment", {
             description: _this.comDescription,
             film_id: film_id,
             user_id: user_id
@@ -82,7 +84,7 @@ __webpack_require__.r(__webpack_exports__);
 
       this.$validator.validate('Изменение комментария').then(function (result) {
         if (result) {
-          axios.patch("/api/films/update-comment/".concat(id), {
+          _service_api__WEBPACK_IMPORTED_MODULE_1__.axiosInstance.patch("films/update-comment/".concat(id), {
             description: _this3.commentDescription,
             film_id: _this3.$route.params.id
           }).then(function (res) {
@@ -164,6 +166,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Rate__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Rate */ "./resources/js/components/site/main/Rate.vue");
 /* harmony import */ var _Comments__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Comments */ "./resources/js/components/site/main/Comments.vue");
 /* harmony import */ var _router__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../router */ "./resources/js/router.js");
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
+
 
 
 
@@ -191,7 +195,7 @@ __webpack_require__.r(__webpack_exports__);
     addFilmToFavorite: function addFilmToFavorite() {
       var _this = this;
 
-      axios.post("/api/films/add-favorite", {
+      _service_api__WEBPACK_IMPORTED_MODULE_3__.axiosInstance.post("films/add-favorite", {
         film_id: this.$route.params.id,
         user_id: this.user
       }).then(function (res) {

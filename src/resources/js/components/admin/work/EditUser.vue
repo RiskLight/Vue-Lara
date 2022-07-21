@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import {axiosInstance} from "../../../service/api";
+
 export default {
     name: "EditUser",
     data() {
@@ -56,7 +58,7 @@ export default {
 
     methods: {
         getUser() {
-            axios.get(`/api/admin/user/${this.$route.params.id}`)
+            axiosInstance.get(`admin/user/${this.$route.params.id}`)
                 .then(res => {
                     this.user = res.data
                     this.name = res.data.name
@@ -66,14 +68,14 @@ export default {
         },
 
         getRoles() {
-            axios.get(`/api/admin/roles`)
+            axiosInstance.get(`admin/roles`)
                 .then(res => {
                     this.rolesUser = res.data
                 })
         },
 
         updateUser() {
-                axios.patch(`/api/admin/update-user/${this.$route.params.id}`, {
+            axiosInstance.patch(`admin/update-user/${this.$route.params.id}`, {
                     name: this.name,
                     email: this.email,
                     role_id: this.role_id

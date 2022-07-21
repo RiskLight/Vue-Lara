@@ -14,11 +14,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _mixins_pagination_mixin_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../../../mixins/pagination.mixin.js */ "./resources/js/mixins/pagination.mixin.js");
+/* harmony import */ var _service_api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../../service/api */ "./resources/js/service/api.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
@@ -42,7 +44,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get('/api/users/').then(function (res) {
+                return _service_api__WEBPACK_IMPORTED_MODULE_2__.axiosInstance.get('users/').then(function (res) {
                   _this.users = res.data;
 
                   _this.setupPagination(_this.users);
@@ -59,7 +61,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     deleteUser: function deleteUser(id) {
       var _this2 = this;
 
-      axios["delete"]("api/admin/delete-user/".concat(id)).then(function (res) {
+      _service_api__WEBPACK_IMPORTED_MODULE_2__.axiosInstance["delete"]("admin/delete-user/".concat(id)).then(function (res) {
         _this2.getUsers();
       });
     }
